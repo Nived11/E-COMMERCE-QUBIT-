@@ -41,3 +41,26 @@ export async function loginUser(req,res){
     const token=jwt.sign({USERID:data._id},process.env.JWT_KEY,{expiresIn:"1h"});
     res.status(200).send({msg:"Successfully logged in",token});
 }
+
+
+
+export async function getUser(req, res) {
+    try {
+        const { id } = req.params;
+
+        const user = await userSchema.findById(id);
+        if (!user) {
+            return res.status(404).send({ msg: "User not found" });
+        }
+
+        return res.status(200).send({
+            fname: user.fname,
+            lname: user.lname,
+            email: user.email,
+            phone: user.phone,
+            accountType: user.accountType
+        });
+    } catch (error) {
+        return res.status(500).send({ error: "Internal Server Error" });
+    }
+} 
