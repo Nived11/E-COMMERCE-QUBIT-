@@ -31,7 +31,7 @@ function Registration() {
                     theme: "dark",
                 });
                 setTimeout(() => {
-                    navigate("/Login");
+                    navigate("/");
                 }, 3000);
                 setData({fname:"", lname:"", email:"", phone:"", password:"", cpassword:"", accountType:""});
                 setCount(count + 1);
@@ -165,7 +165,7 @@ function Registration() {
                         <div className="text-center mt-4">
                             <p className="text-gray-600 text-sm">
                                 Already have an account?{" "}
-                                <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
+                                <Link to="/" className="text-blue-600 hover:text-blue-700 font-medium">
                                     Sign In
                                 </Link>
                             </p>

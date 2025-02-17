@@ -1,5 +1,7 @@
 import userSchema from "../Models/user.model.js"
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 
 
 export async function addUser(req,res){
@@ -22,4 +24,20 @@ export async function addUser(req,res){
        res.status(500).send({error})
         
     }) 
+}
+
+export async function loginUser(req,res){
+    const {email,password}=req.body
+
+    console.log(email,password);
+    if(!(email&&password))
+        return(res.status(404).send({msg:"Fields are empty"}));
+    const data=await userSchema.findOne({email})
+    if(data==null)
+        return(res.status(404).send({msg:"Email is not valid"}));
+    const success=await bcrypt.compare(password,data.password);
+    if(!success)
+        return(res.status(401).send({msg:"Invalid password"}));
+    const token=jwt.sign({USERID:data._id},process.env.JWT_KEY,{expiresIn:"1h"});
+    res.status(200).send({msg:"Successfully logged in",token});
 }

@@ -13,5 +13,6 @@ router.route("/updatepassword").put(ad.updatePassword);
 
 //user
 router.route("/adduser").post(rh.addUser);
+router.route("/login").post(rh.loginUser);
 
 export default router

@@ -62,7 +62,7 @@ export  async function forgetPassword(req, res) {
             to: req.body.email, // list of receivers
             subject: "Hello ✔", // Subject line
             text: "Hello world?", // plain text body
-            html: "<a href='http://localhost:5173/resetpassword'>Reset Password</a>", // html body
+            html: "<button><a href='http://localhost:5173/resetpassword'>Reset Password</a></button>", // html body
           });
         
           console.log("Message sent: %s", info.messageId);
