@@ -1,10 +1,52 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef ,useContext} from "react";
+import { ThemeContext } from "../App";
+import axios from "axios";
+import ApiPath from "../ApiPath";
+import { useNavigate } from "react-router-dom";
 import { FiSearch, FiShoppingCart, FiUser, FiHeart, FiChevronDown } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 
  function Home() {
+  const { usermail } = useContext(ThemeContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  console.log(usermail);
+
+  const [user, setUser] = useState({ email: "", fname: "", lname: "" });
+  const navigate = useNavigate();
+
+  const getUser = async () => {
+    const token = localStorage.getItem("token");
+    console.log("Token before request:", token);
+
+    if (!token) {
+      setTimeout(() => navigate("/"), 3000);
+      return;
+    }
+
+    try {
+      const res = await axios.get(`${ApiPath()}/getuser`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.status === 200) {
+        console.log("User Data:", res.data);
+        setUser({ email: res.data.email,lname:res.data.lname,fname:res.data.fname });
+      }
+    } catch (error) {
+      console.error( error);
+      if (error.response?.data?.msg === "Login time expired please login again") {
+        localStorage.removeItem("token");
+        setTimeout(() => navigate("/"), 3000);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [usermail]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -40,7 +82,7 @@ import { MdLogout } from "react-icons/md";
               className="flex items-center space-x-1 md:space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-800"
               onClick={() => setDropdownOpen(!dropdownOpen)} >
               <FiUser className="text-white text-xl md:text-2xl" />
-              <span className="text-white text-sm md:text-base">Nived</span>
+              <span className="text-white text-sm md:text-base">{user.fname}</span>
               <FiChevronDown className={`text-white text-xl transition-transform duration-500 ${dropdownOpen ? "rotate-180" : "rotate-0"}`} />
             </div>
 
@@ -73,7 +115,7 @@ import { MdLogout } from "react-icons/md";
 
 
      <div className="flex   bg-blue-900">Home - Body</div>
-
+     
     </>
   );
 }

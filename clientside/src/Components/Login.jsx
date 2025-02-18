@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../CSS/Login.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -7,8 +7,10 @@ import w from "../assets/w.jpg";
 import ApiPath from "../ApiPath";
 import { FiMail, FiLock } from "react-icons/fi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { ThemeContext } from "../App";
 
 export default function LoginPage() {
+  const { setEmail } = useContext(ThemeContext); 
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -19,9 +21,11 @@ export default function LoginPage() {
       const res = await axios.post(`${ApiPath()}/login`, data);
       if (res.status === 200) {
         const { token, msg } = res.data;
+        setEmail(data.email);
         if (token) {
           console.log("Token received:", token);
           localStorage.setItem("token", token);
+
           toast.success(msg, {
             position: "top-right",
             autoClose: 3000,
@@ -33,7 +37,7 @@ export default function LoginPage() {
             theme: "dark",
           });
           setData({ email: "", password: "" });
-          setTimeout(() => navigate("/Home"), 3000);
+          setTimeout(() => navigate(`/Home`), 3000);
         }
       } else {
         alert("Login failed. Please try again.");
