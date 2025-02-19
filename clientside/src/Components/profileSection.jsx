@@ -79,28 +79,27 @@ const [userData, setUserData] = useState({
                   <label className="block text-gray-700 mb-2">First Name</label>
                   <input type="text" name="firstName" value={userData.fname} 
                   onChange={(e) => setUserData({ ...userData, fname: e.target.value })}
-                  disabled={!isEditing}
+                  disabled={!isEditing} required
                     className="w-full p-2 border rounded bg-white text-gray-700 disabled:bg-gray-100"/>
                 </div>
                 <div>
                   <label className="block text-gray-700 mb-2">Last Name</label>
                   <input type="text" name="lastName" value={userData.lname} 
                   onChange={(e) => setUserData({ ...userData, lname: e.target.value })}
-                  readOnly={!isEditing}
+                  readOnly={!isEditing} required
                     className="w-full p-2 border rounded bg-white text-gray-700 disabled:bg-gray-100"/>
                 </div>
                 <div>
                   <label className="block text-gray-700 mb-2">Phone</label>
                   <input type="text" name="phone" value={userData.phone}  
                   onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
-                  readOnly={!isEditing}
+                  readOnly={!isEditing} required
                     className="w-full p-2 border rounded bg-white text-gray-700 disabled:bg-gray-100"/>
                 </div>
                 <div>
                   <label className="block text-gray-700 mb-2">Email</label>
                   <input type="email" name="email" value={userData.email}  
-                  onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                  readOnly={!isEditing}
+                  disabled
                     className="w-full p-2 border rounded bg-white text-gray-700 disabled:bg-gray-100" />
                 </div>
               </div>

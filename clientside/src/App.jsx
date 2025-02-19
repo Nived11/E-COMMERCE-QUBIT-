@@ -4,7 +4,7 @@ import { createContext } from "react";
 import AdminLogin from "./Components/Adminlogin";
 import ForgetPassword from "./Components/Forgetpassword";
 import Resetpassword from "./Components/Resetpassword";
-import AdminHome from "./Components/AdminHome";
+import AdminHome from "./Components/Adminhome";
 import Registration from "./Components/Registration";
 import Login from "./Components/Login";
 import Home from "./Components/Home";

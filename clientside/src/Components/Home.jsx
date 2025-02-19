@@ -3,8 +3,9 @@ import axios from "axios";
 import ApiPath from "../ApiPath";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { FiSearch, FiShoppingCart, FiUser, FiHeart, FiChevronDown, FiFilter } from "react-icons/fi";
+import { FiSearch, FiShoppingCart, FiUser, FiHeart, FiChevronDown, FiFilter,FiPlus } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
+import prod from "../assets/prod.jpg";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -88,6 +89,11 @@ function Home() {
     setFilterOpen(false);
   };
 
+  const handleSellClick=()=>{
+    alert("product sell is comming soon..")
+  }
+
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Navigation */}
@@ -103,6 +109,14 @@ function Home() {
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
           </div>
           <div className="flex items-center space-x-4 md:space-x-6">
+          {user.accountType === 'seller' && (
+              <button
+                onClick={handleSellClick}
+                className="flex items-center space-x-1 bg-gray-600 text-white px-3 py-1 rounded-md hover:bg-gray-700 transition cursor-pointer" >
+                <FiPlus className="text-lg" />
+                <span>Sell</span>
+              </button>
+            )}
             <FiHeart className="text-white md:text-2xl cursor-pointer z-20" title="Wishlist" />
             <div className="relative">
               <span className="absolute -top-2 -right-2 text-white text-xs rounded-full bg-red-500 w-5 h-5 flex items-center justify-center z-20">
@@ -114,8 +128,7 @@ function Home() {
             <div className="relative" ref={dropdownRef}>
               <div
                 className="flex items-center space-x-1 md:space-x-2 cursor-pointer p-2 rounded-md hover:bg-gray-800"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
+                onClick={() => setDropdownOpen(!dropdownOpen)}>
                 <FiUser className="text-white text-xl md:text-2xl" />
                 <span className="text-white text-sm md:text-base">{user.fname}</span>
                 <FiChevronDown
@@ -251,7 +264,9 @@ function Home() {
               {[1, 2, 3, 4, 5, 6,7,8,9,10,11,12,13,14,15].map((item) => (
                 <div key={item} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                   <div className="w-full h-48 bg-gray-300 flex items-center justify-center">
-                    <span className="text-gray-500">Product Image</span>
+                    <span className="text-gray-500">
+                      <img className="h-48 w-full " src={prod} alt="" />
+                    </span>
                   </div>
                   <div className="p-4">
                     <h3 className="font-medium truncate">Product Name {item}</h3>

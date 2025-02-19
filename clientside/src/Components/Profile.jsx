@@ -135,7 +135,7 @@ const logOut = () => {
           <h2 className="text-xl font-semibold mb-6">{user.fname} {user.lname}</h2>
           
           <ul className="w-full space-y-2">
-            <a href="/home" className={`flex items-center p-3 cursor-pointer rounded ${activeSection === 'orders' ? 'bg-gray-800' : 'hover:bg-gray-800'}`} >
+            <a href="/home" className={`flex items-center p-3 cursor-pointer rounded ${activeSection === 'home' ? 'bg-gray-800' : 'hover:bg-gray-800'}`} >
               <FiHome className="mr-2" /> Home
             </a>
             <li className={`flex items-center p-3 cursor-pointer rounded ${activeSection === 'orders' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
