@@ -9,6 +9,7 @@ import Registration from "./Components/Registration";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
 import Profile from "./Components/Profile";
+import ProfileSection from "./Components/profileSection";
 import { BrowserRouter, Routes,Route } from "react-router-dom";
 
 export const ThemeContext = createContext();
@@ -29,7 +30,9 @@ function App() {
                 <Route path="/registration" element={<Registration/>}/>
                 <Route path="/" element={<Login/> }/>
                 <Route path="/home" element={<Home/>}/>
-                <Route path="/profile" element={<Profile/>}/>
+                <Route path="/profile/:id" element={<Profile/>}/>
+                <Route path="/profilesection/:id" element={<ProfileSection/>}/>
+
             </Routes>
         </BrowserRouter>
         </ThemeContext.Provider>

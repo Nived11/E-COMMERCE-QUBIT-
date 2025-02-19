@@ -58,16 +58,10 @@ function Registration() {
     return (
         <div className="min-h-screen bg-blue-50 flex items-center justify-center py-6">
             <div className="w-[90%] max-w-6xl bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row">
-                {/* Left side image - hidden on mobile */}
                 <div className="hidden lg:block lg:w-1/2 relative">
-                    <img 
-                        src={w} 
-                        alt="Site illustration" 
-                        className="absolute bottom-0 w-100% h-100 object-cover"
-                    />
+                    <img  src={w}  alt="Site illustration"  className="absolute bottom-0 w-100% h-100 object-cover"/>
                 </div>
                 
-                {/* Registration form */}
                 <div className="w-full lg:w-1/2 p-8 overflow-y-auto max-h-[90vh]">
                     <h2 className="text-3xl font-bold text-center mb-6">Registration</h2>
                     <form className="space-y-4" onSubmit={addUser}>

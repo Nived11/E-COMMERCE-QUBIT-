@@ -1,4 +1,5 @@
 import { Router } from "express";
+import Auth from "./Middleware/auth.js"
 import * as ad from "./RequestHandler/admin.requesthandler.js"
 import * as us from "./RequestHandler/user.requesthandler.js"
 
@@ -15,6 +16,8 @@ router.route("/updatepassword").put(ad.updatePassword);
 //user
 router.route("/adduser").post(us.addUser);
 router.route("/login").post(us.loginUser);
-router.route("/getuser/:id").get(us.getUser);
+router.route("/home").get(Auth,us.Home);
+router.route("/profile/:id").get(us.profileUser);
+router.route("/updateuser/:id").put(us.updateUser);
 
 export default router

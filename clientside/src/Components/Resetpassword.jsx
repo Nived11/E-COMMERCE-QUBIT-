@@ -62,11 +62,7 @@ function Resetpassword() {
               value={data.password} name="password"
               onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="text-gray-400 mx-3"
-              >
+              <button type="button" onClick={() => setShowPassword(!showPassword)}  className="text-gray-400 mx-3" >
                 {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
               </button>
             </div>
@@ -74,26 +70,16 @@ function Resetpassword() {
           <div className="relative">
             <label className="block text-sm font-medium">Confirm Password</label>
             <div className="flex items-center bg-gray-700 rounded-lg mt-1">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                required
-                className="w-full p-3 bg-transparent outline-none"
+              <input type={showConfirmPassword ? "text" : "password"} required className="w-full p-3 bg-transparent outline-none"
                 value={data.cpassword} name="cpassword"
-                onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="text-gray-400 mx-3"
-              >
+                onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}/>
+              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="text-gray-400 mx-3" >
                 {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
               </button>
             </div>
           </div>
-          <button
-            type="submit"
-            className="w-full p-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-transform duration-300 transform hover:scale-105 cursor-pointer"
-          >
+          <button type="submit"
+            className="w-full p-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-transform duration-300 transform hover:scale-105 cursor-pointer">
             Reset Password
           </button>
         </form>
