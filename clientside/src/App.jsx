@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { createContext } from "react";
+import { BrowserRouter, Routes,Route } from "react-router-dom";
 import AdminLogin from "./Components/Adminlogin";
 import ForgetPassword from "./Components/Forgetpassword";
 import Resetpassword from "./Components/Resetpassword";
@@ -10,15 +10,11 @@ import Login from "./Components/Login";
 import Home from "./Components/Home";
 import Profile from "./Components/Profile";
 import ProfileSection from "./Components/profileSection";
-import AddressSection from "./Components/AddressSection";
-import { BrowserRouter, Routes,Route } from "react-router-dom";
+import Sell from "./Components/Sell";
 
-export const ThemeContext = createContext();
 
 function App() {
-    const [usermail, setEmail] = React.useState("");
     return(
-        <ThemeContext.Provider value={{usermail,setEmail}}>
         <BrowserRouter>
             <Routes>
                 //admin
@@ -33,11 +29,11 @@ function App() {
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/profile/:id" element={<Profile/>}/>
                 <Route path="/profilesection/:id" element={<ProfileSection/>}/>
-                {/* <Route path="/addresssection" element={<AddressSection/>}/> */}
+                <Route path="/sell/:id" element={<Sell/>}/>
+                
 
             </Routes>
         </BrowserRouter>
-        </ThemeContext.Provider>
     )
 }
 

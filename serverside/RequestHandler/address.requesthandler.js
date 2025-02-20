@@ -25,7 +25,20 @@ export async function getAddress(req, res) {
       return res.status(200).send(addresses);
     } catch (error) {
       console.error(error);
-      return res.status(500).send({ error: "Internal Server Error" });
+      return res.status(500).send({ error});
     }
   }
   
+  export async function deleteAddress(req, res) {
+    try {
+      const { id } = req.params;
+      const deletedAddress = await addressSchema.findByIdAndDelete(id);
+      if (!deletedAddress) {
+        return res.status(404).send({ msg: "Address not found" });
+      }
+      return res.status(200).send({ msg: "Address deleted... " });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send({ error });
+    }
+  }

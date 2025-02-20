@@ -24,5 +24,6 @@ router.route("/updateuser/:id").put(us.updateUser);
 //address
 router.route("/addaddress").post(address.addAddress);
 router.route("/getaddress/:id").get(address.getAddress);
+router.route("/deleteaddress/:id").delete(address.deleteAddress);
 
 export default router

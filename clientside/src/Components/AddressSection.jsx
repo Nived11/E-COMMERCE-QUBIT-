@@ -78,6 +78,26 @@
     getAddresses();
   }, [count, id]);
 
+  const handleDelete = async (_id) => {
+    try {
+      const res = await axios.delete(`${ApiPath()}/deleteAddress/${_id}`);
+      if (res.status === 200) {
+        toast.success(res.data.msg, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });        
+        setCount(count + 1);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
     return (
       <div className="relative max-w-5xl mx-auto">
@@ -92,7 +112,7 @@
 
         {/* Address List */}
         <div className="space-y-4 max-h-136 overflow-y-scroll scrollbar-hide"
-          style={{scrollbarWidth: 'none',msOverflowStyle: 'none','::-webkit-scrollbar':{ display: 'none'} }}>
+          style={{scrollbarWidth: 'none',msOverflowStyle: 'none','::webkitScrollbar':{ display: 'none'} }}>
           {addresses.length === 0 ? (
             <div className="bg-gray-50 p-4 rounded-md text-center text-gray-500">
               No saved addresses yet. Click "Add Address" to get started.
@@ -112,7 +132,7 @@
                   <div className="flex space-x-2">
                     <button 
                       className="text-xl text-red-500 hover:text-red-800 cursor-pointer"
-                      onClick={() => handleDelete(address.id)}>
+                      onClick={() => handleDelete(address._id)}>
                       <FiTrash2 />
                     </button>
                   </div>

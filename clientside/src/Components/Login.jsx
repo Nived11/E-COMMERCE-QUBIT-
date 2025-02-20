@@ -7,10 +7,8 @@ import w from "../assets/w.jpg";
 import ApiPath from "../ApiPath";
 import { FiMail, FiLock } from "react-icons/fi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { ThemeContext } from "../App";
 
 export default function LoginPage() {
-  const { setEmail } = useContext(ThemeContext); 
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -21,7 +19,6 @@ export default function LoginPage() {
       const res = await axios.post(`${ApiPath()}/login`, data);
       if (res.status === 200) {
         const { token, msg } = res.data;
-        setEmail(data.email);
         if (token) {
           console.log("Token received:", token);
           localStorage.setItem("token", token);
