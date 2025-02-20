@@ -10,6 +10,7 @@ import Login from "./Components/Login";
 import Home from "./Components/Home";
 import Profile from "./Components/Profile";
 import ProfileSection from "./Components/profileSection";
+import AddressSection from "./Components/AddressSection";
 import { BrowserRouter, Routes,Route } from "react-router-dom";
 
 export const ThemeContext = createContext();
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/profile/:id" element={<Profile/>}/>
                 <Route path="/profilesection/:id" element={<ProfileSection/>}/>
+                {/* <Route path="/addresssection" element={<AddressSection/>}/> */}
 
             </Routes>
         </BrowserRouter>

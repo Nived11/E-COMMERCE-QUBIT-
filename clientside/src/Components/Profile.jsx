@@ -4,7 +4,6 @@ import { FiSearch, FiShoppingCart, FiUser, FiHeart, FiChevronDown,
          FiShoppingBag, FiMapPin,FiHome } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import ProfileSection from "./profileSection";
 import AddressSection from "./AddressSection";
 import { toast, ToastContainer } from "react-toastify";
@@ -13,7 +12,7 @@ import ApiPath from "../ApiPath";
 
 function Profile() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('profile'); 
+  const [section, setSection] = useState('profile'); 
   const dropdownRef = useRef(null);
   const [count, setCount] = useState(0);
   const [user, setUser] = useState({});
@@ -100,7 +99,8 @@ const logOut = () => {
             </div>
 
             <div className="relative" ref={dropdownRef}>
-              <div className="flex items-center space-x-2 cursor-pointer p-2 hover:bg-gray-800 rounded-md" onClick={() => setDropdownOpen(!dropdownOpen)}>
+              <div className="flex items-center space-x-2 cursor-pointer p-2 hover:bg-gray-800 rounded-md" 
+                onClick={() => setDropdownOpen(!dropdownOpen)}>
                 <FiUser className="text-white text-2xl" />
                 <span className="text-white hidden md:inline">{user.fname}</span>
                 <FiChevronDown className={`text-white transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`} />
@@ -135,23 +135,23 @@ const logOut = () => {
           <h2 className="text-xl font-semibold mb-6">{user.fname} {user.lname}</h2>
           
           <ul className="w-full space-y-2">
-            <a href="/home" className={`flex items-center p-3 cursor-pointer rounded ${activeSection === 'home' ? 'bg-gray-800' : 'hover:bg-gray-800'}`} >
+            <a href="/home" className={`flex items-center p-3 cursor-pointer rounded ${section === 'home' ? 'bg-gray-800' : 'hover:bg-gray-800'}`} >
               <FiHome className="mr-2" /> Home
             </a>
-            <li className={`flex items-center p-3 cursor-pointer rounded ${activeSection === 'orders' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
-              onClick={() => setActiveSection('orders')} >
+            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'orders' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+              onClick={() => setSection('orders')} >
               <FiShoppingBag className="mr-2" /> Orders
             </li>
-            <li className={`flex items-center p-3 cursor-pointer rounded ${activeSection === 'wishlist' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
-              onClick={() => setActiveSection('wishlist')}>
+            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'wishlist' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+              onClick={() => setSection('wishlist')}>
               <FiHeart className="mr-2" /> Wishlists
             </li>
-            <li className={`flex items-center p-3 cursor-pointer rounded ${activeSection === 'profile' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
-              onClick={() => setActiveSection('profile')} >
+            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'profile' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+              onClick={() => setSection('profile')} >
               <FiUser className="mr-2" /> Profile Info
             </li>
-            <li className={`flex items-center p-3 cursor-pointer rounded ${activeSection === 'address' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
-              onClick={() => setActiveSection('address')} >
+            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'address' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+              onClick={() => setSection('address')} >
               <FiMapPin className="mr-2" /> Address
             </li>
             <li onClick={logOut} className="flex items-center p-3 hover:bg-gray-800 cursor-pointer rounded">
@@ -161,10 +161,8 @@ const logOut = () => {
         </div>
 
         <div className="flex-1 p-6 bg-gray-100">
-          {activeSection === 'profile' && <ProfileSection />}
-          {activeSection === 'address' && <AddressSection />}
-          {activeSection === 'orders' && <div>Orders section coming soon</div>}
-          {activeSection === 'wishlist' && <div>Wishlist section coming soon</div>}
+          {section === 'profile' && <ProfileSection />}
+          {section === 'address' && <AddressSection />}
         </div>
       </div>
       <ToastContainer />
