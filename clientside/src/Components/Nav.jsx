@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ApiPath from "../ApiPath";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FiSearch, FiShoppingCart, FiUser, FiHeart, FiChevronDown, FiPlus,  } from "react-icons/fi";  
 import { MdLogout } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -13,6 +14,7 @@ function Nav(){
       const [user, setUser] = useState({});
       const dropdownRef = useRef(null);
       const [count, setCount] = useState(0);
+      const location = useLocation();
       const navigate = useNavigate();
       const filterRef = useRef(null);
       
@@ -92,14 +94,13 @@ function Nav(){
                        <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                      </div>
                      <div className="flex items-center space-x-4 md:space-x-6">
-                     {user.accountType === 'seller' && (
-                         <button
-                           onClick={handleSellClick}
-                           className="flex items-center space-x-1 bg-gray-600 text-white px-3 py-1 rounded-md hover:bg-gray-700 transition cursor-pointer" >
-                           <FiPlus className="text-lg" />
-                           <span>Sell</span>
-                         </button>
-                       )}
+                     {user.accountType === "seller" && location.pathname !== `/sell/${user._id}` && (
+                          <button
+                            onClick={handleSellClick}
+                            className="flex items-center space-x-1 bg-gray-600 text-white px-3 py-1 rounded-md hover:bg-gray-700 transition cursor-pointer">
+                            <span>Sell</span>
+                          </button>
+                        )}
                        <FiHeart className="text-white md:text-2xl cursor-pointer z-20" title="Wishlist" />
                        <div className="relative">
                          <span className="absolute -top-2 -right-2 text-white text-xs rounded-full bg-red-500 w-5 h-5 flex items-center justify-center z-20">
@@ -123,9 +124,9 @@ function Nav(){
            
                          {dropdownOpen && (
                            <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md z-10">
-                             <a href={`/Profile/${user._id}`} className="dropitem block px-4 py-2 text-black hover:bg-gray-100">
+                             <div onClick={() => navigate(`/profile/${user._id}`)} className="dropitem block px-4 py-2 text-black hover:bg-gray-100">
                                Profile
-                             </a>
+                             </div>
                              <div
                                onClick={logOut}
                                className="dropitem block px-4 py-2 text-black hover:bg-gray-100 flex items-center cursor-pointer"
