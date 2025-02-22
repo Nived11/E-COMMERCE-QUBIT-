@@ -3,8 +3,8 @@ import Auth from "./Middleware/auth.js"
 import * as ad from "./RequestHandler/admin.requesthandler.js"
 import * as us from "./RequestHandler/user.requesthandler.js"
 import * as address from "./RequestHandler/address.requesthandler.js"
+import * as product from "./RequestHandler/product.requesthandler.js"
 
-// console.log(us.getUser);
 
 const router=Router()
 
@@ -26,4 +26,7 @@ router.route("/addaddress").post(address.addAddress);
 router.route("/getaddress/:id").get(address.getAddress);
 router.route("/deleteaddress/:id").delete(address.deleteAddress);
 
+//product
+router.route("/addproduct").post(product.addProduct);
+router.route("/getproducts").get(product.getProducts);
 export default router

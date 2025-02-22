@@ -37,10 +37,7 @@ function Nav(){
 
       const getUser = async () => {
           const token = localStorage.getItem("token");
-          if (!token) {
-            setTimeout(() => navigate("/"), 3000);
-            return;
-          }
+          if (!token) return;
           try {
             const res = await axios.get(`${ApiPath()}/home`, {
               headers: {
@@ -51,7 +48,17 @@ function Nav(){
               setUser(res.data);
             }
           } catch (error) {
-            if (error.response?.data.msg === "Login time expired please login again") {
+            if (error.response) {
+              toast.error(error.response.data.msg, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
               localStorage.removeItem("token");
               setTimeout(() => navigate("/"), 3000);
             }
