@@ -4,6 +4,7 @@ import EditProduct from './EditProduct';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import ApiPath from '../ApiPath';
 
 const ProductSection = () => {
@@ -11,6 +12,7 @@ const ProductSection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const { id } = useParams();
+  const navigate=useNavigate();
 
   const getProducts = async () => {
     try {
@@ -42,7 +44,10 @@ const ProductSection = () => {
         const id=product;
         const res=await axios.delete(`${ApiPath()}/deleteproduct/${id}`);
         if(res.status==200){
-            toast.success(res.data.msg)
+           toast.success(res.data.msg);
+          setTimeout(() => {
+            getProducts();
+          }, 1000);
         }
 
     } catch (error) {
