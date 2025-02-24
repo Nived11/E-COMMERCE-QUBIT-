@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import profile from "../assets/profile.jpg";
-import { FiUser, FiHeart, FiShoppingBag, FiMapPin,FiHome } from "react-icons/fi";
+import { FiUser, FiHeart, FiShoppingBag, FiMapPin,FiHome,FiBox } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import ProfileSection from "./profileSection";
 import AddressSection from "./AddressSection";
+import ProductSection from "./ProductSection";
 import Nav from "./Nav";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
@@ -52,6 +53,16 @@ const logOut = () => {
         console.error( error);
         if (error.response && error.response.data.msg === "Login time expired please login again") {
             localStorage.removeItem("token");
+            toast.error(error.response.data.msg, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
             setTimeout(() => navigate("/"), 3000);
         }
     }
@@ -93,6 +104,10 @@ const logOut = () => {
               onClick={() => setSection('address')} >
               <FiMapPin className="mr-2" /> Address
             </li>
+            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'products' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+              onClick={() => setSection('products')} >
+              <FiBox className="mr-2" /> My Products
+            </li>
             <li onClick={logOut} className="flex items-center p-3 hover:bg-gray-800 cursor-pointer rounded">
               <MdLogout className="mr-2" /> Logout
             </li>
@@ -102,6 +117,7 @@ const logOut = () => {
         <div className="flex-1 p-6 bg-gray-100">
           {section === 'profile' && <ProfileSection />}
           {section === 'address' && <AddressSection />}
+          {section === 'products' && <ProductSection />}
         </div>
       </div>
       <ToastContainer />

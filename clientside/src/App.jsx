@@ -10,6 +10,7 @@ import Login from "./Components/Login";
 import Home from "./Components/Home";
 import Profile from "./Components/Profile";
 import ProfileSection from "./Components/profileSection";
+import EditProduct from "./Components/EditProduct";
 import Sell from "./Components/Sell";
 
 
@@ -30,6 +31,8 @@ function App() {
                 <Route path="/profile/:id" element={<Profile/>}/>
                 <Route path="/profilesection/:id" element={<ProfileSection/>}/>
                 <Route path="/sell/:id" element={<Sell/>}/>
+                <Route path="/editproduct/:id" element={<EditProduct/>}/>
+
                 
 
             </Routes>
