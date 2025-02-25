@@ -79,12 +79,12 @@ const logOut = () => {
     <div className="min-h-screen flex flex-col">
       <Nav />
       
-      <div className="flex-1 flex flex-col md:flex-row mt-18">
+      <div className="flex-1 flex flex-col md:flex-row mt-20">
         <div className="w-full md:w-64 bg-gray-900 text-white p-6 flex flex-col items-center">
           <img src={profile} alt="Profile" className="w-24 h-24 rounded-full border-2 border-gray-500 mb-4" />
           <h2 className="text-xl font-semibold mb-6">{user.fname} {user.lname}</h2>
           
-          <ul className="w-full space-y-2">
+          <ul className="w-full h-full  space-y-2 ">
             <a href="/home" className={`flex items-center p-3 cursor-pointer rounded ${section === 'home' ? 'bg-gray-800' : 'hover:bg-gray-800'}`} >
               <FiHome className="mr-2" /> Home
             </a>
@@ -108,7 +108,7 @@ const logOut = () => {
               onClick={() => setSection('products')} >
               <FiBox className="mr-2" /> My Products
             </li>
-            <li onClick={logOut} className="flex items-center p-3 hover:bg-gray-800 cursor-pointer rounded">
+            <li onClick={logOut}  className=" bottom-10 flex items-center p-3 hover:bg-gray-800 cursor-pointer rounded">
               <MdLogout className="mr-2" /> Logout
             </li>
           </ul>

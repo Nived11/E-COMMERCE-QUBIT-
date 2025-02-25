@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ApiPath from "../ApiPath";
+import { useNavigate } from "react-router-dom";
 import { FiFilter, FiDollarSign, FiTag, FiX } from "react-icons/fi";
 
 function Home() {
@@ -14,6 +15,8 @@ function Home() {
   const filterRef = useRef(null);
   const [products, setProducts] = useState([]);
   const categories = ["All", "Electronics", "Fashion", "Accessories", "Home & Kitchen"];
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   // Handle click outside filter to close it
   useEffect(() => {
@@ -59,21 +62,21 @@ function Home() {
     <div className="min-h-screen bg-gray-100">
       <Nav />
 
-      <div className="h-30 md:h-16"></div>
+      <div className="h-38 md:h-20"></div>
       
-      <div className="relative">
+      <div className="relative ">
         <div 
           ref={filterRef}
-          className={`fixed left-0 top-32 md:top-19  h-full bg-white shadow-lg z-50 w-64 transform transition-transform duration-300 ease-in-out ${
+          className={`fixed left-0 top-32 md:top-20   h-full bg-white shadow-lg  z-50 w-64 transform transition-transform duration-300 ease-in-out ${
             showFilter ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <div className="p-4 h-full ">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-5">
               <h2 className="text-lg font-semibold text-gray-800">Filter Products</h2>
               <button 
                 onClick={() => setShowFilter(false)}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 "
               >
                 <FiX className="text-xl" />
               </button>
@@ -156,7 +159,7 @@ function Home() {
             <div className="flex justify-end items-center ">
              
               <button 
-                className="filter-toggle-btn flex items-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition cursor-pointer"
+                className="filter-toggle-btn flex items-center gap-2 bg-gray-800 text-white px-4 py-2 mb-10 rounded-md hover:bg-gray-700 transition cursor-pointer"
                 onClick={() => setShowFilter(!showFilter)} >
                 <FiFilter className="text-lg" />
                 <span>Filter</span>
@@ -167,7 +170,8 @@ function Home() {
             <div className="flex flex-wrap justify-between  gap-8 " >
               {products.map((product) => (
                 <div 
-                  key={product.id} 
+                  onClick={() => navigate(`/productdetails/${product._id}`)}
+                  key={product._id} 
                   className="md:h-96 w-80 bg-white rounded-lg overflow-hidden shadow-xl hover:shadow-lg transition-shadow duration-300 mx-auto cursor-pointer"
                 >
                   <div className="h-55 md:h-60 w-full overflow-hidden">

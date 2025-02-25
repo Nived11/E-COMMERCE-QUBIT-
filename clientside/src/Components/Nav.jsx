@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ApiPath from "../ApiPath";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FiSearch, FiShoppingCart, FiHeart, FiChevronDown } from "react-icons/fi";
+import { FiSearch, FiShoppingCart, FiHeart,FiChevronDown } from "react-icons/fi";
 import { MdLogout, MdSell } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -88,65 +88,54 @@ function Nav() {
 
   return (
     <div>
-      <nav
-        className="fixed top-0 w-full shadow-md z-50"
-        style={{
-          background: "linear-gradient(to right, #6a11cb, #2575fc)",
-          boxShadow: "0 4px 15px rgba(104, 109, 224, 0.5)",
-          borderBottom: "2px solid rgba(255, 255, 255, 0.1)",
-        }}
-      >
+      <nav className="nav fixed top-0 w-full shadow-md z-100">
         <div className="mx-auto flex items-center justify-between px-4 py-4">
           <div
-            className="text-white text-2xl font-bold cursor-pointer md:mr-4"
+            className="text-4xl ml-5 font-bold text-blue-800 cursor-pointer"
             onClick={() => navigate("/home")}
           >
             Qubit
           </div>
-          <div className="relative flex-grow max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hidden md:flex">
+          <div className="relative  flex-grow max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hidden md:flex">
             <input
               type="text"
               placeholder="Search..."
-              className="w-full p-2 pl-10 border border-gray-300 rounded-full bg-white text-gray-800 focus:outline-none md:mr-4"
+              className="w-full p-2 pl-10 border-2 border-gray-600 rounded-full bg-white text-gray-800 focus:outline-none md:mr-4"
             />
-            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
+            <FiSearch className="absolute text-xl left-3 top-1/2 transform -translate-y-1/2 text-gray-800" />
           </div>
           <div className="flex items-center space-x-4 md:space-x-6">
             {user.accountType === "seller" && location.pathname !== `/sell/${user._id}` && (
               <button
                 onClick={handleSellClick}
-                className="flex items-center space-x-1 bg-white text-gray-800 px-3 py-1 rounded-full hover:bg-gray-100 transition cursor-pointer"
+                className="flex items-center space-x-1 bg-gray-300 text-gray-800 px-5 py-2 rounded-full hover:bg-gray-100 transition cursor-pointer"
               >
                 <MdSell className="text-gray-800" />
                 <span>Sell</span>
               </button>
             )}
-            <FiHeart className="text-white md:text-2xl cursor-pointer z-20" title="Wishlist" />
+            <FiHeart className="md:text-2xl cursor-pointer z-20" title="Wishlist" />
             <div className="relative">
-              <span className="absolute -top-2 -right-2 text-white text-xs rounded-full bg-red-500 w-5 h-5 flex items-center justify-center z-20">
+              <span className="absolute -top-2 -right-2 text-xs rounded-full bg-red-500 w-5 h-5 flex items-center justify-center z-20">
                 1
               </span>
-              <FiShoppingCart className="text-white md:text-2xl cursor-pointer relative z-10" title="Cart" />
+              <FiShoppingCart className="md:text-2xl cursor-pointer relative z-10" title="Cart" />
             </div>
 
+            {/* Profile Icon and Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <div
-                className="flex flex-col items-center space-y-1 cursor-pointer p-2 rounded-md hover:bg-white hover:bg-opacity-20 transition"
+                className="cursor-pointer  rounded-md"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                  <span className="text-white font-medium">{getUserInitial()}</span>
+                <div className=" h-12 w-12  bg-red-500 border-1 border-gray-600 rounded-full flex items-center justify-center">
+                  <span className="font-medium ">{getUserInitial()}</span>
+                  
                 </div>
-                <div className="flex items-center">
-                  <span className="text-white text-sm md:text-base">{user.fname}</span>
-                  <FiChevronDown
-                    className={`text-white text-xl transition-transform duration-500 ${
-                      dropdownOpen ? "rotate-180" : "rotate-0"
-                    }`}
-                  />
-                </div>
+                
               </div>
 
+              {/* Dropdown Menu */}
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md z-10">
                   <div
@@ -168,12 +157,13 @@ function Nav() {
           </div>
         </div>
 
+        {/* Mobile Search Bar */}
         <div className="w-full pb-4 md:hidden px-4">
           <div className="relative w-full">
             <input
               type="text"
               placeholder="Search..."
-              className="w-full p-2 pl-10 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800"
+              className="w-full p-2 pl-10 border border-gray-900 rounded-full focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800"
             />
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
           </div>

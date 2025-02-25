@@ -12,6 +12,7 @@ import Profile from "./Components/Profile";
 import ProfileSection from "./Components/profileSection";
 import EditProduct from "./Components/EditProduct";
 import Sell from "./Components/Sell";
+import ProductDetails from "./Components/Productdetails";
 
 
 function App() {
@@ -29,9 +30,11 @@ function App() {
                 <Route path="/" element={<Login/> }/>
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/profile/:id" element={<Profile/>}/>
+        
                 <Route path="/profilesection/:id" element={<ProfileSection/>}/>
                 <Route path="/sell/:id" element={<Sell/>}/>
                 <Route path="/editproduct/:id" element={<EditProduct/>}/>
+                <Route path="/productdetails/:id" element={<ProductDetails/>}/>
 
                 
 
