@@ -39,7 +39,9 @@ export async function loginUser(req,res) {
     console.log(success);
     const token=await sign({userID:user._id},process.env.JWT_KEY,
         {expiresIn:"24h"});
-    res.status(200).send({msg:"successfully loged in",token})
+        console.log(user._id+ "user id");
+        
+    res.status(200).send({msg:"successfully loged in",token,userId:user._id})
         
     } catch (error) {
         res.status(400).send({error})

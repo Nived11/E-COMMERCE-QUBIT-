@@ -5,14 +5,15 @@ import axios from 'axios';
 import ApiPath from '../ApiPath';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-const ProductDetailPage = () => {
+const ProductDetails = () => {
   const [mainImage, setMainImage] = useState(0);
-  const [selectedRAM, setSelectedRAM] = useState('16gb');
-  const [carouselPosition, setCarouselPosition] = useState(0);
   const [product, setProduct] = useState({});
-  const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useState({});
+  const [isInCart, setIsInCart] = useState(false);
   const id = useParams().id;
+  const navigate = useNavigate();
   
   // Define fallback images if product doesn't have images
   const fallbackImages = [Prod];
@@ -51,14 +52,43 @@ const ProductDetailPage = () => {
     getProduct();
   }, [id]);
 
+  const userId = localStorage.getItem("userId");
+  
+ 
+  const addToCart = async () => {
+    try {
+      const res = await axios.post(`${ApiPath()}/addcart`, { 
+        userId, 
+        productId: product._id 
+      });
+      
+      if(res.status === 201){
+        setCart(res.data);
+        setIsInCart(true);
+        toast.success('Product added to cart');
+      }
+    } catch (error) {
+      toast.error('Failed to add product to cart');
+      console.error('Error:', error);
+    }
+  }
+
+  const handleCartAction = () => {
+    if (isInCart) {
+      navigate('/cart');
+    } else {
+      addToCart();
+    }
+  };
+  
   return (
     <>
       <Nav />
       {/* Main container with padding-bottom to account for fixed buttons on mobile and tablet */}
-      <div className="flex flex-col  md:flex-row max-w-full  mx-auto bg-white min-h-screen mt-35 md:mt-20 pb-16 md:pb-0">
+      <div className="flex flex-col md:flex-row max-w-full mx-auto bg-white min-h-screen mt-35 md:mt-20 pb-16 md:pb-0">
         
         {/* Left section with product images - adjusted for tablet */}
-        <div className="w-full md:w-1/2   bg-gray-100 md:sticky md:top-16 h-auto md:overflow-y-auto "> 
+        <div className="w-full md:w-1/2 bg-gray-100 md:sticky md:top-16 h-auto md:overflow-y-auto "> 
           {/* Main product image carouse reduced height for tablets */}
           <div className="relative mb-3 md:mb-10 lg:h-100 md:mt-5 ">
             <img 
@@ -106,13 +136,14 @@ const ProductDetailPage = () => {
           
           {/* Action buttons - Only visible on desktop and tablet (md screens) */}
           <div className="hidden md:flex justify-center gap-5 w-full mt-3 lg:mt-4">
-            <button 
+            <button
+              onClick={handleCartAction}
               className="flex-1 cursor-pointer font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center gap-1 lg:gap-2 bg-blue-500 text-white"
             >
-              <span >🛒</span> ADD TO CART
+              <span>🛒</span> {isInCart ? 'GO TO CART' : 'ADD TO CART'}
             </button>
             <button 
-              className="flex-1 font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center gap-1 lg:gap-2 bg-yellow-500 text-white"
+              className="cursor-pointer flex-1 font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center gap-1 lg:gap-2 bg-yellow-500 text-white"
             >
               <span>⚡</span> BUY NOW
             </button>
@@ -218,12 +249,13 @@ const ProductDetailPage = () => {
       {/* Fixed mobile action buttons at bottom of screen */}
       <div className="fixed bottom-0 left-0 right-0 flex w-full md:hidden shadow-lg z-10">
         <button 
+          onClick={handleCartAction}
           className="flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-blue-500 text-white text-xs border-r border-blue-600"
         >
-          <span>🛒</span> ADD TO CART
+          <span>🛒</span> {isInCart ? 'GO TO CART' : 'ADD TO CART'}
         </button>
         <button 
-          className="flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-yellow-500 text-white text-xs"
+          className="cursor-pointer flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-yellow-500 text-white text-xs " 
         >
           <span>⚡</span> BUY NOW
         </button>
@@ -234,4 +266,4 @@ const ProductDetailPage = () => {
   );
 };
 
-export default ProductDetailPage;
+export default ProductDetails;

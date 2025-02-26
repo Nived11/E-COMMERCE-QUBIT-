@@ -175,8 +175,8 @@ function Sell() {
                       <option value="watches">Watches</option>
                       <option value="earphones">Earphones</option>
                       <option value="camera">Camera</option>
-                      <option value="Laptops">Laptops</option>
-                      <option value="Laptops">Laptops</option>
+                      <option value="speakers">Speakers</option>
+                      <option value="gaming">Gaming</option>
                     </select>
                   </div>
                 </div>

@@ -85,6 +85,8 @@ const ProductSection = () => {
             <option value="all">All Categories</option>
             <option value="Mobiles">Mobiles</option>
             <option value="Laptops">Laptops</option>
+            <option value="speakers">Speakers</option>
+            <option value="gaming">Gaming</option>
           </select>
           
           <a

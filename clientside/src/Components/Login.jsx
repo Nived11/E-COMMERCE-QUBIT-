@@ -18,11 +18,12 @@ export default function LoginPage() {
     try {
       const res = await axios.post(`${ApiPath()}/login`, data);
       if (res.status === 200) {
-        const { token, msg } = res.data;
+        const { token, msg,userId } = res.data;
         if (token) {
           console.log("Token received:", token);
           localStorage.setItem("token", token);
-
+          console.log(userId);
+          localStorage.setItem("userId",userId)
           toast.success(msg, {
             position: "top-right",
             autoClose: 3000,
