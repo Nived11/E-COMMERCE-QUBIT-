@@ -201,9 +201,13 @@ const EditProduct = () => {
                       <option value="">Select Category</option>
                       <option value="Mobiles">Mobiles</option>
                       <option value="Laptops">Laptops</option>
-                      <option value="watches">watches</option>
+                      <option value="watches">Watches</option>
                       <option value="earphones">Earphones</option>
                       <option value="camera">Camera</option>
+                      <option value="speakers">Speakers</option>
+                      <option value="gaming">Gaming</option>
+                      <option value="tablet">Tablets</option>
+                      <option value="smartTv">Smart Tv</option>
                     </select>
                   </div>
                 </div>

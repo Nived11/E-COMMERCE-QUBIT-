@@ -116,73 +116,71 @@ function Home() {
   return (
     <div className="min-h-screen bg-gray-100">
       <Nav />
-
-      <div className="h-38 md:h-20"></div>
-      {/* Add this right after the <div className="h-38 md:h-20"></div> and before the Carousel Section */}
-      <div className="container mx-auto px-4 py-4 lg:block hidden ">
-  <div className="grid grid-cols-4 md:grid-cols-11 gap-2 overflow-x-auto hide-scrollbar">
+      <div className="h-34 md:h-20 bg-gray-900"></div>
+      <div className="container mx-auto   lg:block hidden   ">
+  <div className="grid grid-cols-4 md:grid-cols-11 gap-2 overflow-x-auto hide-scrollbar py-4">
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
-        <img src="https://image01-in.oneplus.net/media/202406/19/dee6a15ca313f3a7b211f2a440e9f05e.png?x-amz-process=image/format,webp/quality,Q_80" alt="Smartphones" className="w-12 h-12 object-contain" />
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+        <img src="https://image01-in.oneplus.net/media/202406/19/dee6a15ca313f3a7b211f2a440e9f05e.png?x-amz-process=image/format,webp/quality,Q_80" alt="Smartphones" className="w-12 h-12 object-cover" />
       </div>
       <span className="text-xs text-center">Smartphones</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
-        <img src="https://www.paiinternational.in/_next/image?url=https%3A%2F%2Fpaibackend.bangalore2.com%2Fmedia%2Fimages%2FLaptop.png&w=640&q=75" alt="Laptops" className="w-12 h-12 object-contain" />
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+        <img src="https://www.paiinternational.in/_next/image?url=https%3A%2F%2Fpaibackend.bangalore2.com%2Fmedia%2Fimages%2FLaptop.png&w=640&q=75" alt="Laptops" className="w-12 h-12 object-cover" />
       </div>
       <span className="text-xs text-center">Laptops</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
         <img src="https://e7.pngegg.com/pngimages/530/441/png-clipart-headphones-microphone-lucid-sound-gaming-headset-ls25-wireless-headphones-thumbnail.png" alt="Headphones" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Headphones</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
         <img src="https://w7.pngwing.com/pngs/924/969/png-transparent-smartwatch-online-shopping-android-watch-electronics-watch-accessory-accessories-thumbnail.png" alt="Smartwatches" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Smartwatches</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
-        <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/speaker/mobile-tablet-speaker/s/j/d/apollo-one-20w-bluetooth-portable-speaker-with-wireless-karaoke-original-imah8kmemmtgegqh.jpeg?q=70" alt="Speakers" className="w-12 h-12 object-contain" />
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2 ">
+        <img src="https://m.media-amazon.com/images/I/719PE0iB0EL._AC_UY327_FMwebp_QL65_.jpg" alt="Speakers" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Speakers</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
         <img src="https://rukminim2.flixcart.com/image/312/312/l5fnhjk0/dslr-camera/g/t/7/eos-r10-24-2-r10-canon-original-imagg4y52cybasdr.jpeg?q=70" alt="Cameras" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Cameras</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
         <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/gamingconsole/t/c/f/n-a-cfi-y1016y-sony-n-a-original-imah3g4htvknyvqh.jpeg?q=70" alt="Gaming" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Gaming</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
         <img src="https://rukminim2.flixcart.com/image/312/312/xif0q/tablet/r/4/m/-original-imagj72vqsfqgzpf.jpeg?q=70" alt="Tablets" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Tablets</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
         <img src="https://www.paiinternational.in/_next/image?url=https%3A%2F%2Fpaibackend.bangalore2.com%2Fmedia%2Fimages%2FCategory-Icons-LED150x150.png&w=640&q=75" alt="Smart Home" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Smart Home</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
         <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/laptop-accessories-combo/m/a/o/wired-gaming-keyboard-and-optical-mouse-rgb-backlight-104-keys-original-imah5dtfjypfed77.jpeg?q=70" alt="Accessories" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Accessories</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-500 p-2 mb-2">
+      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
         <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/headphone/p/0/p/-original-imagp6skfbnypq5g.jpeg?q=70" alt="Earbuds" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Earbuds</span>
@@ -212,19 +210,19 @@ function Home() {
           {/* Carousel Controls */}
           <button 
             onClick={prevSlide} 
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
+            className="cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
           >
             &#10094;
           </button>
           <button 
             onClick={nextSlide} 
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
+            className="cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
           >
             &#10095;
           </button>
           
           {/* Carousel Indicators */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {/* <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
             {carouselSlides.map((_, index) => (
               <button
                 key={index}
@@ -234,7 +232,7 @@ function Home() {
                 }`}
               />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
       
@@ -268,9 +266,9 @@ function Home() {
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
                 <option value="">All Categories</option>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                {products.map((product) => (
+                  <option key={product._id} value={product.category}>
+                    {product.category}
                   </option>
                 ))}
               </select>
@@ -395,25 +393,8 @@ function Home() {
               ))}
             </div>
 
-            {/* Electronics Gadgets section - changed from Popular Categories */}
-            <div className="mt-12 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Electronics Gadgets</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {categories.filter(cat => cat !== "All").map((category) => (
-                  <div 
-                    key={category}
-                    className="bg-white shadow-md rounded-lg p-4 text-center product-card cursor-pointer"
-                  >
-                    <div className="text-3xl mb-2 text-blue-600">
-                      {category === "Electronics" ? "📱" : 
-                       category === "Gadgets" ? "🎧" : 
-                       category === "Accessories" ? "⌚" : "💻"}
-                    </div>
-                    <h3 className="text-lg font-medium">{category}</h3>
-                  </div>
-                ))}
-              </div>
-            </div>
+            
+           
           </div>
           
           {/* Footer - Enhanced gradient color */}

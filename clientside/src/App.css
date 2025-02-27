@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 /* Nav Styling */
+
 .nav {
   background-color: #ffffff;
   transition: box-shadow 0.3s ease;
@@ -26,18 +27,18 @@
 /* Search Bar Animation */
 .search-input {
   transition: all 0.3s ease;
-  border: 2px solid #e5e7eb;
+  border: 2px solid #1b4fc8;
 }
 
 .search-input:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .search-icon {
   transition: all 0.3s ease;
-  color: #6b7280;
+  color: #244c9c;
 }
 
 .search-input:focus + .search-icon,
@@ -164,7 +165,8 @@
 /* Sell Button Animation */
 .sell-button {
   transition: all 0.3s ease;
-  background: linear-gradient(to right, #e5e7eb, #d1d5db);
+  color: white;
+  background: linear-gradient(to right, #8299ff, #236fbb);
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -177,7 +179,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, #d1d5db, #9ca3af);
+  background: linear-gradient(to right, #a2c6f8, #1c63de);
   transition: all 0.4s ease;
   z-index: -1;
   transform: skewX(-15deg);
@@ -314,7 +316,7 @@
 
 /* Footer styling - ENHANCED WITH STRONGER GRADIENT */
 .footer {
-  background: linear-gradient(to right, #0f2b76, #1e40af);
+  background: linear-gradient(to right, #1b0f76, #1e40af);
   color: white;
 }
 
@@ -374,13 +376,339 @@
   color: #1e40af;
   transform: translateY(-5px) rotate(10deg);
 }
+
 /* Category icons animation */
 .rounded-full {
-    transition: all 0.3s ease;
+  transition: all 0.5s ease;
+}
+
+.rounded-full:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+}
+
+
+
+
+/* Profile Background Gradient */
+.min-h-screen {
+  background: linear-gradient(135deg, #ffffff, #e5e8f3, #f0f7ff);
+  transition: background 0.5s ease;
+}
+
+/* Left Sidebar Background Gradient */
+.w-full.md\:w-64 {
+  background: linear-gradient(145deg, #123786, #4338ca);
+  transition: all 0.4s ease;
+  border-radius: 0 12px 12px 0;
+  box-shadow: 0 5px 20px rgba(37, 99, 235, 0.3);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Add a subtle animated pattern to the sidebar */
+.w-full.md\:w-64:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.05) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 20px 20px;
+  opacity: 0.3;
+  z-index: 0;
+  animation: patternMove 20s linear infinite;
+}
+
+@keyframes patternMove {
+  0% {
+    background-position: 0 0;
   }
-  
-  .rounded-full:hover {
-    transform: scale(1.1);
-    border-color: #3b82f6;
-    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+  100% {
+    background-position: 40px 40px;
   }
+}
+
+/* Profile photo border */
+.w-24.h-24.rounded-full {
+  border: 3px solid white;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  transition: all 0.5s ease;
+}
+
+.w-24.h-24.rounded-full:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* User name styling */
+.text-xl.font-semibold.mb-6 {
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Enhanced nav menu items */
+.nav-menu-item {
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  z-index: 1;
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 4px;
+}
+
+.nav-menu-item:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s ease;
+  z-index: -1;
+  transform: skewX(-15deg);
+}
+
+.nav-menu-item:hover:before {
+  left: 100%;
+}
+
+.nav-menu-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+/* Active menu item */
+.nav-menu-item.bg-gray-800 {
+  background: rgba(255, 255, 255, 0.382) ;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-left: 3px solid white;
+  color: rgba(255, 255, 255, 0.773);
+}
+
+/* Nav menu icons */
+.nav-menu-icon {
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  /* filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2)); */
+}
+
+/* .nav-menu-item:hover .nav-menu-icon {
+  transform: translateX(-2px) scale(1.2);
+  color: white;
+} */
+
+/* Specifically style the icons */
+.text-indigo-400.text-xl {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Logout link */
+.logout-link {
+  margin-top: 20px !important;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.7), rgba(220, 38, 38, 0.7));
+  transition: all 0.3s ease;
+}
+
+.logout-link:hover {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 38, 0.9));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Main content area */
+.flex-1.p-6.bg-gray-00 {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  margin: 12px;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for main content area */
+.flex-1.p-6.bg-gray-00:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Animation for section transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply fade-in animation to all section content */
+.flex-1.p-6.bg-gray-00 > div {
+  animation: fadeIn 0.5s ease-out;
+}
+
+
+/* Address Section Animations and Styling */
+.address-section-title {
+  color: #2563eb;
+  position: relative;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.address-section-title:hover {
+  transform: translateX(5px);
+  color: #1d4ed8;
+}
+
+.address-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.address-section-title:hover::after {
+  width: 50px;
+}
+
+.add-address-btn {
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-address-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.address-card {
+  transition: all 0.4s ease;
+  transform: translateX(-20px);
+  opacity: 0;
+}
+
+.address-card.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.address-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: #3b82f6;
+}
+
+.delete-btn {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.delete-btn:hover {
+  transform: rotate(5deg) scale(1.2);
+}
+
+.address-form-modal {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.address-form-modal.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.address-form-container {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.address-form-container.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.form-input {
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+  transform: translateY(-2px);
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.save-address-btn {
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.save-address-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.save-address-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+  transition: left 0.7s ease;
+}
+
+.save-address-btn:hover::before {
+  left: 100%;
+}
+
+.form-label {
+  transition: color 0.3s ease;
+  color: #4b5563;
+}
+
+.form-group:focus-within .form-label {
+  color: #2563eb;
+}
+
+/* Empty addresses message animation */
+.empty-addresses {
+  animation: pulseOpacity 2s infinite;
+}
+
+@keyframes pulseOpacity {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* Staggered entrance for address cards */
+.address-card:nth-child(1) { transition-delay: 0.1s; }
+.address-card:nth-child(2) { transition-delay: 0.2s; }
+.address-card:nth-child(3) { transition-delay: 0.3s; }
+.address-card:nth-child(4) { transition-delay: 0.4s; }
+.address-card:nth-child(5) { transition-delay: 0.5s; }
+.address-card:nth-child(6) { transition-delay: 0.6s; }
+.address-card:nth-child(7) { transition-delay: 0.7s; }
+.address-card:nth-child(8) { transition-delay: 0.8s; }
+.address-card:nth-child(9) { transition-delay: 0.9s; }
+.address-card:nth-child(10) { transition-delay: 1s; }

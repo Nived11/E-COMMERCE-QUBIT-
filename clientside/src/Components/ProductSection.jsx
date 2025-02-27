@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Package2, Edit2, Trash2, Eye } from 'lucide-react';
-import EditProduct from './EditProduct';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import ApiPath from '../ApiPath';
 
 const ProductSection = () => {
@@ -12,7 +10,6 @@ const ProductSection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const { id } = useParams();
-  const navigate=useNavigate();
 
   const getProducts = async () => {
     try {
@@ -23,7 +20,6 @@ const ProductSection = () => {
       }
     } catch (error) {
       console.error('Error fetching products:', error);
-      toast.error('Failed to fetch products');
     } finally {
       setIsLoading(false);
     }
@@ -78,15 +74,20 @@ const ProductSection = () => {
         
         <div className="flex gap-4">
           <select
-            className="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="px-4 py-2 rounded-lg border border-gray-500 text-gray-600"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="all">All Categories</option>
             <option value="Mobiles">Mobiles</option>
             <option value="Laptops">Laptops</option>
+            <option value="watches">Watches</option>
+            <option value="earphones">Earphones</option>
+            <option value="camera">Camera</option>
             <option value="speakers">Speakers</option>
             <option value="gaming">Gaming</option>
+            <option value="tablet">Tablets</option>
+            <option value="smartTv">Smart Tv</option>
           </select>
           
           <a
@@ -107,14 +108,14 @@ const ProductSection = () => {
           <p className="text-gray-600">Start selling by adding your first product</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product) => (
             <div key={product._id} className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="relative h-48">
+              <div className="relative md:h-70 h-44 pl-10 mb-2">
                 <img
                   src={product.productimages[0]}
                   alt={product.productname}
-                  className="w-full h-full object-cover"
+                  className=" h-full w-full object-cover"
                 />
                 <div className="absolute top-2 right-2 flex gap-2 " >
                   <button  onClick={() => handleDelete(product._id)}
@@ -129,20 +130,24 @@ const ProductSection = () => {
                   <h3 className="font-semibold text-lg text-gray-800 line-clamp-1">
                     {product.productname}
                   </h3>
-                  <span className={`text-sm px-2 py-1 rounded`}>
-                   {product.quantity}
-                  </span>
+                 
                 </div>
                 
                 <div className="space-y-2">
-                  <p className="text-gray-600">{product.Brand} | {product.modelno}</p>
+                  <p className="text-gray-600 ">{product.Brand} | 
+                  <span className={`ml-2  ${product.quantity > 0 ? 'text-sm px-4  py-1  rounded  bg-green-600 text-white '
+                     : 'text-sm px-4  py-1 rounded  bg-red-600 text-white'} `}>
+                      {product.quantity > 0 ? ' In Stock ' : ' Out of Stock '}
+                   {product.quantity}
+                  </span>
+                  </p>
                   <p className="text-xl font-bold text-indigo-600">₹{product.price}</p>
                 </div>
                 
-                <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="mt-4 pt-4 border-t border-gray-300">
                   <a
                     href={`/EditProduct/${product._id}`}
-                    className="flex items-center justify-center gap-2 w-full py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                    className="flex items-center justify-center gap-2 w-full py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition-colors"
                   >
                     <Edit2 className="w-4 h-4" />
                    Edit
@@ -153,6 +158,7 @@ const ProductSection = () => {
           ))}
         </div>
       )}
+      <ToastContainer/>
     </div>
   );
 };

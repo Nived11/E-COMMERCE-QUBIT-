@@ -4,12 +4,11 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { Store, UserCircle2 } from "lucide-react";
 import ApiPath from "../ApiPath";
-import w from "../assets/w.jpg";
+import w from "../assets/w.webp";
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaPhone } from "react-icons/fa";
 
 function Registration() {
     const navigate = useNavigate();
-    const [accountType, setAccountType] = useState("buyer");
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -20,26 +19,74 @@ function Registration() {
         phone: "",
         password: "",
         cpassword: "",
-        accountType: "",
+        accountType: "buyer",
         companyName: "",
         companyProof: null
     });
     const [count, setCount] = useState(0);
 
-    const addUser = async(e) => {
+    // Function to convert file to base64
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            try {
+                const base64 = await convertToBase64(file);
+                setData((prev) => ({ ...prev, companyProof: base64 }));
+            } catch (error) {
+                console.error("Error converting file to base64:", error);
+                toast.error("Error processing file");
+            }
+        }
+    };
+
+    const addUser = async (e) => {
         e.preventDefault();
         try {
-            const formData = new FormData();
-            for (let key in data) {
-                formData.append(key, data[key]);
+            // Validate seller-specific fields
+            if (data.accountType === "seller" && !data.companyName) {
+                toast.error("Company name is required for seller accounts", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    theme: "dark",
+                });
+                return;
             }
-            
-            const res = await axios.post(`${ApiPath()}/adduser`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+
+            // Create submission data
+            const submissionData = {
+                fname: data.fname,
+                lname: data.lname,
+                email: data.email,
+                phone: data.phone,
+                password: data.password,
+                cpassword: data.cpassword,
+                accountType: data.accountType
+            };
+
+            // Add company details for sellers
+            if (data.accountType === "seller") {
+                submissionData.companyName = data.companyName;
+                if (data.companyProof) {
+                    submissionData.companyProof = data.companyProof;
                 }
-            });
-            if(res.status === 201) {
+            }
+
+            const res = await axios.post(`${ApiPath()}/adduser`, submissionData);
+            
+            if (res.status === 201) {
                 toast.success(res.data.msg, {
                     position: "top-right",
                     autoClose: 3000,
@@ -60,13 +107,13 @@ function Registration() {
                     phone: "",
                     password: "",
                     cpassword: "",
-                    accountType: "",
+                    accountType: "buyer",
                     companyName: "",
                     companyProof: null
                 });
                 setCount(count + 1);
             }
-        } catch(error) {
+        } catch (error) {
             console.log(error);
             if (error.response) {
                 toast.error(error.response.data.msg, {
@@ -80,7 +127,11 @@ function Registration() {
                     theme: "dark",
                 });
             } else {
-                alert("Something went wrong try again later.."); 
+                toast.error("Something went wrong try again later..", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    theme: "dark",
+                });
             }
         }
     }
@@ -89,13 +140,12 @@ function Registration() {
         <div className="min-h-screen bg-blue-50 flex items-center justify-center py-6">
             <div className="w-[90%] max-w-6xl bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row">
                 <div className="hidden lg:block lg:w-1/2 relative">
-                    <img src={w} alt="Site illustration" className="absolute bottom-0 w-100% h-100 object-cover"/>
+                    <img src={w} alt="Site illustration" className="absolute bottom-0 w-100% h-100% object-cover"/>
                 </div>
                 
                 <div className="w-full lg:w-1/2 p-8 overflow-y-auto max-h-[90vh]">
                     <h2 className="text-3xl font-bold text-center mb-6">Registration</h2>
                     <form className="space-y-4" onSubmit={addUser}>
-                        {/* Keep all existing fields exactly the same */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="relative">
                                 <label className="block text-sm font-medium">First Name</label>
@@ -161,7 +211,7 @@ function Registration() {
                             </div>
                         </div>
 
-                        {/* Modified Account Type buttons with icons */}
+                        {/* Account Type buttons with icons */}
                         <div>
                             <label className="block text-sm font-medium">Account Type</label>
                             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mt-2">
@@ -189,7 +239,7 @@ function Registration() {
                                         <Store className="text-gray-500 mr-3" size={16} />
                                         <input 
                                             type="text" 
-                                            required 
+                                            required
                                             className="w-full bg-transparent focus:ring-0 outline-none"
                                             value={data.companyName}
                                             name="companyName"
@@ -202,12 +252,15 @@ function Registration() {
                                     <div className="flex items-center bg-gray-100 border border-gray-300 rounded-lg p-2">
                                         <input 
                                             type="file" 
-                                            required 
+                                            required
                                             className="w-full bg-transparent focus:ring-0 outline-none"
                                             accept="image/*,.pdf"
-                                            onChange={(e) => setData((prev) => ({ ...prev, companyProof: e.target.files[0] }))}
+                                            onChange={handleFileChange}
                                         />
                                     </div>
+                                    {data.companyProof && (
+                                        <p className="text-green-500 text-xs mt-1">Document uploaded successfully</p>
+                                    )}
                                 </div>
                             </>
                         )}

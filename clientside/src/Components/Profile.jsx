@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import profile from "../assets/profile.jpg";
-import { FiUser, FiHeart, FiShoppingBag, FiMapPin,FiHome,FiBox } from "react-icons/fi";
-import { MdLogout } from "react-icons/md";
+import { HiUser, HiHeart, HiShoppingBag, HiLocationMarker, HiHome, HiCollection } from "react-icons/hi";
+import { HiArrowRightOnRectangle } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import ProfileSection from "./profileSection";
 import AddressSection from "./AddressSection";
@@ -17,8 +17,7 @@ function Profile() {
   const [user, setUser] = useState({});
   const navigate = useNavigate();
 
-
-const logOut = () => {
+  const logOut = () => {
     localStorage.removeItem("token");
     toast.error("logout successfully", {
         position: "top-right",
@@ -31,7 +30,7 @@ const logOut = () => {
         theme: "dark",
     });
     setCount(count + 1);
-}
+  }
 
   const getUser = async () => {
     const token = localStorage.getItem("token");
@@ -50,7 +49,7 @@ const logOut = () => {
             setUser(res.data);
         }
     } catch (error) {
-        console.error( error);
+        console.error(error);
         if (error.response && error.response.data.msg === "Login time expired please login again") {
             localStorage.removeItem("token");
             toast.error(error.response.data.msg, {
@@ -72,55 +71,66 @@ const logOut = () => {
     getUser();
   }, [count]);
   
-  
-
+  const handleHomeClick = () => {
+    navigate("/home");
+  };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col ">
       <Nav />
       
-      <div className="flex-1 flex flex-col md:flex-row mt-20">
-        <div className="w-full md:w-64 bg-gray-900 text-white p-6 flex flex-col items-center">
-          <img src={profile} alt="Profile" className="w-24 h-24 rounded-full border-2 border-gray-500 mb-4" />
-          <h2 className="text-xl font-semibold mb-6">{user.fname} {user.lname}</h2>
+      <div className="flex-1 flex flex-col md:flex-row mt-30 md:mt-20">
+        <div className="w-full md:w-64 bg-blue-500 text-white p-6 flex flex-col items-center">
+          <img src={profile} alt="Profile" className="w-24 h-24 rounded-full border-2 border-indigo-500 mb-4" />
+          <h2 className="text-xl font-semibold mb-6 text-indigo-200">{user.fname} {user.lname}</h2>
           
-          <ul className="w-full h-full  space-y-2 ">
-            <a href="/home" className={`flex items-center p-3 cursor-pointer rounded ${section === 'home' ? 'bg-gray-800' : 'hover:bg-gray-800'}`} >
-              <FiHome className="mr-2" /> Home
-            </a>
-            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'orders' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+          <ul className="w-full h-full space-y-2">
+            <li 
+              onClick={handleHomeClick}
+              className="nav-menu-item home-link flex items-center p-3 cursor-pointer rounded hover:bg-gray-800 transition-colors duration-200"
+            >
+              <HiHome className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
+              <span className="nav-menu-text">Home</span>
+            </li>
+            <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'orders' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('orders')} >
-              <FiShoppingBag className="mr-2" /> Orders
+              <HiShoppingBag className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
+              <span className="nav-menu-text">Orders</span>
             </li>
-            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'wishlist' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+            <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'wishlist' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('wishlist')}>
-              <FiHeart className="mr-2" /> Wishlists
+              <HiHeart className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
+              <span className="nav-menu-text">Wishlists</span>
             </li>
-            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'profile' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+            <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'profile' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('profile')} >
-              <FiUser className="mr-2" /> Profile Info
+              <HiUser className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
+              <span className="nav-menu-text">Profile Info</span>
             </li>
-            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'address' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+            <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'address' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('address')} >
-              <FiMapPin className="mr-2" /> Address
+              <HiLocationMarker className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
+              <span className="nav-menu-text">Address</span>
             </li>
-            <li className={`flex items-center p-3 cursor-pointer rounded ${section === 'products' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+            <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'products' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('products')} >
-              <FiBox className="mr-2" /> My Products
+              <HiCollection className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
+              <span className="nav-menu-text">My Products</span>
             </li>
-            <li onClick={logOut}  className=" bottom-10 flex items-center p-3 hover:bg-gray-800 cursor-pointer rounded">
-              <MdLogout className="mr-2" /> Logout
+            <li onClick={logOut} className="nav-menu-item logout-link flex items-center p-3 cursor-pointer rounded transition-colors duration-200 mt-auto">
+              <HiArrowRightOnRectangle className="mr-2 nav-menu-icon text-xl" /> 
+              <span className="nav-menu-text">Logout</span>
             </li>
           </ul>
         </div>
 
-        <div className="flex-1 p-6 bg-gray-100">
+        <div className="flex-1 p-6 bg-gray-00 text-gray-100">
           {section === 'profile' && <ProfileSection />}
           {section === 'address' && <AddressSection />}
           {section === 'products' && <ProductSection />}
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }

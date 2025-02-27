@@ -6,9 +6,9 @@ const {sign}=pkg
 
 
 export async function addUser(req,res){
-    const {fname,lname,email,phone,password,cpassword,accountType}=req.body
+    const {fname,lname,email,phone,password,cpassword,accountType,companyName,companyProof}=req.body
 
-    console.log(fname,lname,email,phone,password,cpassword,accountType);
+    console.log(fname,lname,email,phone,password,cpassword,accountType,companyName,companyProof);
     if(!(fname&&lname&&email&&phone&&password&&cpassword&&accountType))
         return(res.status(404).send({msg:"Fields are empty"}));
     if(password!==cpassword)
@@ -16,16 +16,37 @@ export async function addUser(req,res){
     const data=await userSchema.findOne({email})
     if(data)
         return(res.status(404).send({msg:"Email already exist try another mail"}));
+    
+    // Additional validation for seller account
+    if(accountType === "seller" && !companyName)
+        return(res.status(404).send({msg:"Company name is required for seller accounts"}));
+    
     const hpassword=await bcrypt.hash(password,10)
     console.log(hpassword);
 
-    await userSchema.create({fname,lname,email,phone,password:hpassword,accountType}).then(()=>{
+    // Create user with additional fields if they're a seller
+    const userData = {
+        fname,
+        lname,
+        email,
+        phone,
+        password: hpassword,
+        accountType
+    };
+    
+    // Add company details for sellers
+    if(accountType === "seller") {
+        userData.companyName = companyName;
+        userData.companyProof = companyProof;
+    }
+
+    await userSchema.create(userData).then(()=>{
         res.status(201).send({msg:"successfully created"})
     }).catch((error)=>{
        res.status(500).send({error})
-        
     }) 
 }
+
 
 export async function loginUser(req,res) {
     try {

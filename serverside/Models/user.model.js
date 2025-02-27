@@ -7,7 +7,9 @@ const userSchema=new mongoose.Schema({
     email:{type:String,require:true},
     phone:{type:String,require:true},
     password:{type:String,require:true},
-    accountType:{type:String,require:true}
+    accountType:{type:String,require:true},
+    companyName:{type:String},
+    companyProof:{type:String}
 });
 
 

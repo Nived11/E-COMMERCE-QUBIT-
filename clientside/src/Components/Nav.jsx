@@ -98,7 +98,7 @@ function Nav() {
             onClick={() => navigate("/home")}>
             Qubit
           </div>
-          <div className={`relative search-container flex-grow max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hidden md:flex ${searchFocused ? 'focused' : ''}`}>
+          <div className={` relative search-container flex-grow max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hidden md:flex ${searchFocused ? 'focused' : ''}`}>
             <input type="text" placeholder="Search..."
               className="search-input w-full p-2 pl-10 rounded-full bg-white text-gray-800 focus:outline-none md:mr-4"
               onFocus={() => setSearchFocused(true)} onBlur={() => setSearchFocused(false)} />
@@ -108,7 +108,7 @@ function Nav() {
             {user.accountType === "seller" && location.pathname !== `/sell/${user._id}` && (
               <button onClick={handleSellClick}
                 className="sell-button flex items-center space-x-1 text-gray-800 px-5 py-2 rounded-full transition cursor-pointer" >
-                <MdSell className="text-gray-800" />
+                <MdSell />
                 <span>Sell</span>
               </button>
             )}
