@@ -10,6 +10,11 @@
 .nav:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+.topicon:hover{
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+
+}
 
 /* Logo Styling */
 .logo-text {

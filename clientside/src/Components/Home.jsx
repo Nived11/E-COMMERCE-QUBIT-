@@ -66,7 +66,9 @@ function Home() {
 
   const getProducts = async() => {
     try {
-      const res = await axios.get(`${ApiPath()}/allproducts`);
+      const userId=localStorage.getItem("userId");
+      console.log("userr id geting",userId);
+      const res = await axios.post(`${ApiPath()}/allproducts`,{userId});
       if(res.status === 200){
         // Add a discount percentage and original price for display purposes
         const productsWithDiscount = res.data.map(product => ({
@@ -120,67 +122,67 @@ function Home() {
       <div className="container mx-auto   lg:block hidden   ">
   <div className="grid grid-cols-4 md:grid-cols-11 gap-2 overflow-x-auto hide-scrollbar py-4">
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2  cursor-pointer">
         <img src="https://image01-in.oneplus.net/media/202406/19/dee6a15ca313f3a7b211f2a440e9f05e.png?x-amz-process=image/format,webp/quality,Q_80" alt="Smartphones" className="w-12 h-12 object-cover" />
       </div>
       <span className="text-xs text-center">Smartphones</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://www.paiinternational.in/_next/image?url=https%3A%2F%2Fpaibackend.bangalore2.com%2Fmedia%2Fimages%2FLaptop.png&w=640&q=75" alt="Laptops" className="w-12 h-12 object-cover" />
       </div>
       <span className="text-xs text-center">Laptops</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://e7.pngegg.com/pngimages/530/441/png-clipart-headphones-microphone-lucid-sound-gaming-headset-ls25-wireless-headphones-thumbnail.png" alt="Headphones" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Headphones</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://w7.pngwing.com/pngs/924/969/png-transparent-smartwatch-online-shopping-android-watch-electronics-watch-accessory-accessories-thumbnail.png" alt="Smartwatches" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Smartwatches</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2 ">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://m.media-amazon.com/images/I/719PE0iB0EL._AC_UY327_FMwebp_QL65_.jpg" alt="Speakers" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Speakers</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://rukminim2.flixcart.com/image/312/312/l5fnhjk0/dslr-camera/g/t/7/eos-r10-24-2-r10-canon-original-imagg4y52cybasdr.jpeg?q=70" alt="Cameras" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Cameras</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/gamingconsole/t/c/f/n-a-cfi-y1016y-sony-n-a-original-imah3g4htvknyvqh.jpeg?q=70" alt="Gaming" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Gaming</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://rukminim2.flixcart.com/image/312/312/xif0q/tablet/r/4/m/-original-imagj72vqsfqgzpf.jpeg?q=70" alt="Tablets" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Tablets</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://www.paiinternational.in/_next/image?url=https%3A%2F%2Fpaibackend.bangalore2.com%2Fmedia%2Fimages%2FCategory-Icons-LED150x150.png&w=640&q=75" alt="Smart Home" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Smart Home</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/laptop-accessories-combo/m/a/o/wired-gaming-keyboard-and-optical-mouse-rgb-backlight-104-keys-original-imah5dtfjypfed77.jpeg?q=70" alt="Accessories" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Accessories</span>
     </div>
     <div className="flex flex-col items-center">
-      <div className="rounded-full border-2 border-blue-700 p-2 mb-2">
+      <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
         <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/headphone/p/0/p/-original-imagp6skfbnypq5g.jpeg?q=70" alt="Earbuds" className="w-12 h-12 object-contain" />
       </div>
       <span className="text-xs text-center">Earbuds</span>

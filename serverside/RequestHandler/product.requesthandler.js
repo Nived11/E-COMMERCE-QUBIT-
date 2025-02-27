@@ -17,13 +17,20 @@ export async function addProduct(req, res) {
 
 export async function allProducts(req, res) {
     try {
-        const products = await productSchema.find();
-        if (!products || products.length === 0) {
-            return res.status(404).send({ msg: "No products found" });
-        }
-        return res.status(200).send(products);
+      const {userId}=req.body;
+      console.log("userr id geting",userId);
+      if(!userId){
+        return res.status(404).send({ msg: "userId not found" });
+      }
+      const products = await productSchema.find({
+        userId:{$ne:userId}
+      });
+      if (!products || products.length === 0) {
+        return res.status(404).send({ msg: "No products found" });
+      }
+      return res.status(200).send(products);
     } catch (error) {
-        console.error(error);
+      console.error(error);
         return res.status(500).send({ error });
     }
 }

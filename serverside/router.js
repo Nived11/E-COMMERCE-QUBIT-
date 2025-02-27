@@ -29,7 +29,7 @@ router.route("/deleteaddress/:id").delete(address.deleteAddress);
 
 //product
 router.route("/addproduct").post(product.addProduct);
-router.route("/allproducts").get(product.allProducts);
+router.route("/allproducts").post(product.allProducts);
 router.route("/getsellerproducts/:id").get(product.getSellerProducts);
 router.route("/getoneproduct/:id").get(product.getoneProduct);
 router.route("/updateproduct/:id").put(product.updateProduct);

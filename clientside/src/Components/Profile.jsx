@@ -75,6 +75,13 @@ function Profile() {
     navigate("/home");
   };
 
+  // When user is a buyer and "products" section is active, default to "profile"
+  // useEffect(() => {
+  //   if (user.accountType === "buyer" && section === "products") {
+  //     setSection("profile");
+  //   }
+  // }, [user, section]);
+
   return (
     <div className="min-h-screen flex flex-col ">
       <Nav />
@@ -112,11 +119,16 @@ function Profile() {
               <HiLocationMarker className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
               <span className="nav-menu-text">Address</span>
             </li>
-            <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'products' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
-              onClick={() => setSection('products')} >
-              <HiCollection className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
-              <span className="nav-menu-text">My Products</span>
-            </li>
+            
+            {/* Only show My Products section if accountType is NOT buyer */}
+            {user.accountType !== "buyer" && (
+              <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'products' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
+                onClick={() => setSection('products')} >
+                <HiCollection className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
+                <span className="nav-menu-text">My Products</span>
+              </li>
+            )}
+            
             <li onClick={logOut} className="nav-menu-item logout-link flex items-center p-3 cursor-pointer rounded transition-colors duration-200 mt-auto">
               <HiArrowRightOnRectangle className="mr-2 nav-menu-icon text-xl" /> 
               <span className="nav-menu-text">Logout</span>
