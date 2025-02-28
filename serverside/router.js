@@ -14,6 +14,9 @@ router.route("/addadmin").post(ad.addAdmin);
 router.route("/loginadmin").post(ad.loginAdmin);
 router.route("/forgetpassword").post(ad.forgetPassword);
 router.route("/updatepassword").put(ad.updatePassword);
+router.route("/allproducts").get(ad.allProducts);
+router.route("/blockproduct").post(ad.blockProduct);
+
 
 //user
 router.route("/adduser").post(us.addUser);

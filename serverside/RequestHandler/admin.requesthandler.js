@@ -2,6 +2,8 @@ import adminSchema from "../Models/admin.model.js"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import productSchema from "../Models/product.model.js";
+
 
 const transporter = nodemailer.createTransport({
     host: "sandbox.smtp.mailtrap.io",
@@ -90,5 +92,32 @@ export async function updatePassword(req, res) {
     } catch (error) {
         console.log(error);
         
+    }
+}
+
+
+export async function allProducts(req, res) {
+    try {
+        const product = await productSchema.find();
+        if (!product || product.length === 0) {
+            return res.status(404).send({ msg: "No products found" });
+        }
+        return res.status(200).send(product);
+    } catch (error) {
+        res.status(500).send({ error });
+    }
+}
+
+
+export async function blockProduct(req, res) {
+    try {
+      const {_id}=req.body
+      console.log(_id);
+      const product=await productSchema.findByIdAndUpdate(_id ,[{$set:{block:{$not:"$block"}}}],{new:true});
+      console.log(product);
+      return res.status(200).send({msg:"successfully blocked.."});
+
+    } catch (error) {
+        res.status(500).send({ error });
     }
 }

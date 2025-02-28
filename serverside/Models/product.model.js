@@ -12,6 +12,7 @@ const productSchema=new mongoose.Schema({
     description:{type:String,require:true},
     specifications:{type:String,require:true},
     productimages:{type:Array,require:true},
+    block:{type:Boolean,require:true},
 });
 
 

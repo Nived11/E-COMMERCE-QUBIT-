@@ -3,12 +3,12 @@ import productSchema from "../Models/product.model.js";
 
 export async function addProduct(req, res) {
     try {
-        const { userId, productname, category, Brand, modelno, price, quantity, warranty, description, specifications, productimages } = req.body;
+        const { userId, productname, category, Brand, modelno, price, quantity, warranty, description, specifications, productimages,block=false } = req.body;
         console.log(userId, productname, category, Brand, modelno, price, quantity, warranty, description, specifications);
         if (!(productname && category && Brand && modelno && price && quantity && warranty && description && specifications&&productimages)) {
             return res.status(404).send({ msg: "Fields are empty" });
         }
-        await productSchema.create({ userId, productname, category, Brand, modelno, price, quantity, warranty, description, specifications, productimages });
+        await productSchema.create({ userId, productname, category, Brand, modelno, price, quantity, warranty, description, specifications, productimages,block });
         res.status(201).send({ msg: "Product added successfully" });
     } catch (error) {
         res.status(500).send({ error });

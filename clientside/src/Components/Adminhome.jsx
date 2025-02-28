@@ -1,18 +1,81 @@
 import React, { useState } from 'react';
-import { Home, Users, Package, Store, LogOut, Phone, Mail, User } from 'lucide-react';
+import { Home, Users, Package, Store, LogOut, Phone, Mail, User, DollarSign, ShoppingCart, Tag, Search, Briefcase } from 'lucide-react';
+import { toast, ToastContainer } from 'react-toastify';
+import ApiPath from '../ApiPath';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import ig from "../assets/invoice.png";
 
 function AdminHome() {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [activeSection, setActiveSection] = useState('dashboard'); // Default section
+  const [activeSection, setActiveSection] = useState('dashboard'); 
+  const [products, setProducts] = useState([]);
+  const [count, setCount] = useState(0); 
+  const navigate = useNavigate();
 
-  // Sample user data
+  const getProducts = async() => {
+    try {
+      const res = await axios.get(`${ApiPath()}/allproducts`);
+      if(res.status === 200){
+       const {data}=res;
+       
+       setProducts(data);
+
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      toast.error('Failed to fetch products');
+    } 
+  }
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  
+const handleBlockProduct=async(_id)=>{
+  try {
+    console.log(_id);
+    const res=await axios.post(`${ApiPath()}/blockproduct`,{_id});
+    if(res.status==200){
+      toast.success(res.data.msg);
+      getProducts();
+    }
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
+const logOut = () => {
+    localStorage.removeItem("token");
+    toast.error("Logout successfully", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+    setTimeout(() => {
+      navigate("/admin")
+    }, 3000)
+    setCount(count + 1);
+  };
+  
   const userData = [
-    { id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com', phone: '+1 (555) 123-4567' },
-    { id: 2, firstName: 'Sarah', lastName: 'Smith', email: 'sarah.smith@example.com', phone: '+1 (555) 987-6543' },
-    { id: 3, firstName: 'Michael', lastName: 'Johnson', email: 'michael.j@example.com', phone: '+1 (555) 234-5678' },
-    { id: 4, firstName: 'Emily', lastName: 'Brown', email: 'emily.brown@example.com', phone: '+1 (555) 876-5432' },
-    { id: 5, firstName: 'David', lastName: 'Wilson', email: 'david.wilson@example.com', phone: '+1 (555) 345-6789' },
-    { id: 6, firstName: 'Jessica', lastName: 'Taylor', email: 'jessica.t@example.com', phone: '+1 (555) 654-3210' },
+    { id: 1, firstName: 'Arjun', lastName: 'Vinod', email: 'arjun@123', phone: '6545642132' },
+   
+  ];
+
+ 
+  const sellerData = [
+    { id: 1, name: 'Tech Solutions Inc.', contactPerson: 'sharon shiju', email: 'sharon@123', phone: '923568956', companyName: 'Tech Solutions Inc.', proofImage: 'proof.jpg' },
+   
   ];
 
   const toggleDropdown = () => {
@@ -37,6 +100,13 @@ function AdminHome() {
     return colors[id % colors.length];
   };
 
+  // Function to get color based on stock level
+  const getStockColor = (stock) => {
+    if (stock > 50) return 'text-green-600';
+    if (stock > 20) return 'text-yellow-600';
+    return 'text-red-600';
+  };
+
   // Render different content based on active section
   const renderContent = () => {
     switch (activeSection) {
@@ -44,7 +114,7 @@ function AdminHome() {
         return (
           <>
             <h1 className="text-2xl font-bold text-gray-900 mb-4">User Management</h1>
-            <div className="flex flex-wrap  gap-8">
+            <div className="flex flex-wrap gap-8">
               {userData.map(user => (
                 <div key={user.id} className="md:h-60 md:w-70 bg-white rounded-lg shadow-md overflow-hidden">
                   <div className="p-4">
@@ -68,11 +138,10 @@ function AdminHome() {
                     </div>
                   </div>
                   <div className="bg-gray-50 px-4 py-3 border-t border-gray-100 flex">
-                    <button className=" cursor-pointer w-full bg-gray-500 text-white text-sm font-medium py-2 rounded-md hover:bg-gray-600 transition duration-300">
+                    <button className="cursor-pointer w-full bg-gray-500 text-white text-sm font-medium py-2 rounded-md hover:bg-gray-600 transition duration-300">
                         Block
                     </button>
-                    </div>
-
+                  </div>
                 </div>
               ))}
             </div>
@@ -83,7 +152,52 @@ function AdminHome() {
         return (
           <>
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Management</h1>
-           
+            <div className="mb-4 flex">
+              <div className="relative flex-1 max-w-md">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  className="px-4 py-2 border border-gray-300 rounded-md w-full pr-10"
+                />
+                <button className="absolute right-2 top-2 text-gray-500 hover:text-gray-700">
+                  <Search size={20} />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {products.map(product => (
+                <div key={product._id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+                  <div className="p-4 flex-1">
+                    <div className="w-full h-40 bg-gray-200 mb-4 rounded-md flex items-center justify-center">
+                      <img src={product.productimages[0]} alt={product.productname} className="max-h-full max-w-full" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2 line-clamp-1">{product.productname}</h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center text-gray-600">
+                        <Tag size={16} className="mr-2" />
+                        <span>{product.category}</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <DollarSign size={16} className="mr-2" />
+                        <span>${product.price}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <ShoppingCart size={16} className="mr-2" />
+                        <span className={`${getStockColor(product.stock)}`}>
+                          Stock: {product.quantity} units
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-3 border-t border-gray-100 flex justify-center">
+                    <button onClick={() => handleBlockProduct(product._id)} className={`cursor-pointer w-full bg-gray-500 text-white text-sm font-medium py-2 
+                    rounded-md hover:bg-gray-600 transition duration-300 ${product.block ? 'bg-red-500' : ''}`}>
+                      {product.block ? 'Unblock' : 'Block'}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </>
         );
       
@@ -91,7 +205,48 @@ function AdminHome() {
         return (
           <>
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Seller Management</h1>
-           
+            <div className="flex flex-wrap gap-8">
+              {sellerData.map(seller => (
+                <div key={seller.id} className="md:w-80 bg-white rounded-lg shadow-md overflow-hidden">
+                  <div className="p-4">
+                    <div className="flex items-center space-x-4">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-medium ${getAvatarBgColor(seller.id)}`}>
+                        {seller.name.charAt(0)}
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">{seller.contactPerson}</h3>
+                        <p className="text-sm text-gray-600">{seller.companyName}</p>
+                      </div>
+                    </div>
+                    <div className="mt-4 space-y-2">
+                      <div className="flex items-center text-gray-600">
+                        <Mail size={16} className="mr-2" />
+                        <span>{seller.email}</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <Phone size={16} className="mr-2" />
+                        <span>{seller.phone}</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <Briefcase size={16} className="mr-2" />
+                        <span>{seller.companyName}</span>
+                      </div>
+                      <div className="flex items-center mt-2">
+                        <span className="text-sm text-gray-600 mr-2">Company Proof:</span>
+                        <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
+                          <img src={ig} alt="Company Proof" className="max-h-full max-w-full" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-3 border-t border-gray-100 flex">
+                    <button className="cursor-pointer w-full bg-gray-500 text-white text-sm font-medium py-2 rounded-md hover:bg-gray-600 transition duration-300">
+                      Block
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </>
         );
       
@@ -154,7 +309,7 @@ function AdminHome() {
               <button 
                 className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 flex items-center"
                 onClick={() => {
-                  // Logout functionality here
+                  logOut();
                   setShowDropdown(false);
                 }}
               >
@@ -199,7 +354,10 @@ function AdminHome() {
               <Store size={18} className="mr-2" />
               Sellers
             </li>
-            <li className="text-gray-200 font-medium hover:bg-gray-700 p-2 rounded cursor-pointer flex items-center">
+            <li 
+              className="text-gray-200 font-medium hover:bg-gray-700 p-2 rounded cursor-pointer flex items-center"
+              onClick={logOut}
+            >
               <LogOut size={18} className="mr-2" />
               Logout
             </li>
@@ -211,6 +369,7 @@ function AdminHome() {
           {renderContent()}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
