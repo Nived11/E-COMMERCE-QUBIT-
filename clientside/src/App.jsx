@@ -28,8 +28,8 @@ function App() {
 
                 //user
                 <Route path="/registration" element={<Registration/>}/>
-                <Route path="/" element={<Login/> }/>
-                <Route path="/home" element={<Home/>}/>
+                <Route path="/login" element={<Login/> }/>
+                <Route path="/" element={<Home/>}/>
                 <Route path="/profile/:id" element={<Profile/>}/>
 
                 //product

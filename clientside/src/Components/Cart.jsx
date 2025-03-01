@@ -122,7 +122,7 @@ const Cart = () => {
               <div className="bg-white rounded shadow mb-4">
                 <div className="p-4 flex justify-between items-center border-b">
                   <span className="text-gray-700">Your Cart </span>
-                  <button onClick={()=>navigate("/home")} className="text-blue-500 cursor-pointer">Add more items</button>
+                  <button onClick={()=>navigate("/")} className="text-blue-500 cursor-pointer">Add more items</button>
                 </div>
                 
                 {cartItems.map(item => (

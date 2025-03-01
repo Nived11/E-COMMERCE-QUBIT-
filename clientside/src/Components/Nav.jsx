@@ -15,6 +15,7 @@ function Nav() {
   const navigate = useNavigate();
   const filterRef = useRef(null);
   const [searchFocused, setSearchFocused] = useState(false);
+  let token = localStorage.getItem("token");
 
   const logOut = () => {
     localStorage.removeItem("token");
@@ -30,14 +31,16 @@ function Nav() {
       theme: "dark",
     });
     setTimeout(() => {
-      navigate("/")
+      navigate("/login")
     }, 3000)
     setCount(count + 1);
   };
 
   const getUser = async () => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token){
+      return 
+    }
     try {
       const res = await axios.get(`${ApiPath()}/home`, {
         headers: {
@@ -60,7 +63,7 @@ function Nav() {
           theme: "dark",
         });
         localStorage.removeItem("token");
-        setTimeout(() => navigate("/"), 3000);
+        setTimeout(() => navigate("/login"), 3000);
       }
     }
   };
@@ -87,7 +90,7 @@ function Nav() {
   };
 
   const getUserInitial = () => {
-    return user.fname ? user.fname.charAt(0).toUpperCase() : "U";
+    return ;
   };
 
   return (
@@ -95,7 +98,7 @@ function Nav() {
       <nav className="nav fixed top-0 w-full shadow-md z-100">
         <div className="mx-auto flex items-center justify-between px-4 py-4">
           <div className="text-4xl ml-5 font-bold logo-text cursor-pointer" 
-            onClick={() => navigate("/home")}>
+            onClick={() => navigate("/")}>
             Qubit
           </div>
           <div className={` relative search-container flex-grow max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hidden md:flex ${searchFocused ? 'focused' : ''}`}>
@@ -125,24 +128,45 @@ function Nav() {
               <div className="cursor-pointer rounded-md"
                 onClick={() => setDropdownOpen(!dropdownOpen)} >
                 <div className="profile-icon h-12 w-12 rounded-full flex items-center justify-center">
-                  <span className="profile-initial">{getUserInitial()}</span>
+                  <span className="profile-initial">{user.fname ? user.fname.charAt(0).toUpperCase() :(
+                     <FiUser className="text-2xl text-white" />
+                  ) }</span>
                 </div>
               </div>
 
-              
-              {dropdownOpen && (
-                <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
-                  <div onClick={() => navigate(`/profile/${user._id}`)}
-                    className="dropdown-item flex items-center cursor-pointer" >
-                    <FiUser className="dropdown-icon mr-2" />
-                    <span>Profile</span>
-                  </div>
-                  <div onClick={logOut}className="dropdown-item flex items-center cursor-pointer">
-                    <MdLogout className="dropdown-icon mr-2" />
-                    <span>Logout</span>
-                  </div>
-                </div>
-              )}
+              {token ? (
+  dropdownOpen && (
+    <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
+      <div
+        onClick={() => navigate(`/profile/${user._id}`)}
+        className="dropdown-item flex items-center cursor-pointer"
+      >
+        <FiUser className="dropdown-icon mr-2" />
+        <span>Profile</span>
+      </div>
+      <div
+        onClick={logOut}
+        className="logout-button dropdown-item flex items-center cursor-pointer"
+      >
+        <MdLogout className="logout-icon mr-2" />
+        <span>Logout</span>
+      </div>
+    </div>
+  )
+) : (
+  dropdownOpen && (
+    <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
+      <div
+        onClick={() => navigate("/home")} // Navigate to login page
+        className="logout-button dropdown-item flex items-center cursor-pointer"
+      >
+        <MdLogout className="logout-icon mr-2" />
+        <span>Login</span>
+      </div>
+    </div>
+  )
+)}
+
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import productSchema from "../Models/product.model.js";
+import userSchema from "../Models/user.model.js";
 
 
 const transporter = nodemailer.createTransport({
@@ -119,5 +120,30 @@ export async function blockProduct(req, res) {
 
     } catch (error) {
         res.status(500).send({ error });
+    }
+}
+
+
+export async function allUser(req, res) {
+    try {
+        const user = await userSchema.find();
+        if (!user || user.length === 0) {
+            return res.status(404).send({ msg: "No user found" });
+        }
+        return res.status(200).send(user);
+    } catch (error) {
+        res.status(500).send({ error });
+    }
+}
+export async function blockUser(req,res){
+    try {
+        const {_id}=req.body
+        console.log(_id);
+        const user=await userSchema.findByIdAndUpdate(_id ,[{$set:{block:{$not:"$block"}}}],{new:true});
+        console.log(user);
+        return res.status(200).send({msg:"successfully blocked.."});
+        
+    } catch (error) {
+        res.status(500).send({error})
     }
 }

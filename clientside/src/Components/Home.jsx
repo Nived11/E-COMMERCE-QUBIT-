@@ -20,6 +20,7 @@ function Home() {
   const [error, setError] = useState(null);
   const scrollContainerRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  let token = localStorage.getItem("token");
   
   // Carousel data
   const carouselSlides = [
@@ -64,6 +65,18 @@ function Home() {
     setSelectedCategory("");
   };
 
+  const getallProducts = async() => {
+    try {
+      const res = await axios.get(`${ApiPath()}/allproducts`);
+      if(res.status === 200){
+        const {data} = res;
+        setProducts(data);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      toast.error('Failed to fetch products');
+    } 
+  }
   const getProducts = async() => {
     try {
       const userId=localStorage.getItem("userId");
@@ -86,7 +99,13 @@ function Home() {
   }
 
   useEffect(() => {
-    getProducts();
+    if(!token){
+      getallProducts();
+    }
+    else{
+      getProducts();
+    }
+   
   }, []);
 
   // Scroll functions for the card container

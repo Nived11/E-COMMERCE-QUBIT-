@@ -35,7 +35,7 @@ export default function LoginPage() {
             theme: "dark",
           });
           setData({ email: "", password: "" });
-          setTimeout(() => navigate(`/Home`), 3000);
+          setTimeout(() => navigate(`/`), 3000);
         }
       } else {
         alert("Login failed. Please try again.");

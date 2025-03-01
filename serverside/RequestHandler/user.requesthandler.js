@@ -17,24 +17,13 @@ export async function addUser(req,res){
     if(data)
         return(res.status(404).send({msg:"Email already exist try another mail"}));
     
-    // Additional validation for seller account
     if(accountType === "seller" && !companyName)
-        return(res.status(404).send({msg:"Company name is required for seller accounts"}));
+        return(res.status(404).send({msg:"plase enter your company name"}));
     
     const hpassword=await bcrypt.hash(password,10)
     console.log(hpassword);
 
-    // Create user with additional fields if they're a seller
-    const userData = {
-        fname,
-        lname,
-        email,
-        phone,
-        password: hpassword,
-        accountType
-    };
-    
-    // Add company details for sellers
+    const userData = {fname, lname, email, phone, password: hpassword, accountType};
     if(accountType === "seller") {
         userData.companyName = companyName;
         userData.companyProof = companyProof;
@@ -56,8 +45,12 @@ export async function loginUser(req,res) {
     const user=await userSchema.findOne({email})
     if(user==null)
         return res.status(404).send({msg:"email is not valid"});
+    if(user.block === true)
+        return res.status(403).send({msg:"Your account has been blocked. Please contact admin for assistance."});
     const success=await bcrypt.compare(password,user.password)
     console.log(success);
+    if (!success)
+        return res.status(401).send({msg:"Invalid password"});
     const token=await sign({userID:user._id},process.env.JWT_KEY,
         {expiresIn:"24h"});
         console.log(user._id+ "user id");
@@ -92,12 +85,16 @@ export async function profileUser(req, res) {
         if (!user) {
             return res.status(404).send({ msg: "User not found" });
         }
+        if (user.block === true) {
+            return res.status(403).send({ msg: "Your account has been blocked. Please contact admin" });
+        }
         return res.status(200).send({ 
             fname: user.fname,
             lname: user.lname,
             email: user.email,
             phone: user.phone,
             accountType: user.accountType
+
         });
     } catch (error) {
         return res.status(500).send({ error});

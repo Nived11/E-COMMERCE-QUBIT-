@@ -14,6 +14,7 @@ const ProductDetails = () => {
   const [isInCart, setIsInCart] = useState(false);
   const id = useParams().id;
   const navigate = useNavigate();
+  let token = localStorage.getItem("token");
   
   // Define fallback images if product doesn't have images
   const fallbackImages = [Prod];
@@ -60,7 +61,9 @@ const ProductDetails = () => {
       const res = await axios.post(`${ApiPath()}/addcart`, { 
         userId, 
         productId: product._id 
+
       });
+      
       
       if(res.status === 201){
         setCart(res.data);
@@ -68,8 +71,15 @@ const ProductDetails = () => {
         toast.success('Product added to cart');
       }
     } catch (error) {
-      toast.error('Failed to add product to cart');
-      console.error('Error:', error);
+      if(!token){
+       toast.error('Please login first');
+        setTimeout(() => navigate('/login'), 3000);  
+      }
+      else{
+        toast.error('Failed to add product to cart');
+        console.error('Error:', error);
+      }
+     
     }
   }
 

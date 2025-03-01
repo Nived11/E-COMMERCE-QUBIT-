@@ -9,7 +9,8 @@ const userSchema=new mongoose.Schema({
     password:{type:String,require:true},
     accountType:{type:String,require:true},
     companyName:{type:String},
-    companyProof:{type:String}
+    companyProof:{type:String},
+    block:{type:Boolean,require:true},
 });
 
 

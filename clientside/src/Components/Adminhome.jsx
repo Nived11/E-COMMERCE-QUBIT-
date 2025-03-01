@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Home, Users, Package, Store, LogOut, Phone, Mail, User, DollarSign, ShoppingCart, Tag, Search, Briefcase } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
 import ApiPath from '../ApiPath';
 import axios from 'axios';
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import ig from "../assets/invoice.png";
+import { useNavigate } from 'react-router-dom';
 
 function AdminHome() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeSection, setActiveSection] = useState('dashboard'); 
   const [products, setProducts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [count, setCount] = useState(0); 
   const navigate = useNavigate();
 
@@ -18,38 +17,58 @@ function AdminHome() {
     try {
       const res = await axios.get(`${ApiPath()}/allproducts`);
       if(res.status === 200){
-       const {data}=res;
-       
-       setProducts(data);
-
+        const {data} = res;
+        setProducts(data);
       }
     } catch (error) {
       console.error('Error fetching products:', error);
       toast.error('Failed to fetch products');
     } 
   }
+ 
+  const handleBlockProduct = async(_id) => {
+    try {
+      console.log(_id);
+      const res = await axios.post(`${ApiPath()}/blockproduct`, {_id});
+      if(res.status === 200){
+        getProducts();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getUsers = async() => {
+    try {
+      const res = await axios.get(`${ApiPath()}/allusers`);
+      if(res.status === 200){
+        const {data} = res;
+        setUsers(data);
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      toast.error('Failed to fetch users');
+    } 
+  }
 
   useEffect(() => {
     getProducts();
+    getUsers();
   }, []);
 
-  
-const handleBlockProduct=async(_id)=>{
-  try {
-    console.log(_id);
-    const res=await axios.post(`${ApiPath()}/blockproduct`,{_id});
-    if(res.status==200){
-      toast.success(res.data.msg);
-      getProducts();
+  const handleBlockUser = async(_id) => {
+    try {
+      console.log(_id);
+      const res = await axios.post(`${ApiPath()}/blockuser`, {_id});
+      if(res.status === 200){
+        getUsers();
+      }
+    } catch (error) {
+      console.log(error);
     }
-    
-  } catch (error) {
-    console.log(error);
-    
   }
-}
 
-const logOut = () => {
+  const logOut = () => {
     localStorage.removeItem("token");
     toast.error("Logout successfully", {
       position: "top-right",
@@ -66,17 +85,6 @@ const logOut = () => {
     }, 3000)
     setCount(count + 1);
   };
-  
-  const userData = [
-    { id: 1, firstName: 'Arjun', lastName: 'Vinod', email: 'arjun@123', phone: '6545642132' },
-   
-  ];
-
- 
-  const sellerData = [
-    { id: 1, name: 'Tech Solutions Inc.', contactPerson: 'sharon shiju', email: 'sharon@123', phone: '923568956', companyName: 'Tech Solutions Inc.', proofImage: 'proof.jpg' },
-   
-  ];
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -86,28 +94,13 @@ const logOut = () => {
     setActiveSection(section);
   };
 
-  // Function to get initials from name
-  const getInitials = (firstName, lastName) => {
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`;
-  };
-  
-  // Function to get random background color for profile avatars
-  const getAvatarBgColor = (id) => {
-    const colors = [
-      'bg-blue-500', 'bg-green-500', 'bg-yellow-500', 
-      'bg-purple-500', 'bg-pink-500', 'bg-indigo-500'
-    ];
-    return colors[id % colors.length];
-  };
 
-  // Function to get color based on stock level
   const getStockColor = (stock) => {
     if (stock > 50) return 'text-green-600';
     if (stock > 20) return 'text-yellow-600';
     return 'text-red-600';
   };
 
-  // Render different content based on active section
   const renderContent = () => {
     switch (activeSection) {
       case 'users':
@@ -115,34 +108,39 @@ const logOut = () => {
           <>
             <h1 className="text-2xl font-bold text-gray-900 mb-4">User Management</h1>
             <div className="flex flex-wrap gap-8">
-              {userData.map(user => (
-                <div key={user.id} className="md:h-60 md:w-70 bg-white rounded-lg shadow-md overflow-hidden">
-                  <div className="p-4">
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-medium ${getAvatarBgColor(user.id)}`}>
-                        {getInitials(user.firstName, user.lastName)}
+              {users.map(user => (
+                user.accountType === "buyer" && (
+                  <div key={user._id} className="md:h-60 md:w-70 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div className="p-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-medium bg-blue-500">
+                          {`${user.fname.charAt(0).toUpperCase()}${user.lname.charAt(0).toUpperCase()}`}
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold">{user.fname} {user.lname}</h3>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-lg font-semibold">{user.firstName} {user.lastName}</h3>
+                      <div className="mt-4 space-y-2">
+                        <div className="flex items-center text-gray-600">
+                          <Mail size={16} className="mr-2" />
+                          <span>{user.email}</span>
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <Phone size={16} className="mr-2" />
+                          <span>{user.phone}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="mt-4 space-y-2">
-                      <div className="flex items-center text-gray-600">
-                        <Mail size={16} className="mr-2" />
-                        <span>{user.email}</span>
-                      </div>
-                      <div className="flex items-center text-gray-600">
-                        <Phone size={16} className="mr-2" />
-                        <span>{user.phone}</span>
-                      </div>
+                    <div className="bg-gray-50 px-4 py-3 border-t border-gray-100 flex">
+                      <button 
+                        onClick={() => handleBlockUser(user._id)}
+                        className={`cursor-pointer w-full ${user.block ? 'bg-red-500' : 'bg-gray-800'} text-white text-sm font-medium py-2 
+                        rounded-md hover:bg-gray-600 transition duration-300`}>
+                        {user.block ? 'Unblock' : 'Block'}
+                      </button>
                     </div>
                   </div>
-                  <div className="bg-gray-50 px-4 py-3 border-t border-gray-100 flex">
-                    <button className="cursor-pointer w-full bg-gray-500 text-white text-sm font-medium py-2 rounded-md hover:bg-gray-600 transition duration-300">
-                        Block
-                    </button>
-                  </div>
-                </div>
+                )
               ))}
             </div>
           </>
@@ -183,15 +181,18 @@ const logOut = () => {
                       </div>
                       <div className="flex items-center">
                         <ShoppingCart size={16} className="mr-2" />
-                        <span className={`${getStockColor(product.stock)}`}>
+                        <span className={getStockColor(product.stock)}>
                           Stock: {product.quantity} units
                         </span>
                       </div>
                     </div>
                   </div>
                   <div className="bg-gray-50 px-4 py-3 border-t border-gray-100 flex justify-center">
-                    <button onClick={() => handleBlockProduct(product._id)} className={`cursor-pointer w-full bg-gray-500 text-white text-sm font-medium py-2 
-                    rounded-md hover:bg-gray-600 transition duration-300 ${product.block ? 'bg-red-500' : ''}`}>
+                    <button 
+                      onClick={() => handleBlockProduct(product._id)} 
+                      className={`cursor-pointer w-full ${product.block ? 'bg-red-500' : 'bg-gray-500'} text-white text-sm font-medium py-2 
+                      rounded-md hover:bg-gray-600 transition duration-300`}
+                    >
                       {product.block ? 'Unblock' : 'Block'}
                     </button>
                   </div>
@@ -206,45 +207,52 @@ const logOut = () => {
           <>
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Seller Management</h1>
             <div className="flex flex-wrap gap-8">
-              {sellerData.map(seller => (
-                <div key={seller.id} className="md:w-80 bg-white rounded-lg shadow-md overflow-hidden">
-                  <div className="p-4">
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-medium ${getAvatarBgColor(seller.id)}`}>
-                        {seller.name.charAt(0)}
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold">{seller.contactPerson}</h3>
-                        <p className="text-sm text-gray-600">{seller.companyName}</p>
-                      </div>
-                    </div>
-                    <div className="mt-4 space-y-2">
-                      <div className="flex items-center text-gray-600">
-                        <Mail size={16} className="mr-2" />
-                        <span>{seller.email}</span>
-                      </div>
-                      <div className="flex items-center text-gray-600">
-                        <Phone size={16} className="mr-2" />
-                        <span>{seller.phone}</span>
-                      </div>
-                      <div className="flex items-center text-gray-600">
-                        <Briefcase size={16} className="mr-2" />
-                        <span>{seller.companyName}</span>
-                      </div>
-                      <div className="flex items-center mt-2">
-                        <span className="text-sm text-gray-600 mr-2">Company Proof:</span>
-                        <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
-                          <img src={ig} alt="Company Proof" className="max-h-full max-w-full" />
+              {users.map(seller => (
+                seller.accountType === "seller" && (
+                  <div key={seller._id} className="md:w-80 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div className="p-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-medium bg-blue-500">
+                          {`${seller.fname.charAt(0).toUpperCase()}${seller.lname.charAt(0).toUpperCase()}`}
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold">{seller.fname} {seller.lname}</h3>
+                          <p className="text-sm text-gray-600">{seller.companyName}</p>
                         </div>
                       </div>
+                      <div className="mt-4 space-y-2">
+                        <div className="flex items-center text-gray-600">
+                          <Mail size={16} className="mr-2" />
+                          <span>{seller.email}</span>
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <Phone size={16} className="mr-2" />
+                          <span>{seller.phone}</span>
+                        </div>
+                        <div className="flex items-center text-gray-600">
+                          <Briefcase size={16} className="mr-2" />
+                          <span>{seller.companyName}</span>
+                        </div>
+                        
+                          <div className="flex items-center mt-2">
+                            <span className="text-sm text-gray-600 mr-2">Company Proof:</span>
+                            <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center overflow-hidden">
+                              <img src={seller.companyProof} alt="Company Proof" className="max-h-full max-w-full" />
+                            </div>
+                          </div>
+                       
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 border-t border-gray-100 flex">
+                      <button 
+                        onClick={() => handleBlockUser(seller._id)} 
+                        className={`cursor-pointer w-full ${seller.block ? 'bg-red-500' : 'bg-gray-800'} text-white text-sm font-medium py-2 
+                        rounded-md hover:bg-gray-600 transition duration-300`}>
+                        {seller.block ? 'Unblock' : 'Block'}
+                      </button>
                     </div>
                   </div>
-                  <div className="bg-gray-50 px-4 py-3 border-t border-gray-100 flex">
-                    <button className="cursor-pointer w-full bg-gray-500 text-white text-sm font-medium py-2 rounded-md hover:bg-gray-600 transition duration-300">
-                      Block
-                    </button>
-                  </div>
-                </div>
+                )
               ))}
             </div>
           </>
@@ -338,7 +346,7 @@ const logOut = () => {
               onClick={() => handleMenuClick('users')}
             >
               <Users size={18} className="mr-2" />
-              Users
+              Buyer
             </li>
             <li 
               className={`text-gray-200 font-medium hover:bg-gray-700 p-2 rounded cursor-pointer flex items-center ${activeSection === 'products' ? 'bg-gray-700' : ''}`}
