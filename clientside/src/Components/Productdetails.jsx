@@ -68,7 +68,8 @@ const ProductDetails = () => {
       if(res.status === 201){
         setCart(res.data);
         setIsInCart(true);
-        toast.success('Product added to cart');
+       console.log("product added successfully");
+       
       }
     } catch (error) {
       if(!token){
@@ -148,12 +149,13 @@ const ProductDetails = () => {
           <div className="hidden md:flex justify-center gap-5 w-full mt-3 lg:mt-4">
             <button
               onClick={handleCartAction}
-              className="flex-1 cursor-pointer font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center gap-1 lg:gap-2 bg-blue-500 text-white"
+              className={`flex-1 cursor-pointer font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center
+                gap-1 lg:gap-2 text-white ${isInCart ? 'bg-green-700' : 'bg-blue-800'}`}
             >
               <span>🛒</span> {isInCart ? 'GO TO CART' : 'ADD TO CART'}
             </button>
             <button 
-              className="cursor-pointer flex-1 font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center gap-1 lg:gap-2 bg-yellow-500 text-white"
+              className="cursor-pointer flex-1 font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center gap-1 lg:gap-2 bg-blue-800 text-white"
             >
               <span>⚡</span> BUY NOW
             </button>
@@ -260,12 +262,13 @@ const ProductDetails = () => {
       <div className="fixed bottom-0 left-0 right-0 flex w-full md:hidden shadow-lg z-10">
         <button 
           onClick={handleCartAction}
-          className="flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-blue-500 text-white text-xs border-r border-blue-600"
+          className={`flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-blue-500 text-white text-xs
+           border-r border-blue-600 ${isInCart ? 'bg-green-700' : 'bg-blue-800'}`}
         >
           <span>🛒</span> {isInCart ? 'GO TO CART' : 'ADD TO CART'}
         </button>
         <button 
-          className="cursor-pointer flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-yellow-500 text-white text-xs " 
+          className="cursor-pointer flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-blue-800 text-white text-xs " 
         >
           <span>⚡</span> BUY NOW
         </button>

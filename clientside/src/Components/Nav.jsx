@@ -89,9 +89,6 @@ function Nav() {
     navigate(`/sell/${user._id}`);
   };
 
-  const getUserInitial = () => {
-    return ;
-  };
 
   return (
     <div>
@@ -117,9 +114,6 @@ function Nav() {
             )}
             <FiHeart className="nav-icon md:text-2xl cursor-pointer z-20" title="Wishlist" />
             <div className="relative cart-icon" onClick={() => navigate("/cart")}>
-              <span className="cart-badge absolute -top-2 -right-2 text-xs rounded-full bg-red-500 w-5 h-5 flex items-center justify-center z-20">
-                1
-              </span>
               <FiShoppingCart className="nav-icon md:text-2xl cursor-pointer relative z-10" title="Cart" />
             </div>
 
@@ -135,37 +129,37 @@ function Nav() {
               </div>
 
               {token ? (
-  dropdownOpen && (
-    <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
-      <div
-        onClick={() => navigate(`/profile/${user._id}`)}
-        className="dropdown-item flex items-center cursor-pointer"
-      >
-        <FiUser className="dropdown-icon mr-2" />
-        <span>Profile</span>
-      </div>
-      <div
-        onClick={logOut}
-        className="logout-button dropdown-item flex items-center cursor-pointer"
-      >
-        <MdLogout className="logout-icon mr-2" />
-        <span>Logout</span>
-      </div>
-    </div>
-  )
-) : (
-  dropdownOpen && (
-    <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
-      <div
-        onClick={() => navigate("/home")} // Navigate to login page
-        className="logout-button dropdown-item flex items-center cursor-pointer"
-      >
-        <MdLogout className="logout-icon mr-2" />
-        <span>Login</span>
-      </div>
-    </div>
-  )
-)}
+              dropdownOpen && (
+                <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
+                  <div
+                    onClick={() => navigate(`/profile/${user._id}`)}
+                    className="dropdown-item flex items-center cursor-pointer"
+                  >
+                    <FiUser className="dropdown-icon mr-2" />
+                    <span>Profile</span>
+                  </div>
+                  <div
+                    onClick={logOut}
+                    className="logout-button dropdown-item flex items-center cursor-pointer"
+                  >
+                    <MdLogout className="logout-icon mr-2" />
+                    <span>Logout</span>
+                  </div>
+                </div>
+              )
+            ) : (
+              dropdownOpen && (
+                <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
+                  <div
+                    onClick={() => navigate("/login")} 
+                    className=" dropdown-item flex items-center cursor-pointer"
+                  >
+                    <MdLogout className="logout-icon mr-2" />
+                    <span>Login</span>
+                  </div>
+                </div>
+              )
+            )}
 
             </div>
           </div>

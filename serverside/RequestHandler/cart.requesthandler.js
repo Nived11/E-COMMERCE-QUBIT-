@@ -46,7 +46,7 @@ export async function deleteCart(req, res) {
         const { id } = req.params;
         const deletedCart = await cartSchema.findOneAndDelete({productId:id});
 
-        res.status(200).send({ msg: "product deleted successfully" });
+        res.status(200).send({ msg: "product removed successfully" });
     } catch (error) {
         console.error(error);
         return res.status(500).send({ error });

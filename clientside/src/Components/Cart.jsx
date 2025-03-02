@@ -32,7 +32,6 @@ const Cart = () => {
         }
       } catch (error) {
         console.error('Error fetching cart items:', error);
-        toast.error('Failed to fetch cart items');
       } finally {
         setLoading(false);
       }
@@ -58,7 +57,7 @@ const Cart = () => {
           const id=productId
           const res=await axios.delete(`${ApiPath()}/deletecart/${id}`);
           if(res.status==200){
-              toast.success(res.data.msg)
+              toast.info(res.data.msg)
               setTimeout(() => {
                 window.location.reload();
               }, 2000);
@@ -100,7 +99,7 @@ const Cart = () => {
     <div className="bg-gray-100 min-h-screen">
     <Nav />
       <div className="container mx-auto py-4 px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-20">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-35 md:mt-20">
           {/* Left Section - Cart Items */}
           <div className="lg:col-span-3">
             {loading ? (
@@ -108,12 +107,12 @@ const Cart = () => {
                 <p>Loading your cart...</p>
               </div>
             ) : cartItems.length === 0 ? (
-              <div className="bg-white rounded shadow p-10 text-center">
+              <div className="ml-80 bg-white rounded shadow p-10 text-center">
                 <h2 className="text-xl font-medium mb-4">Your cart is empty</h2>
                 <p className="mb-4">Looks like you haven't added any products to your cart yet.</p>
                 <button 
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded"
-                  onClick={() => navigate("/home")}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded cursor-pointer"
+                  onClick={() => navigate("/")}
                 >
                   Browse Products
                 </button>
@@ -142,7 +141,6 @@ const Cart = () => {
                         <h3 className="text-base font-medium mb-1">{item.productname}</h3>
                         
                         <div className="text-sm text-gray-600 mb-2">
-                          Seller: {item.seller || 'TrueComRetail'}
                           {item.assured && (
                             <span className="inline-flex items-center bg-blue-50 text-blue-700 text-xs px-2 py-0.5 rounded ml-1">
                               <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -175,7 +173,7 @@ const Cart = () => {
                         </div>
                         
                         <div className="text-sm text-gray-600 mb-2">
-                          + ₹99 Secured Packaging Fee
+                          Secured Packaging Fee ₹40
                         </div>
                         
                         <div className="text-sm mb-4">
@@ -213,11 +211,7 @@ const Cart = () => {
                   </div>
                 ))}
                 
-                <div className="p-4 flex justify-end border-t border-gray-100">
-                  <button className="bg-orange-500 hover:bg-orange-600 text-white px-12 py-3 uppercase font-medium cursor-pointer">
-                    Place Order
-                  </button>
-                </div>
+               
               </div>
             )}
           </div>
@@ -260,27 +254,20 @@ const Cart = () => {
                   </div>
                 </div>
                 
-                <div className="text-green-600 text-sm font-medium">
-                  You will save ₹{(calculateDiscount() - 99).toLocaleString()} on this order
-                </div>
-                
-                <div className="mt-6 flex">
-                  <div className="flex-shrink-0 mt-0.5 mr-2">
-                    <svg className="w-5 h-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <p className="text-gray-500 text-xs">
-                    Safe and Secure Payments. Easy returns. 100% Authentic products.
-                  </p>
+                <div className="p-4 flex justify-center border-t border-gray-100">
+                  <button className="rounded-sm bg-blue-600 hover:bg-blue-700 text-white px-12 py-3 uppercase font-medium cursor-pointer">
+                    Place Order
+                  </button>
                 </div>
               </div>
+              
             </div>
+            
           )}
         </div>
         
         {/* Footer */}
-        <div className="mt-50 text-xs text-gray-500 ">
+        <div className="mt-90 text-xs text-gray-500 ">
           <div className="flex flex-wrap gap-x-1 mb-2">
             <span>Policies:</span>
             <a href="#" className="hover:text-blue-500">Returns Policy</a>
