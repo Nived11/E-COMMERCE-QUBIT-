@@ -74,7 +74,6 @@ function AddressSection() {
         const res = await axios.get(`${ApiPath()}/getAddress/${id}`);
         if (res.status === 200) {
           setAddresses(res.data);
-          // Trigger the animation after a small delay to ensure DOM is ready
           setTimeout(() => {
             setCardsVisible(true);
           }, 100);

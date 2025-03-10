@@ -7,12 +7,12 @@ import userSchema from "../Models/user.model.js";
 
 
 const transporter = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
+    host: "smtp.gmail.com",
     port: 587,
     secure: false, // true for port 465, false for other ports
     auth: {
-      user: "bc1e5371d6dc68",
-      pass: "2fc0de0595f9e6",
+      user: "qubit143@gmail.com",
+      pass: "tggljdkbnesgrsqs",
     },
    
   });
@@ -58,21 +58,24 @@ export async function loginAdmin(req, res) {
     }
 }
 
-export  async function forgetPassword(req, res) {
+export  async function adminForgetPassword(req, res) {
     try {
-        const info = await transporter.sendMail({
-            from: 'najexo9138@owlny.com', // sender address
-            to: req.body.email, // list of receivers
-            subject: "Hello ✔", // Subject line
-            text: "Hello world?", // plain text body
-            html: "<button><a href='http://localhost:5173/resetpassword'>Reset Password</a></button>", // html body
-          });
+
+        const {email}=req.body
+        console.log(email);
         
-          console.log("Message sent: %s", info.messageId);
+        const info = await transporter.sendMail({  
+            from: 'qubit143@gmail.com', // sender address
+            to: email, // list of receivers
+            subject: "Reset Password", // Subject line
+            text: "Hello world?", // plain text body
+            html: "<button><a href='http://localhost:5173/adminresetpassword'>Reset Password</a></button>", // html body
+          });
+        res.status(200).send({msg:"email sent successfully"});
          
     } catch (error) {
         console.log(error);
-        
+        res.status(500).send({msg:"email not sent"});
     }
 }
 
@@ -92,7 +95,7 @@ export async function updatePassword(req, res) {
         })
     } catch (error) {
         console.log(error);
-        
+        res.status(500).send({msg:"Internal server error",error});
     }
 }
 

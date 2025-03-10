@@ -112,7 +112,6 @@ function Nav() {
                 <span>Sell</span>
               </button>
             )}
-            <FiHeart className="nav-icon md:text-2xl cursor-pointer z-20" title="Wishlist" />
             <div className="relative cart-icon" onClick={() => navigate("/cart")}>
               <FiShoppingCart className="nav-icon md:text-2xl cursor-pointer relative z-10" title="Cart" />
             </div>
@@ -133,15 +132,13 @@ function Nav() {
                 <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
                   <div
                     onClick={() => navigate(`/profile/${user._id}`)}
-                    className="dropdown-item flex items-center cursor-pointer"
-                  >
+                    className="dropdown-item flex items-center cursor-pointer">
                     <FiUser className="dropdown-icon mr-2" />
                     <span>Profile</span>
                   </div>
                   <div
                     onClick={logOut}
-                    className="logout-button dropdown-item flex items-center cursor-pointer"
-                  >
+                    className="logout-button dropdown-item flex items-center cursor-pointer" >
                     <MdLogout className="logout-icon mr-2" />
                     <span>Logout</span>
                   </div>
@@ -165,7 +162,6 @@ function Nav() {
           </div>
         </div>
 
-       {/* //mobile search bar */}
         <div className="w-full pb-4 md:hidden px-4">
           <div className={`relative search-container w-full ${searchFocused ? 'focused' : ''}`}>
             <input type="text"  placeholder="Search..."

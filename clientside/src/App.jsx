@@ -14,6 +14,8 @@ import EditProduct from "./Components/EditProduct";
 import Sell from "./Components/Sell";
 import ProductDetails from "./Components/Productdetails";
 import Cart from "./Components/Cart";
+import Adminforgetpassword from "./Components/Adminforgetpassword";
+import Adminresetpassword from "./Components/Adminresetpassword";
 
 
 function App() {
@@ -22,8 +24,8 @@ function App() {
             <Routes>
                 //admin
                 <Route path="/admin" element={<AdminLogin/>}/>
-                <Route path="/forgetpassword" element={<ForgetPassword/>}/>
-                <Route path="/resetpassword" element={<Resetpassword/>}/>
+                <Route path="/adminforgetpassword" element={<Adminforgetpassword/>}/>
+                <Route path="/adminresetpassword" element={<Adminresetpassword/>}/>
                 <Route path="/adminhome" element={<AdminHome/>}/>
 
                 //user
@@ -31,6 +33,8 @@ function App() {
                 <Route path="/login" element={<Login/> }/>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/profile/:id" element={<Profile/>}/>
+                <Route path="/forgetpassword" element={<ForgetPassword/>}/>
+                <Route path="/resetpassword" element={<Resetpassword/>}/>
 
                 //product
                 <Route path="/profilesection/:id" element={<ProfileSection/>}/>

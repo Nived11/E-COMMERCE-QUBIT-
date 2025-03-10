@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { Store, UserCircle2 } from "lucide-react";
 import ApiPath from "../ApiPath";
-import w from "../assets/w.webp";
+import w from "../assets/w.jpg";
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaPhone } from "react-icons/fa";
 
 function Registration() {
@@ -25,7 +25,6 @@ function Registration() {
     });
     const [count, setCount] = useState(0);
 
-    // Function to convert file to base64
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
@@ -55,7 +54,6 @@ function Registration() {
     const addUser = async (e) => {
         e.preventDefault();
         try {
-            // Validate seller-specific fields
             if (data.accountType === "seller" && !data.companyName) {
                 toast.error("Company name is required for seller accounts", {
                     position: "top-right",
@@ -65,7 +63,6 @@ function Registration() {
                 return;
             }
 
-            // Create submission data
             const submissionData = {
                 fname: data.fname,
                 lname: data.lname,
@@ -98,7 +95,7 @@ function Registration() {
                     theme: "dark",
                 });
                 setTimeout(() => {
-                    navigate("/");
+                    navigate("/login");
                 }, 3000);
                 setData({
                     fname: "",
@@ -211,7 +208,7 @@ function Registration() {
                             </div>
                         </div>
 
-                        {/* Account Type buttons with icons */}
+                      
                         <div>
                             <label className="block text-sm font-medium">Account Type</label>
                             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 mt-2">
@@ -230,7 +227,7 @@ function Registration() {
                             </div>
                         </div>
 
-                        {/* Conditional Seller Fields */}
+                      
                         {data.accountType === "seller" && (
                             <>
                                 <div className="relative">
@@ -279,7 +276,7 @@ function Registration() {
                         <div className="text-center mt-4">
                             <p className="text-gray-600 text-sm">
                                 Already have an account?{" "}
-                                <Link to="/" className="text-blue-600 hover:text-blue-700 font-medium">
+                                <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
                                     Sign In
                                 </Link>
                             </p>

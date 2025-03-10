@@ -3,7 +3,7 @@ import Nav from './Nav';
 import axios from 'axios';
 import ApiPath from '../ApiPath';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify'; // Make sure you import toast if you're using it
+import { toast } from 'react-toastify';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -11,7 +11,7 @@ const Cart = () => {
   const [quantities, setQuantities] = useState({});
   const navigate=useNavigate();
   
-  const userId = localStorage.getItem('userId'); // Replace with your actual user ID source
+  const userId = localStorage.getItem('userId'); 
 
   useEffect(() => {
     const getCartItems = async () => {
@@ -23,7 +23,6 @@ const Cart = () => {
         if (res.data && Array.isArray(res.data)) {
           setCartItems(res.data);
           
-          // Initialize quantities for each product
           const initialQuantities = {};
           res.data.forEach(item => {
             initialQuantities[item._id] = 1;
@@ -31,7 +30,7 @@ const Cart = () => {
           setQuantities(initialQuantities);
         }
       } catch (error) {
-        console.error('Error fetching cart items:', error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -40,7 +39,7 @@ const Cart = () => {
     if (userId) {
       getCartItems();
     }
-  }, [userId]); // Only re-run if userId changes
+  }, [userId]);
 
   const decreaseQuantity = (productId) => {
     if (quantities[productId] > 1) {
@@ -70,11 +69,9 @@ const Cart = () => {
     };
     
     const increaseQuantity = (productId) => {
-      setQuantities({
-        ...quantities,
-        [productId]: quantities[productId] + 1
-      });
+      setQuantities({...quantities,[productId]: quantities[productId] + 1});
     };
+
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => {
       const quantity = quantities[item._id] || 1;
@@ -93,7 +90,12 @@ const Cart = () => {
   const calculateTotalItems = () => {
     return Object.values(quantities).reduce((total, qty) => total + qty, 0);
   };
-
+  const placeOrder=()=>{
+    toast.success("successfully placed order")
+    setTimeout(()=>{
+      navigate("/")
+    },3000)
+  }
   return (
     <>
     <div className="bg-gray-100 min-h-screen">
@@ -104,7 +106,7 @@ const Cart = () => {
           <div className="lg:col-span-3">
             {loading ? (
               <div className="bg-white rounded shadow p-10 text-center">
-                <p>Loading your cart...</p>
+                <p>Login first..</p>
               </div>
             ) : cartItems.length === 0 ? (
               <div className="ml-80 bg-white rounded shadow p-10 text-center">
@@ -139,37 +141,8 @@ const Cart = () => {
                       {/* Product Details */}
                       <div className="flex-1">
                         <h3 className="text-base font-medium mb-1">{item.productname}</h3>
-                        
-                        <div className="text-sm text-gray-600 mb-2">
-                          {item.assured && (
-                            <span className="inline-flex items-center bg-blue-50 text-blue-700 text-xs px-2 py-0.5 rounded ml-1">
-                              <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                              </svg>
-                              Assured
-                            </span>
-                          )}
-                        </div>
-                        
                         <div className="flex items-center mb-1">
-                          {item.originalPrice && (
-                            <span className="text-gray-400 line-through text-sm mr-2">₹{item.originalPrice.toLocaleString()}</span>
-                          )}
-                          <span className="font-medium text-lg mr-2">₹{item.price.toLocaleString()}</span>
-                          {item.originalPrice && (
-                            <span className="text-green-600 text-sm mr-2">
-                              {Math.round((1 - item.price / item.originalPrice) * 100)}% Off
-                            </span>
-                          )}
-                          {item.offers && (
-                            <span className="text-green-600 text-sm">
-                              {item.offers} offers available
-                              <svg className="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                                <path stroke="currentColor" strokeWidth="2" d="M12 8v4M12 16h.01"/>
-                              </svg>
-                            </span>
-                          )}
+                          <span className="font-medium text-lg mr-2">₹{item.price}</span>
                         </div>
                         
                         <div className="text-sm text-gray-600 mb-2">
@@ -184,8 +157,7 @@ const Cart = () => {
                           <div className="flex border border-gray-300 rounded mr-6">
                             <button 
                               onClick={() => decreaseQuantity(item._id)}
-                              className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100"
-                            >
+                              className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
                               −
                             </button>
                             <div className="w-8 h-8 flex items-center justify-center border-x border-gray-300">
@@ -193,16 +165,14 @@ const Cart = () => {
                             </div>
                             <button 
                               onClick={() => increaseQuantity(item._id)}
-                              className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100"
-                            >
+                              className="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100" >
                               +
                             </button>
                           </div>
                           
                           <button 
                             onClick={() => removeFromCart(item._id)}
-                            className="cursor-pointer text-gray-700 uppercase text-sm font-medium hover:text-gray-900"
-                          >
+                            className="cursor-pointer text-gray-700 uppercase text-sm font-medium hover:text-gray-900" >
                             Remove
                           </button>
                         </div>
@@ -210,13 +180,11 @@ const Cart = () => {
                     </div>
                   </div>
                 ))}
-                
-               
               </div>
             )}
           </div>
           
-          {/* Right Section - Price Details */}
+        
           {!loading && cartItems.length > 0 && (
             <div className="lg:col-span-1">
               <div className="bg-white rounded shadow p-4">
@@ -230,7 +198,7 @@ const Cart = () => {
                   
                   <div className="flex justify-between mb-3">
                     <span className="text-gray-700">Discount</span>
-                    <span className="text-green-600">− ₹{calculateDiscount().toLocaleString()}</span>
+                    <span className="text-green-600">− ₹5%</span>
                   </div>
                   
                   <div className="flex justify-between mb-3">
@@ -255,7 +223,8 @@ const Cart = () => {
                 </div>
                 
                 <div className="p-4 flex justify-center border-t border-gray-100">
-                  <button className="rounded-sm bg-blue-600 hover:bg-blue-700 text-white px-12 py-3 uppercase font-medium cursor-pointer">
+                  <button onClick={placeOrder}
+                   className="rounded-sm bg-blue-600 hover:bg-blue-700 text-white px-12 py-3 uppercase font-medium cursor-pointer">
                     Place Order
                   </button>
                 </div>
@@ -266,7 +235,7 @@ const Cart = () => {
           )}
         </div>
         
-        {/* Footer */}
+
         <div className="mt-90 text-xs text-gray-500 ">
           <div className="flex flex-wrap gap-x-1 mb-2">
             <span>Policies:</span>

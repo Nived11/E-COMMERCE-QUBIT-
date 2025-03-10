@@ -10,12 +10,11 @@ function Resetpassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [data, setData] = useState({ password: "", cpassword: "" });
-  const email = localStorage.getItem("email");
-  console.log("email ise"+email)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`${ApiPath()}/resetpassword`, {data,email}); 
+      const res = await axios.put(`${ApiPath()}/updatepassword`, data); 
       if (res.status === 201) {
         toast.success(res.data.msg, {
           position: "top-right",
@@ -27,10 +26,9 @@ function Resetpassword() {
           progress: undefined,
           theme: "dark",
         });
-        localStorage.removeItem("email");
   
         setTimeout(() => {
-          navigate("/login");
+          navigate("/admin");
         }, 3000);
   
         setData({ password: "", cpassword: "" });

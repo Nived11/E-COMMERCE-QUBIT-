@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import Nav from "./Nav";
-import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ApiPath from "../ApiPath";
@@ -13,6 +12,7 @@ function Home() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const filterRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -21,8 +21,7 @@ function Home() {
   const [error, setError] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   let token = localStorage.getItem("token");
-  
-  // Carousel data
+
   const carouselSlides = [
     { 
       image: "https://portal.lotuselectronics.com/banner_images/original/e7ee6f7101887e2812eb4c4854ff7a93.webp", 
@@ -49,7 +48,6 @@ function Home() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev === carouselSlides.length - 1 ? 0 : prev + 1));
@@ -57,11 +55,26 @@ function Home() {
     return () => clearInterval(interval);
   }, [carouselSlides.length]);
 
+  const applyFilters = () => {
+    let filtered = [...products];
+    if (selectedCategory) {
+      filtered = filtered.filter(product => product.category === selectedCategory);
+    }
+    if (minPrice !== "") {
+      filtered = filtered.filter(product => product.price >= parseFloat(minPrice));
+    }
+    if (maxPrice !== "") {
+      filtered = filtered.filter(product => product.price <= parseFloat(maxPrice));
+    }
+    setFilteredProducts(filtered);
+    setShowFilter(false);
+  };
 
   const resetFilters = () => {
     setMinPrice("");
     setMaxPrice("");
     setSelectedCategory("");
+    setFilteredProducts(products); 
   };
 
   const getallProducts = async() => {
@@ -70,21 +83,12 @@ function Home() {
       if(res.status === 200){
         const productsWithDiscount = res.data.map(product => ({
           ...product,
-          originalPrice: Math.round(product.price * (1 + Math.random() * 0.4)), // Random original price 0-40% higher
-          discountPercentage: Math.round(Math.random() * 40) // Random discount 0-40%
+          originalPrice: Math.round(product.price * (1 + Math.random() * 0.4)), 
+          discountPercentage: Math.round(Math.random() * 40)
         }));
         setProducts(productsWithDiscount);
+        setFilteredProducts(productsWithDiscount);
         
-        // Extract unique categories
-        const uniqueCategories = [...new Set(productsWithDiscount.map(product => product.category))];
-        setCategories(uniqueCategories);
-        
-        // Group products by category
-        const groupedProducts = {};
-        uniqueCategories.forEach(category => {
-          groupedProducts[category] = productsWithDiscount.filter(product => product.category === category);
-        });
-        setProductsByCategory(groupedProducts);
       }
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -98,13 +102,13 @@ function Home() {
       console.log("userr id geting", userId);
       const res = await axios.post(`${ApiPath()}/allproducts`, {userId});
       if(res.status === 200){
-        // Add a discount percentage and original price for display purposes
         const productsWithDiscount = res.data.map(product => ({
           ...product,
           originalPrice: Math.round(product.price * (1 + Math.random() * 0.4)), // Random original price 0-40% higher
           discountPercentage: Math.round(Math.random() * 40) // Random discount 0-40%
         }));
         setProducts(productsWithDiscount);
+        setFilteredProducts(productsWithDiscount); // Initialize filtered products with all products
         
         // Extract unique categories
         const uniqueCategories = [...new Set(productsWithDiscount.map(product => product.category))];
@@ -133,14 +137,11 @@ function Home() {
     }
   }, []);
 
-
-
-  // Carousel controls - infinite scrolling, no reverse
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev === carouselSlides.length - 1 ? 0 : prev + 1));
   };
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === carouselSlides.length - 1 ? 0 : prev - 1));
+    setCurrentSlide((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
   };
 
   
@@ -219,46 +220,44 @@ function Home() {
         </div>
       </div>
       
-      {/* Carousel Section - Infinite Forward Scrolling */}
       <div className="relative overflow-hidden mb-8 mt-3">
-  <div className="carousel-container relative h-64 md:h-88 ml-2 mr-2 overflow-hidden">
-    <div 
-      className="carousel-track flex transition-transform duration-500 ease-out h-full" 
-      style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-    >
-      {carouselSlides.map((slide, index) => (
-        <div key={index} className="carousel-slide w-full flex-shrink-0 h-full relative">
-          <img 
-            src={slide.image } 
-            alt={slide.title || "Carousel slide"} 
-            className="w-full h-90"
-          />
+        <div className="carousel-container relative h-64 md:h-88 ml-2 mr-2 overflow-hidden">
+          <div 
+            className="carousel-track flex transition-transform duration-500 ease-out h-full" 
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {carouselSlides.map((slide, index) => (
+              <div key={index} className="carousel-slide w-full flex-shrink-0 h-full relative">
+                <img 
+                  src={slide.image } 
+                  alt={slide.title || "Carousel slide"} 
+                  className="w-full h-90"
+                />
+              </div>
+            ))}
+          </div>
+
+          <button 
+            onClick={prevSlide} 
+            className="cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
+          >
+            &#10094;
+          </button>
+
+          <button 
+            onClick={nextSlide} 
+            className="cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
+          >
+            &#10095;
+          </button>
         </div>
-      ))}
-    </div>
-
-   
-    <button 
-      onClick={prevSlide} 
-      className="cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
-    >
-      &#10094;
-    </button>
-
-    <button 
-      onClick={nextSlide} 
-      className="cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
-    >
-      &#10095;
-    </button>
-  </div>
-</div>
+      </div>
 
       
       <div className="relative">
-        <div  ref={filterRef}
-          className={`filter-sidebar fixed left-0 top-32 md:top-20 h-full bg-white shadow-lg z-50 w-64 ${
-            showFilter ? "open" : "closed" }`}>
+        <div ref={filterRef}
+          className={`filter-sidebar fixed left-0 top-32 md:top-20 h-full bg-white shadow-lg z-50 w-64 transition-transform duration-300 transform ${
+            showFilter ? "translate-x-0" : "-translate-x-full" }`}>
           <div className="p-4 h-full">
             <div className="flex justify-between items-center mb-5">
               <h2 className="text-lg font-semibold text-gray-800">Filter Products</h2>
@@ -278,8 +277,7 @@ function Home() {
               <select 
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
+                onChange={(e) => setSelectedCategory(e.target.value)} >
                 <option value="">All Categories</option>
                 {categories.map((category) => (
                   <option key={category} value={category}>
@@ -321,10 +319,7 @@ function Home() {
             
             <div className="flex flex-col gap-2 mt-8">
               <button 
-                onClick={() => {
-                  // Apply filters is just closing the sidebar
-                  setShowFilter(false);
-                }}
+                onClick={applyFilters}
                 className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition w-full"
               >
                 Apply Filters
@@ -353,42 +348,47 @@ function Home() {
               </button>
             </div>
             
-        
-           {/* allproducts */}
-            
-            <div className="h-auto w-full  p-4">
+            <div className="h-auto w-full p-4">
               <div className="flex flex-wrap gap-4 justify-center">
-                {products.map((product) => (
-                  <div 
-                    onClick={() => navigate(`/productdetails/${product._id}`)}
-                    key={product._id} 
-                    className="product-card w-56 bg-white rounded-lg  shadow-lg cursor-pointer"
-                  >
-                    <div className="h-50 overflow-hidden flex items-center  p-4">
-                      <img 
-                        src={product.productimages[0]} 
-                        alt={product.productname} 
-                        className=" object-cover"
-                      />
-                    </div>
-                    <div className="p-3">
-                      <div className="flex justify-between items-start mb-1">
-                        <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">{product.productname}</h3>
-                        <span className="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5 rounded">
-                          {product.category}
-                        </span>
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((product) => (
+                    <div
+                      onClick={() => navigate(`/productdetails/${product._id}`)}
+                      key={product._id} 
+                      className="product-card w-56 bg-white rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
+                    >
+                      <div className="h-50 overflow-hidden flex items-center p-4">
+                        <img src={product.productimages[0]} alt={product.productname} className="object-cover" />
                       </div>
-                      <div className="mb-1 flex items-center">
-                        <span className="text-xs text-gray-600">{product.Brand}</span>
-                      </div>
-                      <div className="price-display">
-                        <span className="text-sm font-bold text-gray-900">₹{product.price}</span>
-                        <span className="text-xs original-price">₹{product.originalPrice}</span>
-                        <span className="text-xs discount-badge">{product.discountPercentage}% OFF</span>
+                      <div className="p-3">
+                        <div className="flex justify-between items-start mb-1">
+                          <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">{product.productname}</h3>
+                          <span className="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5 rounded">
+                            {product.category}
+                          </span>
+                        </div>
+                        <div className="mb-1 flex items-center">
+                          <span className="text-xs text-gray-600">{product.Brand}</span>
+                        </div>
+                        <div className="price-display">
+                          <span className="text-sm font-bold text-gray-900">₹{product.price}</span>
+                          <span className="text-xs original-price ml-1 text-gray-500 line-through">₹{product.originalPrice}</span>
+                          <span className="text-xs discount-badge ml-1 text-green-600">{product.discountPercentage}% OFF</span>
+                        </div>
                       </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="w-full text-center py-10">
+                    <p className="text-gray-500 text-lg">No products match your filters.</p>
+                    <button 
+                      onClick={resetFilters}
+                      className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+                    >
+                      Clear Filters
+                    </button>
                   </div>
-                ))}
+                )}
               </div>
             </div>
 
@@ -399,7 +399,7 @@ function Home() {
                 <div className="h-full w-full grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="row-span-1 md:row-span-2 bg-white rounded-xl shadow-md overflow-hidden">
                     <div className=" border-b border-gray-300 w-full flex items-center justify-between p-4">
-                      <h2 className="text-lg font-semibold text-blue-600">Featured Products</h2>
+                      <h2 className="text-lg font-semibold text-blue-600">Trending Laptops</h2>
                       <FaArrowAltCircleRight className="text-blue-500 text-lg hover:text-blue-700 transition-colors cursor-pointer" />
                     </div>
                     <div className="w-full p-4 flex flex-wrap gap-4 justify-center">
@@ -441,7 +441,7 @@ function Home() {
                  {/* rightfirstsection */}
                   <div className="bg-white rounded-xl shadow-md overflow-hidden">
                     <div className="border-b-1 border-gray-300 w-full flex items-center justify-between p-4">
-                      <h2 className="text-lg font-semibold text-blue-600">New Arrivals</h2>
+                      <h2 className="text-lg font-semibold text-blue-600">Latest Mobiles</h2>
                       <FaArrowAltCircleRight className="text-blue-500 text-lg hover:text-blue-700 transition-colors cursor-pointer" />
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 p-4 justify-evenly items-center">
@@ -482,7 +482,7 @@ function Home() {
                   {/* rightsecsection */}
                   <div className="bg-white rounded-xl shadow-md overflow-hidden">
                     <div className="border-b-1  border-gray-300 w-full flex items-center justify-between p-4">
-                      <h2 className="text-lg font-semibold text-blue-600">Popular Items</h2>
+                      <h2 className="text-lg font-semibold text-blue-600">Branded Earphones</h2>
                       <FaArrowAltCircleRight className="text-blue-500 text-lg hover:text-blue-700 transition-colors cursor-pointer" />
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 p-4 justify-evenly items-center">

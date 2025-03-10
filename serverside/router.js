@@ -12,7 +12,7 @@ const router=Router()
 //admin 
 router.route("/addadmin").post(ad.addAdmin);
 router.route("/loginadmin").post(ad.loginAdmin);
-router.route("/forgetpassword").post(ad.forgetPassword);
+router.route("/adminforgetpassword").post(ad.adminForgetPassword);
 router.route("/updatepassword").put(ad.updatePassword);
 router.route("/allproducts").get(ad.allProducts);
 router.route("/allusers").get(ad.allUser);
@@ -26,6 +26,8 @@ router.route("/login").post(us.loginUser);
 router.route("/home").get(Auth,us.Home);
 router.route("/profile/:id").get(us.profileUser);
 router.route("/updateuser/:id").put(us.updateUser);
+router.route("/forgetpassword").post(us.forgetPassword);
+router.route("/resetpassword").put(us.resetPassword);
 
 //address
 router.route("/addaddress").post(address.addAddress);

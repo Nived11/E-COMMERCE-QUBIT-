@@ -259,30 +259,34 @@ function AdminHome() {
         );
       
       default:
+        const totalUsers = users.filter(user => user.accountType === "buyer").length;
+        const totalSellers = users.filter(user => user.accountType === "seller").length;
+        const totalProducts = products.length;
         return (
           <>
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Admin Dashboard</h1>
             <div className="bg-white p-4 rounded shadow">
               <p className="text-gray-700 mb-4">Welcome to your admin dashboard!</p>
               <div className="grid grid-cols-3 gap-4">
+
                 <div className="bg-blue-100 p-4 rounded flex items-center">
                   <Users size={24} className="text-blue-500 mr-2" />
                   <div>
-                    <p className="text-lg font-bold">254</p>
+                    <p className="text-lg font-bold">{totalUsers}</p>
                     <p className="text-sm text-gray-500">Total Users</p>
                   </div>
                 </div>
                 <div className="bg-green-100 p-4 rounded flex items-center">
                   <Package size={24} className="text-green-500 mr-2" />
                   <div>
-                    <p className="text-lg font-bold">128</p>
+                    <p className="text-lg font-bold">{totalProducts}</p>
                     <p className="text-sm text-gray-500">Products</p>
                   </div>
                 </div>
                 <div className="bg-purple-100 p-4 rounded flex items-center">
                   <Store size={24} className="text-purple-500 mr-2" />
                   <div>
-                    <p className="text-lg font-bold">46</p>
+                    <p className="text-lg font-bold">{totalSellers}</p>
                     <p className="text-sm text-gray-500">Sellers</p>
                   </div>
                 </div>
@@ -295,14 +299,11 @@ function AdminHome() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Top Navigation Bar */}
       <nav className="h-20 bg-gray-800 flex items-center justify-between px-6 shadow-md">
-        {/* Admin Logo */}
         <div className="text-white font-bold text-3xl">
           Qubit
         </div>
         
-        {/* Profile Icon with Dropdown */}
         <div className="relative">
           <div 
             className="w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center cursor-pointer"
@@ -310,8 +311,7 @@ function AdminHome() {
           >
             <span className="text-white font-medium">AD</span>
           </div>
-          
-          {/* Dropdown Menu */}
+        
           {showDropdown && (
             <div className="absolute top-full right-0 mt-2 w-40 bg-white rounded shadow-lg z-10">
               <button 
@@ -329,7 +329,6 @@ function AdminHome() {
         </div>
       </nav>
       
-      {/* Main Content Area with Sidebar */}
       <div className="flex flex-1">
         {/* Left Sidebar Navigation */}
         <div className="bg-gray-900 w-2/12 p-4 shadow-lg">
@@ -372,7 +371,6 @@ function AdminHome() {
           </ul>
         </div>
         
-        {/* Main Content */}
         <div className="bg-gray-100 flex-1 p-6">
           {renderContent()}
         </div>

@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import "../CSS/Login.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +25,7 @@ export default function LoginPage() {
           localStorage.setItem("userId",userId)
           toast.success(msg, {
             position: "top-right",
-            autoClose: 3000,
+            autoClose: 3000,  
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

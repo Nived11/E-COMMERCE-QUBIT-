@@ -11,7 +11,7 @@ const [email, setEmail] = useState('');``
  async function handleSubmit(e) {
         e.preventDefault();
         try {
-          const res = await axios.post(`${ApiPath()}/forgetpassword`, { email });
+          const res = await axios.post(`${ApiPath()}/adminforgetpassword`, { email });
           if (res.status === 200) {
             toast.success(res.data.msg, {
               position: "top-right",
@@ -23,7 +23,6 @@ const [email, setEmail] = useState('');``
               progress: undefined,
               theme: "dark",
             });
-            localStorage.setItem('email',email)
            setEmail('');
           }
             

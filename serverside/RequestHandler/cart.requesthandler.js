@@ -53,12 +53,3 @@ export async function deleteCart(req, res) {
     }
 }
 
-export async function checkCart(req,res){
-    try {
-        const { userId, productId } = req.body;
-        const check=await cartSchema.find
-    } catch (error) {
-        console.log(error);
-        
-    }
-}

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../CSS/Adminlogin.css";
 import axios from "axios";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -84,7 +83,7 @@ export default function AdminLogin() {
             </div>
           </div>
           <div className="text-right">
-            <a href="/forgetpassword" className="text-sm text-blue-400 hover:underline">Forgot Password?</a>
+            <a href="/adminforgetpassword" className="text-sm text-blue-400 hover:underline">Forgot Password?</a>
           </div>
           <button type="submit"
             className="w-full p-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-transform duration-300 transform hover:scale-105 cursor-pointer" >
