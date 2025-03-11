@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [quantities, setQuantities] = useState({});
   const navigate=useNavigate();
   
@@ -16,7 +15,6 @@ const Cart = () => {
   useEffect(() => {
     const getCartItems = async () => {
       try {
-        setLoading(true);
         const res = await axios.post(`${ApiPath()}/showcart`, { userId });
         console.log(res.data);
         
@@ -31,9 +29,7 @@ const Cart = () => {
         }
       } catch (error) {
         console.error(error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
     
     if (userId) {
@@ -104,11 +100,7 @@ const Cart = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-35 md:mt-20">
           {/* Left Section - Cart Items */}
           <div className="lg:col-span-3">
-            {loading ? (
-              <div className="bg-white rounded shadow p-10 text-center">
-                <p>Login first..</p>
-              </div>
-            ) : cartItems.length === 0 ? (
+            {cartItems.length === 0 ? (
               <div className="ml-80 bg-white rounded shadow p-10 text-center">
                 <h2 className="text-xl font-medium mb-4">Your cart is empty</h2>
                 <p className="mb-4">Looks like you haven't added any products to your cart yet.</p>
@@ -185,7 +177,7 @@ const Cart = () => {
           </div>
           
         
-          {!loading && cartItems.length > 0 && (
+          {cartItems.length > 0 && (
             <div className="lg:col-span-1">
               <div className="bg-white rounded shadow p-4">
                 <h2 className="text-base uppercase font-medium text-gray-700 mb-4">PRICE DETAILS</h2>

@@ -14,7 +14,6 @@ const transporter = nodemailer.createTransport({
       user: "qubit143@gmail.com",
       pass: "tggljdkbnesgrsqs",
     },
-   
   });
 
 export async function addUser(req,res){

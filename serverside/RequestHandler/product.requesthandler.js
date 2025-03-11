@@ -96,3 +96,5 @@ export async function getSellerProducts (req, res) {
       return res.status(500).send({ error });
     }
   }
+
+  

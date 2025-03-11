@@ -102,7 +102,7 @@ function Sell() {
       if (res.status === 201) {
         toast.success(res.data.msg);
         setTimeout(() => {
-          navigate(`/Home`);
+          navigate("/");
         }, 3000);
         setProduct({ "userId": id, "productname": '', "category": '',  "Brand": '', "modelno": '',
           "price": '', "quantity": '', "warranty": '', "description": '', "specifications": '',"productimages": []});

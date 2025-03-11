@@ -4,8 +4,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import w from "../assets/w.jpg";
 import ApiPath from "../ApiPath";
-import { FiMail, FiLock } from "react-icons/fi";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import {  FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+import { Loader } from "lucide-react";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,32 +25,28 @@ export default function LoginPage() {
           localStorage.setItem("userId",userId)
           toast.success(msg, {
             position: "top-right",
-            autoClose: 3000,  
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: false,
+            pauseOnHover: false,
+            // progress: undefined,
+            theme: "light",
           });
           setData({ email: "", password: "" });
           setTimeout(() => navigate(`/`), 3000);
         }
-      } else {
-        alert("Login failed. Please try again.");
-      }
+      } 
     } catch (error) {
       console.log(error);
       if (error.response) {
         toast.error(error.response.data.msg, {
           position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
+          autoClose: 2000,
+          hideProgressBar: true,
           closeOnClick: false,
           pauseOnHover: false,
-          draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: "light",
         });
       } else {
         alert("Something went wrong. Try again later.");
@@ -61,31 +57,32 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-white to-blue-200 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col md:flex-row w-full max-w-5xl h-[500px] md:h-[550px] bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="hidden lg:block logo-container m-16 "> <h1 className="logo-title">Qubit</h1> </div>
         <div className="hidden md:flex w-1/2 items-end justify-center">
           <img src={w}  alt="Login Illustration"  className=" object-cover"/>
         </div>
 
         <div className="w-full md:w-1/2 p-8 space-y-6 flex flex-col justify-center">
-          <h2 className="text-2xl font-bold text-center text-blue-900">Login</h2>
+          <h2 className="text-2xl font-bold text-center text-blue-800">Login</h2>
           <form className="space-y-4" onSubmit={handleLogin}>
             <div>
               <label className="block text-sm font-medium text-blue-900">Email</label>
               <div className="relative mt-1">
-                <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-900" />
+                <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-800" />
                 <input  type="email"
-                  className="w-full p-3 pl-10 mt-1 text-blue-900 border border-blue-300 rounded-lg focus:ring-blue-500 focus:border-blue-700 outline-none"
+                  className="w-full p-3 pl-10 mt-1 text-blue-900 border border-blue-700 rounded-lg focus:ring-blue-500 focus:border-blue-700 outline-none"
                   placeholder="Enter your email" required name="email" value={data.email} onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}/>
               </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-blue-900">Password</label>
               <div className="relative mt-1">
-                <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-900" />
+                <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-800" />
                 <input type={showPassword ? "text" : "password"}
-                  className="w-full p-3 pl-10 pr-10 mt-1 text-blue-900 border border-blue-300 rounded-lg focus:ring-blue-500 focus:border-blue-700 outline-none"
+                  className="w-full p-3 pl-10 pr-10 mt-1 text-blue-900 border border-blue-700 rounded-lg focus:ring-blue-500 focus:border-blue-700 outline-none"
                   placeholder="Enter your password"  required name="password" value={data.password} onChange={(e) => setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))} />
                 <button type="button" className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer"  onClick={() => setShowPassword(!showPassword)}  >
-                  {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                  {showPassword ? < FaEyeSlash/> : <FaEye />}
                 </button>
               </div>
             </div>

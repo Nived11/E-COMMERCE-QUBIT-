@@ -112,10 +112,13 @@ function Nav() {
                 <span>Sell</span>
               </button>
             )}
-            <div className="relative cart-icon" onClick={() => navigate("/cart")}>
-              <FiShoppingCart className="nav-icon md:text-2xl cursor-pointer relative z-10" title="Cart" />
-            </div>
-
+            {
+              token&&(
+                <div className="relative cart-icon" onClick={() => navigate("/cart")}>
+                <FiShoppingCart className="nav-icon md:text-2xl cursor-pointer relative z-10" title="Cart" />
+              </div>
+              )
+            }
         
             <div className="relative" ref={dropdownRef}>
               <div className="cursor-pointer rounded-md"
