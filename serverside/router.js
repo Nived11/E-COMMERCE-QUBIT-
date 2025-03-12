@@ -5,6 +5,7 @@ import * as us from "./RequestHandler/user.requesthandler.js"
 import * as address from "./RequestHandler/address.requesthandler.js"
 import * as product from "./RequestHandler/product.requesthandler.js"
 import * as cart from "./RequestHandler/cart.requesthandler.js"
+import * as order from "./RequestHandler/order.requesthandler.js"
 
 
 const router=Router()
@@ -41,11 +42,15 @@ router.route("/getsellerproducts/:id").get(product.getSellerProducts);
 router.route("/getoneproduct/:id").get(product.getoneProduct);
 router.route("/updateproduct/:id").put(product.updateProduct);
 router.route("/deleteproduct/:id").delete(product.deleteProduct);
+router.route("/search").post(product.searchData);
+
 
 //cart
 router.route("/addcart").post(cart.addCart);
 router.route("/showcart").post(cart.showCart);
 router.route("/deletecart/:id").delete(cart.deleteCart);
 
+//order
+router.route("/sendorder").post(order.sendOrder);
 
 export default router

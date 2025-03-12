@@ -93,7 +93,7 @@
   transform-origin: top right;
   animation: dropdownFade 0.3s ease;
   background: linear-gradient(135deg, #f9fafb, #f3f4f6);
-  border-radius: 8px;
+  border-radius: 15px 0px;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border-left: 3px solid #3b82f6;

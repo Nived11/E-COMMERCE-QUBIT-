@@ -16,7 +16,7 @@ function Home() {
   const filterRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [productsByCategory, setProductsByCategory] = useState({});
+  // const [productsByCategory, setProductsByCategory] = useState({});
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -33,6 +33,7 @@ function Home() {
       image: "https://portal.lotuselectronics.com/banner_images/original/e521b215ecf118b553b5424f356ffa2e.webp", 
     }
   ];
+
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -77,6 +78,19 @@ function Home() {
     setFilteredProducts(products); 
   };
 
+  // Extract categories from products
+  const extractCategories = (productsArray) => {
+    const uniqueCategories = [...new Set(productsArray.map(product => product.category))];
+    setCategories(uniqueCategories);
+    
+    // Group products by category
+    // const groupedProducts = {};
+    // uniqueCategories.forEach(category => {
+    //   groupedProducts[category] = productsArray.filter(product => product.category === category);
+    // });
+    // setProductsByCategory(groupedProducts);
+  };
+
   const getallProducts = async() => {
     try {
       const res = await axios.get(`${ApiPath()}/allproducts`);
@@ -88,7 +102,7 @@ function Home() {
         }));
         setProducts(productsWithDiscount);
         setFilteredProducts(productsWithDiscount);
-        
+        extractCategories(productsWithDiscount); // Extract categories here too
       }
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -99,27 +113,17 @@ function Home() {
   const getProducts = async() => {
     try {
       const userId = localStorage.getItem("userId");
-      console.log("userr id geting", userId);
+      console.log("user id getting", userId);
       const res = await axios.post(`${ApiPath()}/allproducts`, {userId});
       if(res.status === 200){
         const productsWithDiscount = res.data.map(product => ({
           ...product,
-          originalPrice: Math.round(product.price * (1 + Math.random() * 0.4)), // Random original price 0-40% higher
-          discountPercentage: Math.round(Math.random() * 40) // Random discount 0-40%
+          originalPrice: Math.round(product.price * (1 + Math.random() * 0.4)),
+          discountPercentage: Math.round(Math.random() * 40)
         }));
         setProducts(productsWithDiscount);
-        setFilteredProducts(productsWithDiscount); // Initialize filtered products with all products
-        
-        // Extract unique categories
-        const uniqueCategories = [...new Set(productsWithDiscount.map(product => product.category))];
-        setCategories(uniqueCategories);
-        
-        // Group products by category
-        const groupedProducts = {};
-        uniqueCategories.forEach(category => {
-          groupedProducts[category] = productsWithDiscount.filter(product => product.category === category);
-        });
-        setProductsByCategory(groupedProducts);
+        setFilteredProducts(productsWithDiscount);
+        extractCategories(productsWithDiscount);
       }
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -144,7 +148,13 @@ function Home() {
     setCurrentSlide((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
   };
 
-  
+  // Add handler for category icon clicks
+  // const handleCategoryClick = (category) => {
+  //   setSelectedCategory(category);
+  //   let filtered = [...products].filter(product => product.category === category);
+  //   setFilteredProducts(filtered);
+  // };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Nav />
@@ -338,11 +348,10 @@ function Home() {
         <div className={`transition-all duration-300 ${showFilter ? "md:ml-64" : "ml-0"}`}>
           <div className="container mx-auto px-4 py-6">
             <div className="flex justify-between items-center mb-8">
-              <h1 className="text-2xl font-bold text-gray-800">Featured Products</h1>
+              <h1 className="text-2xl font-bold text-gray-800">Latest Products</h1>
               <button 
                 className="filter-toggle-btn flex items-center gap-2 bg-white border border-blue-500 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 transition cursor-pointer shadow-md"
-                onClick={() => setShowFilter(!showFilter)}
-              >
+                onClick={() => setShowFilter(!showFilter)}>
                 <FiFilter className="filter-icon text-lg" />
                 <span>Filter</span>
               </button>
@@ -351,7 +360,7 @@ function Home() {
             <div className="h-auto w-full p-4">
               <div className="flex flex-wrap gap-4 justify-center">
                 {filteredProducts.length > 0 ? (
-                  filteredProducts.map((product) => (
+                  [...filteredProducts].reverse().slice(0, 12).map((product) => (
                     <div
                       onClick={() => navigate(`/productdetails/${product._id}`)}
                       key={product._id} 

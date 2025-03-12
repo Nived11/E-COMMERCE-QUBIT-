@@ -74,7 +74,7 @@ const ProductSection = () => {
         
         <div className="flex gap-4">
           <select
-            className="px-4 py-2 rounded-lg border border-gray-500 text-gray-600"
+            className="px-4 py-2 rounded-lg border-2 border-blue-500 text-blue-800 cursor-pointer"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
@@ -92,7 +92,7 @@ const ProductSection = () => {
           
           <a
             href={`/sell/${id}`}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             <Package2 className="w-5 h-5" />
             Add Product

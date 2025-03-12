@@ -97,4 +97,19 @@ export async function getSellerProducts (req, res) {
     }
   }
 
+    export async function searchData(req, res) {
+      try {
+        const { search } = req.body;
+    
+        console.log("Search Query:", search);
+        const products = await productSchema.find({
+          productname: { $regex: search, $options: "i" }
+        });
+    
+        res.status(200).json({ msg: "Search results", products });
+      } catch (error) {
+        console.error("Error in searchData:", error);
+        res.status(500).json({ msg: "Internal Server Error" }); 
+      }
+    }
   

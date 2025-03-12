@@ -92,11 +92,11 @@ function Profile() {
               <HiHome className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
               <span className="nav-menu-text">Home</span>
             </li>
-            {/* <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'orders' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
+            <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'orders' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('orders')} >
               <HiShoppingBag className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
               <span className="nav-menu-text">Orders</span>
-            </li> */}
+            </li>
             {/* <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'wishlist' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('wishlist')}>
               <HiHeart className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 

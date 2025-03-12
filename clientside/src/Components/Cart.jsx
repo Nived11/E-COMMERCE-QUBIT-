@@ -4,6 +4,8 @@ import axios from 'axios';
 import ApiPath from '../ApiPath';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import {FaTruck} from "react-icons/fa";
+
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -75,22 +77,26 @@ const Cart = () => {
     }, 0);
   };
 
-  const calculateDiscount = () => {
-    return cartItems.reduce((total, item) => {
-      const quantity = quantities[item._id] || 1;
-      const discount = item.originalPrice ? (item.originalPrice - item.price) * quantity : 0;
-      return total + discount;
-    }, 0);
-  };
+  // const calculateDiscount = () => {
+  //   return cartItems.reduce((total, item) => {
+  //     const quantity = quantities[item._id] || 1;
+  //     const discount = item.originalPrice ? (item.originalPrice - item.price) * quantity : 0;
+  //     return total + discount;
+  //   }, 0);
+  // };
 
   const calculateTotalItems = () => {
     return Object.values(quantities).reduce((total, qty) => total + qty, 0);
   };
-  const placeOrder=()=>{
-    toast.success("successfully placed order")
-    setTimeout(()=>{
-      navigate("/")
-    },3000)
+  const placeOrder=async ()=>{
+   try {
+    const res=await axios.post(`${ApiPath()}/sendorder`,{userId,cartItems,});
+    if(res.status==201){
+      toast.info(res.data.msg)
+    }
+   } catch (error) {
+    
+   }
   }
   return (
     <>
@@ -124,7 +130,7 @@ const Cart = () => {
                       {/* Product Image */}
                       <div className="md:w-28 flex-shrink-0 md:mr-4">
                         <img 
-                          src={item.productimages[0] || "/api/placeholder/150/150"} 
+                          src={item.productimages[0]} 
                           alt={item.name} 
                           className="w-28 h-28 object-contain"
                         />
@@ -137,13 +143,13 @@ const Cart = () => {
                           <span className="font-medium text-lg mr-2">₹{item.price}</span>
                         </div>
                         
-                        <div className="text-sm text-gray-600 mb-2">
+                        {/* <div className="text-sm text-gray-600 mb-2">
                           Secured Packaging Fee ₹40
                         </div>
                         
                         <div className="text-sm mb-4">
                           Delivery by Sat Mar 1 | <span className="text-green-600">₹40 Free</span>
-                        </div>
+                        </div> */}
                         
                         <div className="flex items-center">
                           <div className="flex border border-gray-300 rounded mr-6">
@@ -187,11 +193,11 @@ const Cart = () => {
                     <span className="text-gray-700">Price ({calculateTotalItems()} item{calculateTotalItems() !== 1 ? 's' : ''})</span>
                     <span className="text-gray-700">₹{calculateTotalPrice().toLocaleString()}</span>
                   </div>
-                  
+{/*                   
                   <div className="flex justify-between mb-3">
                     <span className="text-gray-700">Discount</span>
                     <span className="text-green-600">− ₹5%</span>
-                  </div>
+                  </div> */}
                   
                   <div className="flex justify-between mb-3">
                     <span className="text-gray-700">Delivery Charges</span>
@@ -201,23 +207,24 @@ const Cart = () => {
                     </div>
                   </div>
                   
-                  <div className="flex justify-between mb-3">
+                  {/* <div className="flex justify-between mb-3">
                     <span className="text-gray-700">Secured Packaging Fee</span>
                     <span className="text-gray-700">₹99</span>
-                  </div>
+                  </div> */}
                 </div>
                 
                 <div className="border-t border-gray-200 pt-3 pb-3">
                   <div className="flex justify-between font-medium text-base">
                     <span>Total Amount</span>
-                    <span>₹{(calculateTotalPrice() - calculateDiscount() + 99).toLocaleString()}</span>
+                    <span>₹{calculateTotalPrice()}</span>
                   </div>
                 </div>
                 
                 <div className="p-4 flex justify-center border-t border-gray-100">
                   <button onClick={placeOrder}
-                   className="rounded-sm bg-blue-600 hover:bg-blue-700 text-white px-12 py-3 uppercase font-medium cursor-pointer">
-                    Place Order
+                   className="flex rounded-sm bg-blue-600 hover:bg-blue-700 text-white px-12 py-3 uppercase font-medium cursor-pointer ">
+                    <h2 className='mr-2'> Place Order</h2>
+                    <FaTruck size={20} color='white'/>
                   </button>
                 </div>
               </div>
@@ -227,28 +234,6 @@ const Cart = () => {
           )}
         </div>
         
-
-        <div className="mt-90 text-xs text-gray-500 ">
-          <div className="flex flex-wrap gap-x-1 mb-2">
-            <span>Policies:</span>
-            <a href="#" className="hover:text-blue-500">Returns Policy</a>
-            <span>|</span>
-            <a href="#" className="hover:text-blue-500">Terms of use</a>
-            <span>|</span>
-            <a href="#" className="hover:text-blue-500">Security</a>
-            <span>|</span>
-            <a href="#" className="hover:text-blue-500">Privacy</a>
-          </div>
-          <div className="flex justify-between flex-wrap">
-            <div>© 2020-2025 Qubit.com</div>
-            <div>
-              Need help? Visit the 
-              <a href="#" className="text-blue-500 mx-1">Help Center</a>
-              or
-              <a href="#" className="text-blue-500 ml-1">Contact Us</a>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     </>
