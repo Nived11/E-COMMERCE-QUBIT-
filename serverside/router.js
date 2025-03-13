@@ -6,6 +6,7 @@ import * as address from "./RequestHandler/address.requesthandler.js"
 import * as product from "./RequestHandler/product.requesthandler.js"
 import * as cart from "./RequestHandler/cart.requesthandler.js"
 import * as order from "./RequestHandler/order.requesthandler.js"
+import * as razorpay from "./RequestHandler/razorpay.requesthandler.js"
 
 
 const router=Router()
@@ -49,8 +50,13 @@ router.route("/search").post(product.searchData);
 router.route("/addcart").post(cart.addCart);
 router.route("/showcart").post(cart.showCart);
 router.route("/deletecart/:id").delete(cart.deleteCart);
+router.route("/removeallfromcart").delete(cart.removeAllfromcart);
 
 //order
 router.route("/sendorder").post(order.sendOrder);
+router.route("/getorders").post(order.getOrder);
 
+//razorpay
+router.route("/createRazorpayOrder").post(razorpay.createRazorpayOrder);
+router.route("/verifyPayment").post(razorpay.verifyPayment);
 export default router

@@ -10,6 +10,7 @@ import Nav from "./Nav";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import ApiPath from "../ApiPath";
+import OrderSection from "./OrderSection";
 
 function Profile() {
   const [section, setSection] = useState('profile'); 
@@ -76,15 +77,16 @@ function Profile() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col ">
+    <div className="min-h-screen flex flex-col">
       <Nav />
       
-      <div className="flex-1 flex flex-col md:flex-row mt-30 md:mt-20">
-        <div className="w-full md:w-64 bg-blue-500 text-white p-6 flex flex-col items-center">
+      <div className="flex-1 flex flex-col md:flex-row mt-30 md:mt-20 overflow-hidden">
+        {/* Added overflow-y-auto to make the sidebar scrollable */}
+        <div className="w-full md:w-64 bg-blue-500 text-white p-6 mt-1 flex flex-col items-center overflow-y-auto md:h-[calc(99vh-80px)]">
           <img src={profile} alt="Profile" className="w-24 h-24 rounded-full border-2 border-indigo-500 mb-4" />
           <h2 className="text-xl font-semibold mb-6 text-indigo-200">{user.fname} {user.lname}</h2>
           
-          <ul className="w-full h-full space-y-2">
+          <ul className="w-full space-y-2">
             <li 
               onClick={handleHomeClick}
               className="nav-menu-item home-link flex items-center p-3 cursor-pointer rounded hover:bg-gray-800 transition-colors duration-200"
@@ -122,17 +124,19 @@ function Profile() {
               </li>
             )}
             
-            <li onClick={logOut} className="nav-menu-item logout-link flex items-center p-3 cursor-pointer rounded transition-colors duration-200 mt-auto">
+            <li onClick={logOut} className="nav-menu-item logout-link flex items-center p-3 cursor-pointer rounded transition-colors duration-200 mt-6">
               <HiArrowRightOnRectangle className="mr-2 nav-menu-icon text-xl" /> 
               <span className="nav-menu-text">Logout</span>
             </li>
           </ul>
         </div>
 
-        <div className="flex-1 p-6 bg-gray-00 text-gray-100">
+        {/* Added overflow-y-auto to make the main content area scrollable independently */}
+        <div className="flex-1 p-6 bg-gray-00 text-gray-100 overflow-y-auto md:h-[calc(96vh-80px)]">
           {section === 'profile' && <ProfileSection />}
           {section === 'address' && <AddressSection />}
           {section === 'products' && <ProductSection />}
+          {section === 'orders' && <OrderSection/>}
         </div>
       </div>
       {/* <ToastContainer /> */}

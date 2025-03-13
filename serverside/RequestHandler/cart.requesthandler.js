@@ -53,3 +53,13 @@ export async function deleteCart(req, res) {
     }
 }
 
+export async function removeAllfromcart(req,res){
+    try {
+        const {id}=req.body;
+        await cartSchema.deleteMany({userId:id});
+        res.status(200).send({msg:"Cart cleared successfully"});
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({ error });
+    }
+}
