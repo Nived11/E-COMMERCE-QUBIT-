@@ -21,6 +21,7 @@ function Nav() {
   const [searchFilter, setSearchFilter] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   let token = localStorage.getItem("token");
+  const userId=localStorage.getItem("userId")
 
   const logOut = () => {
     localStorage.removeItem("token");
@@ -36,7 +37,7 @@ function Nav() {
       theme: "dark",
     });
     setTimeout(() => {
-      navigate("/login");
+      navigate("/");
     }, 2000);
     setCount(count + 1);
   };
@@ -116,7 +117,7 @@ function Nav() {
       return;
     }
     try {
-      const res = await axios.post(`${ApiPath()}/search`, { search });
+      const res = await axios.post(`${ApiPath()}/search`, { search ,userId });
       if (res.status === 200) {
         const { products } = res.data;
         setSearchFilter(products);

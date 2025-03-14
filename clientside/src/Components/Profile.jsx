@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import profile from "../assets/profile.jpg";
 import { HiUser, HiHeart, HiShoppingBag, HiLocationMarker, HiHome, HiCollection } from "react-icons/hi";
 import { HiArrowRightOnRectangle } from "react-icons/hi2";
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ProfileSection from "./profileSection";
 import AddressSection from "./AddressSection";
@@ -10,15 +11,23 @@ import Nav from "./Nav";
 import axios from "axios";
 import ApiPath from "../ApiPath";
 import { toast, ToastContainer } from "react-toastify";
-import OrderSection from "./OrderSection";
+import OrderSection from "./OrderSection";  
+
 
 function Profile() {
-  const [section, setSection] = useState('profile'); 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const activeSection = location.state?.section || 'default';
+  const [section, setSection] = useState(location.state?.section || 'profile');
   const [count, setCount] = useState(0);
   const [user, setUser] = useState({});
-  const navigate = useNavigate();
-
-
+  
+  
+  useEffect(() => {
+    if (location.state?.section) {
+      setSection(location.state.section);
+    }
+  }, [location.state]);
   const logOut = () => {
     localStorage.removeItem("token");
     toast.error("logout successfully", {

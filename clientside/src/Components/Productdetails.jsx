@@ -27,8 +27,7 @@ const ProductDetails = () => {
 
   const productImages = product.productimages && product.productimages.length > 0 
     ? product.productimages  : fallbackImages;
-    window.scrollTo(0, 0);
-
+    
   useEffect(() => {
     const interval = setInterval(() => {
       setMainImage(prevImage => (prevImage + 1) % productImages.length);
@@ -298,18 +297,23 @@ const ProductDetails = () => {
           </div>
           
           {/*laptop mobile size  */}
+          
           <div className="hidden md:flex justify-center gap-5 w-full mt-3 lg:mt-4">
-            <button onClick={handleCartAction}
-              className={`flex-1 cursor-pointer font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center
-                gap-1 lg:gap-2 text-white ${isInCart ? 'bg-green-700' : 'bg-blue-800'}`} >
+          <button  onClick={handleCartAction}  disabled={product.quantity <= 0}
+            className={`flex-1 cursor-pointer font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center
+              gap-1 lg:gap-2 text-white ${isInCart ? 'bg-green-700' : 'bg-blue-800'}
+              ${  product.quantity <= 0 ? 'opacity-50 cursor-not-allowed' : '' }`} >
               <span>🛒</span> {isInCart ? 'GO TO CART' : 'ADD TO CART'}
-            </button>
-            <button onClick={handleBuyNow}
-              className="cursor-pointer flex-1 font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center gap-1 lg:gap-2 bg-blue-800 text-white" >
-              <span>⚡</span> BUY NOW
-            </button>
-          </div>
+          </button>
+          <button  onClick={handleBuyNow}  disabled={product.quantity <= 0}
+            className={`cursor-pointer flex-1 font-bold py-3 lg:py-4 px-3 lg:px-4 rounded text-sm lg:text-base flex items-center justify-center gap-1 lg:gap-2 bg-blue-800 text-white 
+              ${ product.quantity <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`} >
+            <span>⚡</span> BUY NOW
+          </button>
         </div>
+          
+        </div>
+        
         
         {/* right details */}
         <div className="w-full md:w-1/2 p-3 md:p-4 overflow-y-auto">
@@ -323,17 +327,11 @@ const ProductDetails = () => {
           </div>
           
           <div className="flex items-center gap-1 md:gap-2 mb-3 md:mb-4">
-            {product.rating && (
-              <>
-                <span className="bg-green-600 text-white px-1.5 md:px-2 py-0.5 rounded text-xs md:text-sm">
-                  {product.rating} ★
-                </span>
-                <span className="text-gray-500 text-xs md:text-sm">
-                  {product.reviews ? `${product.reviews} Reviews` : ''}
-                </span>
-              </>
-            )}
-            <span className="text-blue-500 font-medium ml-1 md:ml-2 text-xs md:text-sm">✓ Assured</span>
+          <span className={`ml-2  ${product.quantity > 0 ? 'text-sm px-4  py-1  rounded  bg-green-600 text-white '
+                     : 'text-sm px-4  py-1 rounded  bg-red-600 text-white'} `}>
+                      {product.quantity > 0 ? ' In Stock ' : ' Out of Stock '}
+                  </span>
+            {/* <span className="text-blue-500 font-medium ml-1 md:ml-2 text-xs md:text-sm">✓ Assured</span> */}
           </div>
           
           <div className="mb-4 md:mb-6">
@@ -390,7 +388,7 @@ const ProductDetails = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
             <span className="text-xs md:text-sm">{product.warranty || '1 Year Warranty'} Year Onsite warranty</span>
-            <a href="#" className="text-blue-500 ml-auto text-xs md:text-sm">Know More</a>
+            {/* <a href="#" className="text-blue-500 ml-auto text-xs md:text-sm">Know More</a> */}
           </div>
           
           <div className="mb-4 md:mb-6">
@@ -404,10 +402,12 @@ const ProductDetails = () => {
       <div className="fixed bottom-0 left-0 right-0 flex w-full md:hidden shadow-lg z-10">
         <button  onClick={handleCartAction}
           className={`flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-blue-500 text-white text-xs
-          border-r border-blue-600 ${isInCart ? 'bg-green-700' : 'bg-blue-800'}`}>
+          border-r border-blue-600 ${isInCart ? 'bg-green-700' : 'bg-blue-800'}
+           ${  product.quantity <= 0 ? 'bg-gray-500 cursor-not-allowed' : '' }`}>
           <span>🛒</span> {isInCart ? 'GO TO CART' : 'ADD TO CART'}
         </button>
-        <button  className="cursor-pointer flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-blue-800 text-white text-xs "  >
+        <button  className={`cursor-pointer flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-blue-800 text-white text-xs  
+         ${ product.quantity <= 0 ? 'bg-gray-500 cursor-not-allowed' : ''}`}>
           <span>⚡</span> BUY NOW
         </button>
       </div>

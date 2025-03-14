@@ -309,7 +309,7 @@ const Cart = () => {
                               −
                             </button>
                             <div className="w-8 h-8 flex items-center justify-center border-x border-gray-300">
-                              {quantities[item._id] || 1}
+                              {quantities[item._id] }
                             </div>
                             <button 
                               onClick={() => increaseQuantity(item._id)}
@@ -390,12 +390,9 @@ const Cart = () => {
           {addresses.length === 0 ? (
             <div className="p-4 bg-gray-50 rounded-md text-center">
               <p className="text-gray-500 mb-4">No addresses found. Please add an address to continue.</p>
-              <button 
-                onClick={() => {
-                  handleCloseAddressModal();
-                  navigate(`/profile`, { state: { section: 'address' } });
-                }}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+              <button  onClick={() => { handleCloseAddressModal();
+                  navigate(`/profile/${userId}`, { state: { section: 'address' } }); }}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer"
               >
                 Add New Address
               </button>
@@ -442,8 +439,7 @@ const Cart = () => {
               <button
                 onClick={initializeRazorpay}
                 disabled={!selectedAddress}
-                className={`px-6 py-2 rounded-md text-white  cursor-pointer ${!selectedAddress ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
-              >
+                className={`px-6 py-2 rounded-md text-white  cursor-pointer ${!selectedAddress ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}>
                 Proceed to Payment
               </button>
             </div>
