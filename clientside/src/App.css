@@ -97,6 +97,7 @@
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border-left: 3px solid #3b82f6;
+  border-right: 3px solid #3b82f6;
 }
 
 @keyframes dropdownFade {
@@ -510,14 +511,17 @@
 
 /* Logout link */
 .logout-link {
-  margin-top: 20px !important;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.7), rgba(220, 38, 38, 0.7));
+  margin-top: 50px ;
+  /* background: linear-gradient(135deg, rgba(239, 68, 68, 0.7), rgba(220, 38, 38, 0.7)); */
+ 
   transition: all 0.3s ease;
+ color: white;
 }
 
 .logout-link:hover {
   background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 38, 0.9));
-  transform: translateY(-2px);
+  /* transform: translateY(-2px); */
+  color: white;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
@@ -534,6 +538,7 @@
 .flex-1.p-6.bg-gray-00:hover {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
+  
 }
 
 /* Animation for section transitions */
@@ -619,11 +624,133 @@
   opacity: 0;
   transform: scale(0.95);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 50; /* Ensure this is higher than sidebar */
 }
 
 .address-form-modal.show {
   opacity: 1;
   transform: scale(1);
+}
+
+/* Add a proper overlay for the modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40; /* Below modal but above other content */
+}
+
+/* Ensure proper z-index stacking for sidebar */
+.profile-sidebar {
+  background: linear-gradient(145deg, #123786, #4338ca);
+  transition: all 0.4s ease;
+  border-radius: 0 12px 12px 0;
+  box-shadow: 0 5px 20px rgba(37, 99, 235, 0.3);
+  overflow: hidden;
+  position: relative;
+  z-index: 10; /* Lower than modal but still high */
+}
+
+/* Fix the pattern animation to prevent flickering */
+.profile-sidebar-pattern {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.05) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 20px 20px;
+  opacity: 0.3;
+  z-index: 0;
+  animation: patternMove 20s linear infinite;
+  pointer-events: none; /* Prevent interaction with the pattern */
+}
+
+/* Make sure content has proper z-index */
+.profile-content-area {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  margin: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 5;
+}
+
+/* Ensure form container stays above other content */
+.address-form-container {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  position: relative;
+  z-index: 60; /* Higher than modal overlay */
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.address-form-container.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Make nav items respect z-index stacking */
+.nav-menu-item {
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  z-index: 1;
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 4px;
+}
+
+/* Fix animation conflicts */
+@keyframes patternMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+/* Ensure modal doesn't trigger sidebar animations */
+body.modal-open .profile-sidebar-pattern {
+  animation-play-state: paused;
+}
+
+/* Fix for mobile */
+@media (max-width: 768px) {
+  .address-form-modal, .modal-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    margin-top: 320px;
+  }
+  
+  .address-form-container {
+    max-height: 90vh;
+    overflow-y: auto;
+    width: 90%;
+    /* margin-top: 100px; */
+    /* margin: 5% auto; */
+  }
 }
 
 .address-form-container {

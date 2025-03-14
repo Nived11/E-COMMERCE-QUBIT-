@@ -102,9 +102,7 @@ const Cart = () => {
       const res = await axios.delete(`${ApiPath()}/deletecart/${id}`);
       if (res.status === 200) {
         toast.info(res.data.msg);
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        window.location.reload();
       }
     } catch (error) {
       console.error('Error removing item from cart:', error);
@@ -247,12 +245,10 @@ const Cart = () => {
     try {
       const res = await axios.post(`${ApiPath()}/sendorder`, { orderData });
       if (res.status === 201) {
-        toast.success(res.data.msg);
         removeAllfromcart();
         handleCloseAddressModal();
-        setTimeout(() => {
+        // toast.success(res.data.msg);
           window.location.reload();
-        }, 2000);
       }
     } catch (error) {
       console.error('Error placing order:', error);
@@ -379,7 +375,6 @@ const Cart = () => {
       </div>
     </div>
 
-    {/* Address Selection Modal */}
     {showAddressModal && (
       <div className={`fixed inset-0 backdrop-blur-sm bg-black/50 flex items-center justify-center z-50 ${modalVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
         <div className={`bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl transition-transform duration-300 ${modalVisible ? 'scale-100' : 'scale-95'} overflow-y-auto max-h-[90vh]`}>

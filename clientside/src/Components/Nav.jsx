@@ -27,17 +27,17 @@ function Nav() {
     localStorage.removeItem("userId");
     toast.error("Logout successfully", {
       position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
       progress: undefined,
       theme: "dark",
     });
     setTimeout(() => {
       navigate("/login");
-    }, 3000);
+    }, 2000);
     setCount(count + 1);
   };
 
@@ -143,7 +143,6 @@ function Nav() {
 
   const handleProductClick = (productId) => {
     console.log("Navigating to product:", productId);
-    // We'll use a small delay to ensure the click is processed before navigating
     setTimeout(() => {
       navigate(`/productdetails/${productId}`);
       setShowSearchResults(false);

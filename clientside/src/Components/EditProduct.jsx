@@ -125,7 +125,7 @@ const EditProduct = () => {
       if (res.status === 200) {
         toast.success('Product updated successfully');
        setTimeout(()=>{
-        navigate('/home');
+        navigate('/');
        },3000);
       }
     } catch (error) {

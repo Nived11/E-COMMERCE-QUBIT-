@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Routes,Route } from "react-router-dom";
+import { BrowserRouter, Routes,Route, Router } from "react-router-dom";
 import AdminLogin from "./Components/Adminlogin";
 import ForgetPassword from "./Components/Forgetpassword";
 import Resetpassword from "./Components/Resetpassword";
@@ -16,6 +16,7 @@ import ProductDetails from "./Components/Productdetails";
 import Cart from "./Components/Cart";
 import Adminforgetpassword from "./Components/Adminforgetpassword";
 import Adminresetpassword from "./Components/Adminresetpassword";
+import AllProducts from "./Components/AllProducts";
 
 
 function App() {
@@ -41,9 +42,11 @@ function App() {
                 <Route path="/sell/:id" element={<Sell/>}/>
                 <Route path="/editproduct/:id" element={<EditProduct/>}/>
                 <Route path="/productdetails/:id" element={<ProductDetails/>}/>
+                <Route path="/allproducts" element={<AllProducts/>}/>
 
                 //Cart
                 <Route path="/cart" element={<Cart/>}/>
+
                 
                 
 

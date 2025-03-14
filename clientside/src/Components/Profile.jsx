@@ -7,9 +7,9 @@ import ProfileSection from "./profileSection";
 import AddressSection from "./AddressSection";
 import ProductSection from "./ProductSection";
 import Nav from "./Nav";
-import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import ApiPath from "../ApiPath";
+import { toast, ToastContainer } from "react-toastify";
 import OrderSection from "./OrderSection";
 
 function Profile() {
@@ -17,6 +17,7 @@ function Profile() {
   const [count, setCount] = useState(0);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
+
 
   const logOut = () => {
     localStorage.removeItem("token");
@@ -34,39 +35,38 @@ function Profile() {
   }
 
   const getUser = async () => {
-    const token = localStorage.getItem("token");
-  
-    if (!token) {
-        setTimeout(() => navigate("/"), 3000);
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return;
+  }
+  try {
+    const res = await axios.get(`${ApiPath()}/home`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res.status === 200 && res.data) {
+      setUser(res.data);
     }
-    try {
-        const res = await axios.get(`${ApiPath()}/home`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        if (res.status === 200) {
-            // console.log("User Data:", res.data); 
-            setUser(res.data);
-        }
-    } catch (error) {
-        console.error(error);
-        if (error.response && error.response.data.msg === "Login time expired please login again") {
-            localStorage.removeItem("token");
-            toast.error(error.response.data.msg, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })
-            setTimeout(() => navigate("/"), 3000);
-        }
+  } catch (error) {
+    if (error.response) {
+      toast.error(error.response.data.msg, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      localStorage.removeItem("token");
+      setTimeout(() => navigate("/login"), 3000);
     }
-  };
+  }
+};
+
+
   
   useEffect(() => {
     getUser();
@@ -81,8 +81,11 @@ function Profile() {
       <Nav />
       
       <div className="flex-1 flex flex-col md:flex-row mt-30 md:mt-20 overflow-hidden">
-        {/* Added overflow-y-auto to make the sidebar scrollable */}
-        <div className="w-full md:w-64 bg-blue-500 text-white p-6 mt-1 flex flex-col items-center overflow-y-auto md:h-[calc(99vh-80px)]">
+        {/* Updated class name for the sidebar */}
+        <div className="w-full md:w-64 profile-sidebar p-6 mt-1 flex flex-col items-center overflow-y-auto md:h-[calc(99vh-80px)]">
+          {/* Add pattern div with the new class */}
+          <div className="profile-sidebar-pattern"></div>
+          
           <img src={profile} alt="Profile" className="w-24 h-24 rounded-full border-2 border-indigo-500 mb-4" />
           <h2 className="text-xl font-semibold mb-6 text-indigo-200">{user.fname} {user.lname}</h2>
           
@@ -91,55 +94,50 @@ function Profile() {
               onClick={handleHomeClick}
               className="nav-menu-item home-link flex items-center p-3 cursor-pointer rounded hover:bg-gray-800 transition-colors duration-200"
             >
-              <HiHome className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
-              <span className="nav-menu-text">Home</span>
+              <HiHome className="mr-2 nav-menu-icon text-white text-xl" /> 
+              <span className="nav-menu-text text-white">Home</span>
             </li>
+            {/* Other menu items */}
             <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'orders' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('orders')} >
-              <HiShoppingBag className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
-              <span className="nav-menu-text">Orders</span>
+              <HiShoppingBag className="mr-2 nav-menu-icon text-white text-xl" /> 
+              <span className="nav-menu-text text-white">Orders</span>
             </li>
-            {/* <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'wishlist' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
-              onClick={() => setSection('wishlist')}>
-              <HiHeart className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
-              <span className="nav-menu-text">Wishlists</span>
-            </li> */}
+            
             <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'profile' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('profile')} >
-              <HiUser className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
-              <span className="nav-menu-text">Profile Info</span>
+              <HiUser className="mr-2 nav-menu-icon text-white text-xl" /> 
+              <span className="nav-menu-text text-white">Profile Info</span>
             </li>
             <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'address' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('address')} >
               <HiLocationMarker className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
-              <span className="nav-menu-text">Address</span>
+              <span className="nav-menu-text text-white">Address</span>
             </li>
             
-            {/* Only show My Products section if accountType is NOT buyer */}
             {user.accountType !== "buyer" && (
               <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'products' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
                 onClick={() => setSection('products')} >
-                <HiCollection className="mr-2 nav-menu-icon text-indigo-400 text-xl" /> 
-                <span className="nav-menu-text">My Products</span>
+                <HiCollection className="mr-2 nav-menu-icon text-white text-xl" /> 
+                <span className="nav-menu-text text-white">My Products</span>
               </li>
             )}
             
-            <li onClick={logOut} className="nav-menu-item logout-link flex items-center p-3 cursor-pointer rounded transition-colors duration-200 mt-6">
-              <HiArrowRightOnRectangle className="mr-2 nav-menu-icon text-xl" /> 
-              <span className="nav-menu-text">Logout</span>
+            <li onClick={logOut} className={`nav-menu-item logout-link flex items-center p-3 cursor-pointer rounded transition-colors duration-200`}>
+              <HiArrowRightOnRectangle className="mr-2 nav-menu-icon text-xl " /> 
+              <span className="nav-menu-text text-white">Logout</span>
             </li>
           </ul>
         </div>
 
-        {/* Added overflow-y-auto to make the main content area scrollable independently */}
-        <div className="flex-1 p-6 bg-gray-00 text-gray-100 overflow-y-auto md:h-[calc(96vh-80px)]">
+        <div className="flex-1 p-6 profile-content-area overflow-y-auto md:h-[calc(96vh-80px)]">
           {section === 'profile' && <ProfileSection />}
           {section === 'address' && <AddressSection />}
           {section === 'products' && <ProductSection />}
           {section === 'orders' && <OrderSection/>}
         </div>
       </div>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import ApiPath from "../ApiPath";
 import { useNavigate } from "react-router-dom";
 import { FiFilter, FiDollarSign, FiTag, FiX } from "react-icons/fi";
 import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin, FaArrowAltCircleDown, FaArrowAltCircleRight } from "react-icons/fa";
+import noimage from "../assets/no img.png";
 
 function Home() {
   const [showFilter, setShowFilter] = useState(false);
@@ -20,17 +21,24 @@ function Home() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  let token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const carouselSlides = [
     { 
       image: "https://portal.lotuselectronics.com/banner_images/original/e7ee6f7101887e2812eb4c4854ff7a93.webp", 
+      name:"laptop",
     },
     { 
       image: "https://portal.lotuselectronics.com/banner_images/original/447496bb0d9be75629ce2bfe9e31ee08.webp", 
+      name:"mobile",
     },
     { 
       image: "https://portal.lotuselectronics.com/banner_images/original/e521b215ecf118b553b5424f356ffa2e.webp", 
+      name:"smartTv",
+    },
+    {
+      image: "https://admin.oxygendigitalshop.com/pub/media//banner/Main%20Banner/Prince/GALAXY%20S25%208000X2292%20Web%20BUY%20NOW.jpg", 
+      name:"smartWatch",
     }
   ];
 
@@ -147,13 +155,9 @@ function Home() {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? carouselSlides.length - 1 : prev - 1));
   };
-
-  // Add handler for category icon clicks
-  // const handleCategoryClick = (category) => {
-  //   setSelectedCategory(category);
-  //   let filtered = [...products].filter(product => product.category === category);
-  //   setFilteredProducts(filtered);
-  // };
+  const handleCategoryClick = (category) => {
+    navigate(`/allproducts?category=${category}`);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -161,56 +165,57 @@ function Home() {
       <div className="h-34 md:h-20 bg-gray-900"></div>
       <div className="container mx-auto lg:block hidden">
         <div className="grid grid-cols-4 md:grid-cols-11 gap-2 overflow-x-auto hide-scrollbar py-4">
-          <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
-              <img src="https://image01-in.oneplus.net/media/202406/19/dee6a15ca313f3a7b211f2a440e9f05e.png?x-amz-process=image/format,webp/quality,Q_80" alt="Smartphones" className="w-12 h-12 object-cover" />
+          <div  className="flex flex-col items-center">
+            <div  onClick={() => handleCategoryClick("Mobiles")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+              <img src="https://image01-in.oneplus.net/media/202406/19/dee6a15ca313f3a7b211f2a440e9f05e.png?x-amz-process=image/format,webp/quality,Q_80 " alt="Smartphones" className="w-12 h-12 object-cover"
+               />
             </div>
             <span className="text-xs text-center">Smartphones</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+            <div onClick={() => handleCategoryClick("Laptops")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
               <img src="https://www.paiinternational.in/_next/image?url=https%3A%2F%2Fpaibackend.bangalore2.com%2Fmedia%2Fimages%2FLaptop.png&w=640&q=75" alt="Laptops" className="w-12 h-12 object-cover" />
             </div>
             <span className="text-xs text-center">Laptops</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+            <div onClick={() => handleCategoryClick("earphones")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
               <img src="https://e7.pngegg.com/pngimages/530/441/png-clipart-headphones-microphone-lucid-sound-gaming-headset-ls25-wireless-headphones-thumbnail.png" alt="Headphones" className="w-12 h-12 object-contain" />
             </div>
             <span className="text-xs text-center">Headphones</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+            <div onClick={() => handleCategoryClick("watches")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
               <img src="https://w7.pngwing.com/pngs/924/969/png-transparent-smartwatch-online-shopping-android-watch-electronics-watch-accessory-accessories-thumbnail.png" alt="Smartwatches" className="w-12 h-12 object-contain" />
             </div>
             <span className="text-xs text-center">Smartwatches</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+            <div onClick={() => handleCategoryClick("speakers")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
               <img src="https://m.media-amazon.com/images/I/719PE0iB0EL._AC_UY327_FMwebp_QL65_.jpg" alt="Speakers" className="w-12 h-12 object-contain" />
             </div>
             <span className="text-xs text-center">Speakers</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+            <div onClick={() => handleCategoryClick("camera")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
               <img src="https://rukminim2.flixcart.com/image/312/312/l5fnhjk0/dslr-camera/g/t/7/eos-r10-24-2-r10-canon-original-imagg4y52cybasdr.jpeg?q=70" alt="Cameras" className="w-12 h-12 object-contain" />
             </div>
             <span className="text-xs text-center">Cameras</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+            <div onClick={() => handleCategoryClick("gaming")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
               <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/gamingconsole/t/c/f/n-a-cfi-y1016y-sony-n-a-original-imah3g4htvknyvqh.jpeg?q=70" alt="Gaming" className="w-12 h-12 object-contain" />
             </div>
             <span className="text-xs text-center">Gaming</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+            <div onClick={() => handleCategoryClick("tablet")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
               <img src="https://rukminim2.flixcart.com/image/312/312/xif0q/tablet/r/4/m/-original-imagj72vqsfqgzpf.jpeg?q=70" alt="Tablets" className="w-12 h-12 object-contain" />
             </div>
             <span className="text-xs text-center">Tablets</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+            <div onClick={() => handleCategoryClick("smartTv")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
               <img src="https://www.paiinternational.in/_next/image?url=https%3A%2F%2Fpaibackend.bangalore2.com%2Fmedia%2Fimages%2FCategory-Icons-LED150x150.png&w=640&q=75" alt="Smart Home" className="w-12 h-12 object-contain" />
             </div>
             <span className="text-xs text-center">Smart Home</span>
@@ -222,7 +227,7 @@ function Home() {
             <span className="text-xs text-center">Accessories</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
+            <div onClick={() => handleCategoryClick("earphones")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
               <img src="https://rukminim2.flixcart.com/image/612/612/xif0q/headphone/p/0/p/-original-imagp6skfbnypq5g.jpeg?q=70" alt="Earbuds" className="w-12 h-12 object-contain" />
             </div>
             <span className="text-xs text-center">Earbuds</span>
@@ -240,7 +245,7 @@ function Home() {
               <div key={index} className="carousel-slide w-full flex-shrink-0 h-full relative">
                 <img 
                   src={slide.image } 
-                  alt={slide.title || "Carousel slide"} 
+                  alt={slide.name || "Carousel slide"} 
                   className="w-full h-90"
                 />
               </div>
@@ -348,7 +353,10 @@ function Home() {
         <div className={`transition-all duration-300 ${showFilter ? "md:ml-64" : "ml-0"}`}>
           <div className="container mx-auto px-4 py-6">
             <div className="flex justify-between items-center mb-8">
-              <h1 className="text-2xl font-bold text-gray-800">Latest Products</h1>
+              <h1 onClick={() => handleCategoryClick("")} className="text-2xl font-bold text-gray-800">Latest Products
+                
+              </h1>
+              
               <button 
                 className="filter-toggle-btn flex items-center gap-2 bg-white border border-blue-500 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 transition cursor-pointer shadow-md"
                 onClick={() => setShowFilter(!showFilter)}>
@@ -385,7 +393,9 @@ function Home() {
                           <span className="text-xs discount-badge ml-1 text-green-600">{product.discountPercentage}% OFF</span>
                         </div>
                       </div>
+                      
                     </div>
+                   
                   ))
                 ) : (
                   <div className="w-full text-center py-10">
@@ -399,6 +409,7 @@ function Home() {
                   </div>
                 )}
               </div>
+             
             </div>
 
                 {/* leftsection */}
@@ -409,7 +420,7 @@ function Home() {
                   <div className="row-span-1 md:row-span-2 bg-white rounded-xl shadow-md overflow-hidden">
                     <div className=" border-b border-gray-300 w-full flex items-center justify-between p-4">
                       <h2 className="text-lg font-semibold text-blue-600">Trending Laptops</h2>
-                      <FaArrowAltCircleRight className="text-blue-500 text-lg hover:text-blue-700 transition-colors cursor-pointer" />
+                      <FaArrowAltCircleRight onClick={() => handleCategoryClick("Laptops")} className="text-blue-500 text-lg hover:text-blue-700 transition-colors cursor-pointer" />
                     </div>
                     <div className="w-full p-4 flex flex-wrap gap-4 justify-center">
 
@@ -451,14 +462,14 @@ function Home() {
                   <div className="bg-white rounded-xl shadow-md overflow-hidden">
                     <div className="border-b-1 border-gray-300 w-full flex items-center justify-between p-4">
                       <h2 className="text-lg font-semibold text-blue-600">Latest Mobiles</h2>
-                      <FaArrowAltCircleRight className="text-blue-500 text-lg hover:text-blue-700 transition-colors cursor-pointer" />
+                      <FaArrowAltCircleRight onClick={() => handleCategoryClick("Mobiles")} className="text-blue-500 text-lg hover:text-blue-700 transition-colors cursor-pointer" />
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 p-4 justify-evenly items-center">
+                    <div className="flex flex-col sm:flex lg:flex-row gap-4 p-4 justify-evenly items-center">
                       {products.filter(product => product.category.toLowerCase() === "mobiles").slice(0, 3).map((product) => (
                         <div
                           onClick={() => navigate(`/productdetails/${product._id}`)}
                           key={product._id}
-                          className="product-card w-full sm:w-1/3 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                          className="product-card w-full lg:w-1/3 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                         >
                           <div className="h-36 overflow-hidden flex items-center justify-center bg-gray-50">
                             <img
@@ -492,7 +503,7 @@ function Home() {
                   <div className="bg-white rounded-xl shadow-md overflow-hidden">
                     <div className="border-b-1  border-gray-300 w-full flex items-center justify-between p-4">
                       <h2 className="text-lg font-semibold text-blue-600">Branded Earphones</h2>
-                      <FaArrowAltCircleRight className="text-blue-500 text-lg hover:text-blue-700 transition-colors cursor-pointer" />
+                      <FaArrowAltCircleRight onClick={() => handleCategoryClick("earphones")} className="text-blue-500 text-lg hover:text-blue-700 transition-colors cursor-pointer" />
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 p-4 justify-evenly items-center">
                       {products.filter(product => product.category.toLowerCase() === "earphones").slice(0, 3).map((product) => (

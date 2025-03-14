@@ -173,7 +173,7 @@ function AddressSection() {
       </div>
 
       {showForm && (
-        <div className={`fixed inset-0  backdrop-blur-sm bg-white/0 flex items-center justify-center z-50 address-form-modal ${formVisible ? 'show' : ''}`}>
+        <div className={`fixed inset-0 mt-20 backdrop-blur-sm bg-white/0 flex items-center justify-center z-50 address-form-modal ${formVisible ? 'show' : ''}`}>
           <div 
             ref={modalRef}
             className={`bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl h-screen md:h-auto md:max-h-[90vh] overflow-y-auto address-form-container ${formVisible ? 'show' : ''}`}
