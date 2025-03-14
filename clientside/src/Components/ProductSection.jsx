@@ -192,7 +192,7 @@ const ProductSection = () => {
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">Delete Product</h3>
               <p className="text-sm text-gray-500">
-                Are you sure you want to delete this product? This action cannot be undone.
+                Are you sure you want to delete this product?
               </p>
             </div>
             <div className="mt-6 flex justify-center space-x-4">

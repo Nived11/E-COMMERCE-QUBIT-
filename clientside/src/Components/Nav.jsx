@@ -38,6 +38,7 @@ function Nav() {
     });
     setTimeout(() => {
       navigate("/");
+      window.location.reload();
     }, 2000);
     setCount(count + 1);
   };

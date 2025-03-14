@@ -85,7 +85,6 @@ function AddressSection() {
     getAddresses();
   }, [count, id]);
 
-  // Handle modal animation
   useEffect(() => {
     if (showForm) {
       setTimeout(() => {
@@ -146,10 +145,8 @@ function AddressSection() {
           </div>
         ) : (
           addresses.map(address => (
-            <div 
-              key={address._id} 
-              className={`bg-white border border-gray-200 rounded-md  p-4 shadow-sm address-card ${cardsVisible ? 'show' : ''}`}
-            >
+            <div key={address._id} 
+              className={`bg-white border border-gray-200 rounded-md  p-4 shadow-sm address-card ${cardsVisible ? 'show' : ''}`} >
               <div className="flex justify-between">
                 <div className="flex-grow">
                   <p className="font-medium text-blue-700">{address.name}</p>
@@ -174,10 +171,8 @@ function AddressSection() {
 
       {showForm && (
         <div className={`fixed inset-0 mt-20 backdrop-blur-sm bg-white/0 flex items-center justify-center z-50 address-form-modal ${formVisible ? 'show' : ''}`}>
-          <div 
-            ref={modalRef}
-            className={`bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl h-screen md:h-auto md:max-h-[90vh] overflow-y-auto address-form-container ${formVisible ? 'show' : ''}`}
-          >
+          <div  ref={modalRef}
+            className={`bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl h-screen md:h-auto md:max-h-[90vh] overflow-y-auto address-form-container ${formVisible ? 'show' : ''}`}>
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-medium text-blue-700">Add New Address</h3>
               <button 
@@ -194,14 +189,9 @@ function AddressSection() {
                     <label htmlFor="name" className="block text-sm font-medium form-label">
                       Full Name
                     </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
+                    <input  type="text"  id="name"  name="name" value={formData.name}
                       onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border form-input"
-                    />
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border form-input"  />
                   </div>
 
                   <div className="form-group">
