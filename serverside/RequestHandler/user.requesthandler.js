@@ -81,7 +81,7 @@ export async function Home(req,res){
         console.log(_id);
         
         const user=await userSchema.findOne({_id});
-        res.status(200).send({_id:_id,fname:user.fname,lname:user.lname,email:user.email,phone:user.phone,accountType:user.accountType})  
+        res.status(200).send({_id:_id,fname:user.fname,lname:user.lname,email:user.email,phone:user.phone,accountType:user.accountType,})  
     }catch(error){
         res.status(400).send({error})
     }

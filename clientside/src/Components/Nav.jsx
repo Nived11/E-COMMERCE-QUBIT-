@@ -85,7 +85,6 @@ function Nav() {
         setDropdownOpen(false);
       }
       
-      // Modified this part to check if the click is on a search result
       const isClickOnSearchResult = event.target.closest('.search-result-item');
       if (
         searchResultsRef.current && 
@@ -156,26 +155,15 @@ function Nav() {
     <div>
       <nav className="nav fixed top-0 w-full shadow-md z-100">
         <div className="mx-auto flex items-center justify-between px-4 py-4">
-          <div
-            className="text-4xl ml-5 font-bold logo-text cursor-pointer"
-            onClick={() => navigate("/")}
-          >
+          <div className="text-4xl ml-5 font-bold logo-text cursor-pointer" onClick={() => navigate("/")}>
             Qubit
           </div>
-          <div
-            className={`relative search-container flex-grow max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hidden md:flex ${
-              searchFocused ? "focused" : ""
-            }`}
-          >
-            <input
-              ref={searchInputRef}
-              type="text"
-              placeholder="Search..."
+          <div className={`relative search-container flex-grow max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hidden md:flex 
+           ${searchFocused ? "focused" : ""}`}>
+            <input ref={searchInputRef} type="text" placeholder="Search..."
               className="search-input w-full p-2 pl-10 rounded-full bg-white text-gray-800 focus:outline-none md:mr-4"
-              onFocus={handleSearchFocus}
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
+              onFocus={handleSearchFocus} value={search}
+              onChange={(e) => { setSearch(e.target.value);
                 if (e.target.value.trim() !== "") {
                   setShowSearchResults(true);
                 } else {
@@ -185,10 +173,8 @@ function Nav() {
             />
             <FiSearch className="search-icon absolute text-xl left-3 top-1/2 transform -translate-y-1/2" />
             
-            {/* Desktop Search Results Dropdown */}
             {showSearchResults && searchFilter.length > 0 && (
-              <div 
-                ref={searchResultsRef}
+              <div ref={searchResultsRef}
                 className="absolute left-0 right-0 mt-2 z-10 top-full bg-white max-h-96 overflow-y-auto "
                 style={{
                   scrollbarWidth: 'none',
@@ -202,9 +188,7 @@ function Nav() {
                 }}
               >
                 {searchFilter.map((product) => (
-                  <div
-                    key={product._id}
-                    onClick={() => handleProductClick(product._id)}
+                  <div key={product._id} onClick={() => handleProductClick(product._id)}
                     className="search-result-item flex items-center  p-2 hover:bg-blue-50 cursor-pointer transition-all duration-300"
                     style={{
                       borderBottom: '1px solid rgba(209, 213, 219, 0.5)',
@@ -212,11 +196,8 @@ function Nav() {
                     }}
                   >
                     <div className="w-10 h-10 rounded-md overflow-hidden mr-3">
-                      <img
-                        src={product.productimages && product.productimages[0]}
-                        alt={product.productname}
-                        className="w-full h-full object-cover"
-                      />
+                      <img className="w-full h-full object-cover" 
+                      src={product.productimages && product.productimages[0]} alt={product.productname} />
                     </div>
                     <div className="flex-1 ">
                       <h3 className="font-medium text-gray-800 line-clamp-1">{product.productname}</h3>
@@ -232,31 +213,21 @@ function Nav() {
           <div className="flex items-center space-x-4 md:space-x-6">
             {user.accountType === "seller" &&
               location.pathname !== `/sell/${user._id}` && (
-                <button
-                  onClick={handleSellClick}
-                  className="sell-button flex items-center space-x-1 text-gray-800 px-5 py-2 rounded-full transition cursor-pointer"
-                >
+                <button onClick={handleSellClick}
+                  className="sell-button flex items-center space-x-1 text-gray-800 px-5 py-2 rounded-full transition cursor-pointer">
                   <MdSell />
                   <span>Sell</span>
                 </button>
               )}
             {token && (
-              <div
-                className="relative cart-icon"
-                onClick={() => navigate("/cart")}
-              >
-                <FiShoppingCart
-                  className="nav-icon md:text-2xl cursor-pointer relative z-10"
-                  title="Cart"
-                />
+              <div className="relative cart-icon"
+                onClick={() => navigate("/cart")} >
+                <FiShoppingCart className="nav-icon md:text-2xl cursor-pointer relative z-10" title="Cart"/>
               </div>
             )}
 
             <div className="relative" ref={dropdownRef}>
-              <div
-                className="cursor-pointer rounded-md"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
+              <div className="cursor-pointer rounded-md" onClick={() => setDropdownOpen(!dropdownOpen)}>
                 <div className="profile-icon h-12 w-12 rounded-full flex items-center justify-center">
                   <span className="profile-initial">
                     {user.fname ? (
@@ -271,17 +242,13 @@ function Nav() {
               {token ? (
                 dropdownOpen && (
                   <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
-                    <div
-                      onClick={() => navigate(`/profile/${user._id}`)}
-                      className="dropdown-item flex items-center cursor-pointer"
-                    >
+                    <div onClick={() => navigate(`/profile/${user._id}`)}
+                      className="dropdown-item flex items-center cursor-pointer">
                       <FiUser className="dropdown-icon mr-2" />
                       <span>Profile</span>
                     </div>
-                    <div
-                      onClick={logOut}
-                      className="logout-button dropdown-item flex items-center cursor-pointer"
-                    >
+                    <div onClick={logOut}
+                      className="logout-button dropdown-item flex items-center cursor-pointer">
                       <MdLogout className="logout-icon mr-2" />
                       <span>Logout</span>
                     </div>
@@ -290,10 +257,8 @@ function Nav() {
               ) : (
                 dropdownOpen && (
                   <div className="dropdown-menu absolute right-0 mt-2 w-40 z-10">
-                    <div
-                      onClick={() => navigate("/login")}
-                      className="dropdown-item flex items-center justify-center cursor-pointer"
-                    >
+                    <div onClick={() => navigate("/login")}
+                      className="dropdown-item flex items-center justify-center cursor-pointer">
                       <span>Login</span>
                       <MdLogin className="login-icon ml-2 hover:text-white" />
                     </div>
@@ -305,19 +270,11 @@ function Nav() {
         </div>
 
         <div className="w-full pb-4 md:hidden px-4">
-          <div
-            className={`relative search-container w-full ${
-              searchFocused ? "focused" : ""
-            }`}
-          >
-            <input
-              type="text"
-              placeholder="Search..."
+          <div className={`relative search-container w-full ${searchFocused ? "focused" : ""}`}>
+            <input type="text" placeholder="Search..."
               className="search-input w-full p-2 pl-10 rounded-full bg-white text-gray-800"
-              onFocus={handleSearchFocus}
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
+              onFocus={handleSearchFocus} value={search}
+              onChange={(e) => {setSearch(e.target.value);
                 if (e.target.value.trim() !== "") {
                   setShowSearchResults(true);
                 } else {
@@ -341,8 +298,7 @@ function Nav() {
                 }}
               >
                 {searchFilter.map((product) => (
-                  <div
-                    key={product._id}
+                  <div key={product._id}
                     onClick={() => handleProductClick(product._id)}
                     className="search-result-item flex items-center p-3 hover:bg-blue-50 cursor-pointer transition-all duration-300"
                     style={{

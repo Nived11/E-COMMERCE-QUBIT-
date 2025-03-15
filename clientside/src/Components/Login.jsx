@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import w from "../assets/w.jpg";
 import ApiPath from "../ApiPath";
 import {  FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Loader } from "lucide-react";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);

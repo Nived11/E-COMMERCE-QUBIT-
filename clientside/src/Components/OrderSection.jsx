@@ -7,8 +7,7 @@ import ApiPath from '../ApiPath';
 const OrderSection = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [selectedOrder, setSelectedOrder] = useState(null);
-  const [showOrderDetails, setShowOrderDetails] = useState(false);
+  // const [showOrderDetails, setShowOrderDetails] = useState(false);
   const userId = localStorage.getItem("userId");
 
   const getOrders = async () => {
@@ -29,10 +28,10 @@ const OrderSection = () => {
     getOrders();
   }, [userId]);
 
-  const handleOrderClick = (order) => {
-    setSelectedOrder(order);
-    setShowOrderDetails(true);
-  };
+  // const handleOrderClick = (order) => {
+  //   setSelectedOrder(order);
+  //   setShowOrderDetails(true);
+  // };
 
 
   const formatDate = (dateString) => {
@@ -54,13 +53,11 @@ const OrderSection = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header Section */}
       <div>
         <h2 className="text-2xl font-bold text-gray-800">My Orders</h2>
         <p className="text-gray-600">Review your order history</p>
       </div>
 
-      {/* Orders List */}
       {orders.length === 0 ? (
         <div className="text-center py-12">
           <ShoppingBag className="w-16 h-16 mx-auto text-gray-400 mb-4" />
@@ -112,8 +109,6 @@ const OrderSection = () => {
           ))}
         </div>
       )}
-      
-
       <ToastContainer />
     </div>
   );

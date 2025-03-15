@@ -6,7 +6,6 @@ import ApiPath from '../ApiPath';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { FaTruck } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
 
 const ProductDetails = () => {
@@ -170,10 +169,7 @@ const ProductDetails = () => {
         userId,
         email,
         address: selectedAddress,
-        products: [{
-          ...product,
-          quantity: quantity
-        }],
+        products: [{  ...product, quantity: quantity}],
         totalAmount: calculateTotalPrice().toString()
       };
 

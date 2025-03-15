@@ -1,7 +1,6 @@
 import addressSchema from '../Models/address.model.js';
 
 
-
 export async function addAddress(req,res){
     const {userId, name,phone,housename,area,landmark,city,state,pincode}=req.body
     console.log( userId,name,phone,housename,area,landmark,city,state,pincode);

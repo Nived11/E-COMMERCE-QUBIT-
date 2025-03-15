@@ -213,7 +213,7 @@ function Registration() {
                                     <input type="text" required className={`w-full bg-transparent focus:ring-0 outline-none ${errors.lname ? "border-red-500" : ""}`}
                                      value={data.lname} name="lname"onChange={handleInputChange} />
                                 </div>
-                                {errors.lname && <p className="text-red-500 text-xs mt-1">{errors.lname}</p>}
+                                {errors.lname &&<p className="text-red-500 text-xs mt-1">{errors.lname}</p>}
                             </div>
                         </div>
 

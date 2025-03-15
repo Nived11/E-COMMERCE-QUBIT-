@@ -40,7 +40,7 @@ const EditProduct = () => {
         return compressedFile;
       } catch (error) {
         console.log('Error compressing image:', error);
-        return file;  // Return original file if compression fails
+        return file;  
       }
     };
     const convertBase64 = (file) => {
@@ -135,16 +135,13 @@ const EditProduct = () => {
   };
 
   const removeImage = (index) => {
-    setProduct(prevState => ({
-      ...prevState,
-      productimages: prevState.productimages.filter((_, i) => i !== index)
-    }));
+    setProduct(prevState => ({ ...prevState, productimages: prevState.productimages.filter((_, i) => i !== index)}));
   };
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-5 border-indigo-500" />
       </div>
     );
   }
@@ -169,21 +166,15 @@ const EditProduct = () => {
           <div className="bg-white rounded-2xl shadow-lg border border-indigo-50">
             <div className="p-6">
               <form onSubmit={handleUpdate} className="space-y-8">
-                {/* Product Name and Category */}
+               
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="w-full">
                     <label className="flex items-center gap-2 text-base font-medium text-gray-800 mb-2">
                       <BookOpen className="w-5 h-5 text-indigo-600" />
                       Product Name
                     </label>
-                    <input
-                      type="text"
-                      name="productname"
-                      className={inputClasses}
-                      value={product.productname}
-                      onChange={(e) => setProduct({...product, productname: e.target.value})}
-                      required
-                    />
+                    <input type="text" name="productname" className={inputClasses}
+                      value={product.productname} onChange={(e) => setProduct({...product, productname: e.target.value})}required/>
                   </div>
                   
                   <div className="w-full">
@@ -191,13 +182,8 @@ const EditProduct = () => {
                       <Tablet className="w-5 h-5 text-indigo-600" />
                       Category
                     </label>
-                    <select
-                      name="category"
-                      className={inputClasses}
-                      value={product.category}
-                      onChange={(e) => setProduct({...product, category: e.target.value})}
-                      required
-                    >
+                    <select name="category" className={inputClasses} 
+                      value={product.category} onChange={(e) => setProduct({...product, category: e.target.value})} required>
                       <option value="">Select Category</option>
                       <option value="Mobiles">Mobiles</option>
                       <option value="Laptops">Laptops</option>
@@ -212,21 +198,16 @@ const EditProduct = () => {
                   </div>
                 </div>
 
-                {/* Brand and Model Number */}
+             
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                   <div className="w-full">
                     <label className="flex items-center gap-2 text-base font-medium text-gray-800 mb-2">
                       <Package2 className="w-5 h-5 text-indigo-600" />
                       Brand
                     </label>
-                    <input
-                      type="text"
-                      name="brand"
-                      className={inputClasses}
-                      value={product.Brand}
-                      onChange={(e) => setProduct({...product, Brand: e.target.value})}
-                      required
-                    />
+                    <input type="text" name="brand" className={inputClasses}
+                      value={product.Brand} onChange={(e) => setProduct({...product, Brand: e.target.value})} required/>
                   </div>
 
                   <div className="w-full">
@@ -234,18 +215,12 @@ const EditProduct = () => {
                       <Hash className="w-5 h-5 text-indigo-600" />
                       Model Number
                     </label>
-                    <input
-                      type="text"
-                      name="model"
-                      className={inputClasses}
-                      value={product.modelno}
-                      onChange={(e) => setProduct({...product, modelno: e.target.value})}
-                      required
-                    />
+                    <input type="text" name="model" className={inputClasses}
+                      value={product.modelno} onChange={(e) => setProduct({...product, modelno: e.target.value})} required/>
                   </div>
                 </div>
 
-                {/* Price and Stock */}
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="w-full">
                     <label className="flex items-center gap-2 text-base font-medium text-gray-800 mb-2">
@@ -253,14 +228,8 @@ const EditProduct = () => {
                       MRP
                     </label>
                     <div className="relative">
-                      <input
-                        type="number"
-                        name="price"
-                        className={`${inputClasses} pl-10`}
-                        value={product.price}
-                        onChange={(e) => setProduct({...product, price: e.target.value})}
-                        required
-                      />
+                      <input type="number" name="price" className={`${inputClasses} pl-10`}
+                        value={product.price} onChange={(e) => setProduct({...product, price: e.target.value})} required/>
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-indigo-500 text-lg">₹</span>
                     </div>
                   </div>
@@ -270,48 +239,30 @@ const EditProduct = () => {
                       <HardDrive className="w-5 h-5 text-indigo-600" />
                       Stock Quantity
                     </label>
-                    <input
-                      type="number"
-                      name="quantity"
-                      className={inputClasses}
-                      value={product.quantity}
-                      onChange={(e) => setProduct({...product, quantity: e.target.value})}
-                      required
-                    />
+                    <input type="number" name="quantity" className={inputClasses}
+                      value={product.quantity} onChange={(e) => setProduct({...product, quantity: e.target.value})} required />
                   </div>
                 </div>
 
-                {/* Warranty */}
+              
                 <div className="w-full">
                   <label className="flex items-center gap-2 text-base font-medium text-gray-800 mb-2">
                     <Shield className="w-5 h-5 text-indigo-600" />
                     Warranty
                   </label>
-                  <input
-                    type="text"
-                    name="warranty"
-                    className={inputClasses}
-                    value={product.warranty}
-                    onChange={(e) => setProduct({...product, warranty: e.target.value})}
-                    required
-                  />
+                  <input type="text" name="warranty" className={inputClasses}
+                    value={product.warranty} onChange={(e) => setProduct({...product, warranty: e.target.value})} required />
                 </div>
 
-                {/* Details Section */}
+              
                 <div className="space-y-6 bg-indigo-50 p-6 rounded-xl border border-indigo-100">
                   <div className="w-full">
                     <label className="flex items-center gap-2 text-base font-medium text-gray-800 mb-2">
                       <FileText className="w-5 h-5 text-indigo-600" />
                       Description
                     </label>
-                    <textarea
-                      name="description"
-                      rows="5"
-                      className={textareaClasses}
-                      value={product.description}
-                      onChange={(e) => setProduct({...product, description: e.target.value})}
-                      required
-                    />
+                    <textarea name="description" rows="5" className={textareaClasses}
+                      value={product.description} onChange={(e) => setProduct({...product, description: e.target.value})} required/>
                   </div>
 
                   <div className="w-full">
@@ -319,56 +270,37 @@ const EditProduct = () => {
                       <Settings2 className="w-5 h-5 text-indigo-600" />
                       Specifications
                     </label>
-                    <textarea
-                      name="specifications"
-                      rows="5"
-                      className={textareaClasses}
-                      value={product.specifications}
-                      onChange={(e) => setProduct({...product, specifications: e.target.value})}
-                      required
-                    />
+                    <textarea name="specifications" rows="5" className={textareaClasses}
+                      value={product.specifications} onChange={(e) => setProduct({...product, specifications: e.target.value})} required/>
                   </div>
                 </div>
 
-                {/* Images Section */}
+          
                 <div className="w-full">
                   <label className="flex items-center gap-2 text-base font-medium text-gray-800 mb-2">
                     <ImagePlus className="w-5 h-5 text-indigo-600" />
                     Product Images
                   </label>
                   <div className="flex flex-wrap justify-around gap-6">
-                    {/* Image Preview Cards */}
+                   
                     {product.productimages.map((image, index) => (
                       <div key={index} className="relative h-30 w-30">
                       
-                        <img
-                          src={image}
-                          alt={`Product ${index + 1}`}
-                          className="h-30 w-30 object-cover rounded-lg border-2 border-indigo-200"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage(index)}
-                          className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-700 focus:outline-none cursor-pointer"
-                        >
+                        <img src={image} alt={`Product ${index + 1}`}className="h-30 w-30 object-cover rounded-lg border-2 border-indigo-200"/>
+                        <button type="button" onClick={() => removeImage(index)}
+                          className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-700 focus:outline-none cursor-pointer">
                           <X className="w-5 h-5" />
                         </button>
                       </div>
                     ))}
 
-                    {/* Upload Button */}
+                   
                     {product.productimages.length < 5 && (
                       <label className={`h-40 w-40 flex flex-col items-center justify-center border-2 border-dashed 
                         border-indigo-200 rounded-lg cursor-pointer hover:border-indigo-500 
-                        hover:bg-indigo-50 transition-all ${isLoading ? 'opacity-50' : ''}`}
-                      >
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={handleImageChange}
-                          disabled={isLoading}
-                        />
+                        hover:bg-indigo-50 transition-all ${isLoading ? 'opacity-50' : ''}`}>
+                        <input type="file" accept="image/*"
+                          className="hidden" onChange={handleImageChange} disabled={isLoading}/>
                         {isLoading ? (
                           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500" />
                         ) : (
@@ -385,16 +317,13 @@ const EditProduct = () => {
                   </p>
                 </div>
 
-                {/* Update Button */}
+               
                 <div className="flex justify-end pt-8">
-                  <button
-                    type="submit"
-                   
+                  <button type="submit"
                     className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white px-8 py-4 text-lg rounded-lg
                     hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 
                     focus:ring-offset-2 font-medium transition-all flex items-center justify-center gap-3 hover:shadow-lg
-                    cursor-pointer"
-                  >
+                    cursor-pointer">
                     <Package2 className="w-6 h-6" />
                     save
                   </button>

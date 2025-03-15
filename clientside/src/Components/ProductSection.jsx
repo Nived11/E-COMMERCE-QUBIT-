@@ -87,7 +87,6 @@ const ProductSection = () => {
   return (
     <div className="space-y-6">
       <ToastContainer/>
-      {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-800">My Products</h2>
@@ -98,8 +97,7 @@ const ProductSection = () => {
           <select
             className="px-4 py-2 rounded-lg border-2 border-blue-500 text-blue-800 cursor-pointer"
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
+            onChange={(e) => setSelectedCategory(e.target.value)}>
             <option value="all">All Categories</option>
             <option value="Mobiles">Mobiles</option>
             <option value="Laptops">Laptops</option>

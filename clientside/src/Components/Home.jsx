@@ -6,7 +6,6 @@ import ApiPath from "../ApiPath";
 import { useNavigate } from "react-router-dom";
 import { FiFilter, FiDollarSign, FiTag, FiX } from "react-icons/fi";
 import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin, FaArrowAltCircleDown, FaArrowAltCircleRight } from "react-icons/fa";
-import noimage from "../assets/no img.png";
 
 function Home() {
   const [showFilter, setShowFilter] = useState(false);
@@ -17,7 +16,6 @@ function Home() {
   const filterRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  // const [productsByCategory, setProductsByCategory] = useState({});
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -91,12 +89,6 @@ function Home() {
     const uniqueCategories = [...new Set(productsArray.map(product => product.category))];
     setCategories(uniqueCategories);
     
-    // Group products by category
-    // const groupedProducts = {};
-    // uniqueCategories.forEach(category => {
-    //   groupedProducts[category] = productsArray.filter(product => product.category === category);
-    // });
-    // setProductsByCategory(groupedProducts);
   };
 
   const getallProducts = async() => {
@@ -110,7 +102,7 @@ function Home() {
         }));
         setProducts(productsWithDiscount);
         setFilteredProducts(productsWithDiscount);
-        extractCategories(productsWithDiscount); // Extract categories here too
+        extractCategories(productsWithDiscount);
       }
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -124,8 +116,7 @@ function Home() {
       console.log("user id getting", userId);
       const res = await axios.post(`${ApiPath()}/allproducts`, {userId});
       if(res.status === 200){
-        const productsWithDiscount = res.data.map(product => ({
-          ...product,
+        const productsWithDiscount = res.data.map(product => ({...product,
           originalPrice: Math.round(product.price * (1 + Math.random() * 0.4)),
           discountPercentage: Math.round(Math.random() * 40)
         }));
@@ -167,8 +158,7 @@ function Home() {
         <div className="grid grid-cols-4 md:grid-cols-11 gap-2 overflow-x-auto hide-scrollbar py-4">
           <div  className="flex flex-col items-center">
             <div  onClick={() => handleCategoryClick("Mobiles")} className="topicon rounded-full border-2 border-blue-700 p-2 mb-2 cursor-pointer">
-              <img src="https://image01-in.oneplus.net/media/202406/19/dee6a15ca313f3a7b211f2a440e9f05e.png?x-amz-process=image/format,webp/quality,Q_80 " alt="Smartphones" className="w-12 h-12 object-cover"
-               />
+              <img src="https://image01-in.oneplus.net/media/202406/19/dee6a15ca313f3a7b211f2a440e9f05e.png?x-amz-process=image/format,webp/quality,Q_80 " alt="Smartphones" className="w-12 h-12 object-cover"/>
             </div>
             <span className="text-xs text-center">Smartphones</span>
           </div>
@@ -236,37 +226,33 @@ function Home() {
       </div>
       
       <div className="relative overflow-hidden mb-8 mt-3">
-        <div className="carousel-container relative h-64 md:h-88 ml-2 mr-2 overflow-hidden">
-          <div 
-            className="carousel-track flex transition-transform duration-500 ease-out h-full" 
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {carouselSlides.map((slide, index) => (
-              <div key={index} className="carousel-slide w-full flex-shrink-0 h-full relative">
-                <img 
-                  src={slide.image } 
-                  alt={slide.name || "Carousel slide"} 
-                  className="w-full h-90"
-                />
-              </div>
-            ))}
-          </div>
-
-          <button 
-            onClick={prevSlide} 
-            className="cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
-          >
-            &#10094;
-          </button>
-
-          <button 
-            onClick={nextSlide} 
-            className="cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition"
-          >
-            &#10095;
-          </button>
+  <div className="carousel-container relative    ml-2 mr-2 overflow-hidden">
+    <div 
+      className="carousel-track flex transition-transform duration-500 ease-out " 
+      style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+      {carouselSlides.map((slide, index) => (
+        <div key={index} className="carousel-slide w-full flex-shrink-0  relative">
+          <img 
+            src={slide.image} 
+            alt={slide.name || "Carousel slide"} 
+            className="w-full h-full sm:h-auto max-h-64 md:max-h-88 object-cover object-center  rounded-md" 
+          />
         </div>
-      </div>
+      ))}
+    </div>
+
+    <button onClick={prevSlide} 
+      className="cursor-pointer absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition">
+      &#10094;
+    </button>
+
+    <button onClick={nextSlide} 
+      className="cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 rounded-full p-2 text-white transition">
+      &#10095;
+    </button>
+  </div>
+</div>
+
 
       
       <div className="relative">
@@ -308,13 +294,10 @@ function Home() {
                 <FiDollarSign className="text-gray-600" />
                 Min Price
               </label>
-              <input 
-                type="number" 
+              <input type="number" 
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Min Price"
-                value={minPrice}
-                onChange={(e) => setMinPrice(e.target.value)}
-              />
+                placeholder="Min Price"value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}/>
             </div>
             
             
@@ -333,29 +316,23 @@ function Home() {
             </div>
             
             <div className="flex flex-col gap-2 mt-8">
-              <button 
-                onClick={applyFilters}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition w-full"
-              >
+              <button onClick={applyFilters}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition w-full">
                 Apply Filters
               </button>
-              <button 
-                onClick={resetFilters}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition border border-gray-300 rounded-md hover:bg-gray-50 w-full"
-              >
+              <button onClick={resetFilters}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition border border-gray-300 rounded-md hover:bg-gray-50 w-full">
                 Reset
               </button>
             </div>
           </div>
         </div>
         
-        {/* Main content area */}
+     
         <div className={`transition-all duration-300 ${showFilter ? "md:ml-64" : "ml-0"}`}>
           <div className="container mx-auto px-4 py-6">
             <div className="flex justify-between items-center mb-8">
-              <h1 onClick={() => handleCategoryClick("")} className="text-2xl font-bold text-gray-800">Latest Products
-                
-              </h1>
+              <h1 onClick={() => handleCategoryClick("")} className="text-2xl font-bold text-gray-800">Latest Products</h1>
               
               <button 
                 className="filter-toggle-btn flex items-center gap-2 bg-white border border-blue-500 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 transition cursor-pointer shadow-md"
@@ -372,8 +349,7 @@ function Home() {
                     <div
                       onClick={() => navigate(`/productdetails/${product._id}`)}
                       key={product._id} 
-                      className="product-card w-56 bg-white rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition-shadow"
-                    >
+                      className="product-card w-56 bg-white rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
                       <div className="h-50 overflow-hidden flex items-center p-4">
                         <img src={product.productimages[0]} alt={product.productname} className="object-cover" />
                       </div>
@@ -400,10 +376,8 @@ function Home() {
                 ) : (
                   <div className="w-full text-center py-10">
                     <p className="text-gray-500 text-lg">No products match your filters.</p>
-                    <button 
-                      onClick={resetFilters}
-                      className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-                    >
+                    <button onClick={resetFilters}
+                      className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
                       Clear Filters
                     </button>
                   </div>
@@ -412,7 +386,7 @@ function Home() {
              
             </div>
 
-                {/* leftsection */}
+            {/* leftsection */}
             <div className="h-auto  h1/12 flex flex-wrap  gap-10">
             <div className=" w-full  flex flex-col">
               <div className="h-full w-full p-4 ">
@@ -425,17 +399,11 @@ function Home() {
                     <div className="w-full p-4 flex flex-wrap gap-4 justify-center">
 
                       {products.filter(product => product.category.toLowerCase() === "laptops").slice(0, 4).map((product) => (
-                        <div
-                          onClick={() => navigate(`/productdetails/${product._id}`)}
+                        <div onClick={() => navigate(`/productdetails/${product._id}`)}
                           key={product._id}
-                          className="product-card w-full sm:w-64 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                        >
+                          className="product-card w-full sm:w-64 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
                           <div className="h-40 overflow-hidden flex items-center justify-center bg-gray-50">
-                            <img
-                              src={product.productimages[0]}
-                              alt={product.productname}
-                              className="w-full h-full object-contain"
-                            />
+                            <img src={product.productimages[0]} alt={product.productname} className="w-full h-full object-contain"/>
                           </div>
                           <div className="p-4">
                             <div className="flex justify-between items-start mb-2">
@@ -466,17 +434,11 @@ function Home() {
                     </div>
                     <div className="flex flex-col sm:flex lg:flex-row gap-4 p-4 justify-evenly items-center">
                       {products.filter(product => product.category.toLowerCase() === "mobiles").slice(0, 3).map((product) => (
-                        <div
-                          onClick={() => navigate(`/productdetails/${product._id}`)}
+                        <div onClick={() => navigate(`/productdetails/${product._id}`)}
                           key={product._id}
-                          className="product-card w-full lg:w-1/3 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                        >
+                          className="product-card w-full lg:w-1/3 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
                           <div className="h-36 overflow-hidden flex items-center justify-center bg-gray-50">
-                            <img
-                              src={product.productimages[0]}
-                              alt={product.productname}
-                              className="h-full object-contain"
-                            />
+                            <img src={product.productimages[0]} alt={product.productname} className="h-full object-contain"/>
                           </div>
                           <div className="p-3">
                             <div className="flex justify-between items-start mb-1">
@@ -507,17 +469,11 @@ function Home() {
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 p-4 justify-evenly items-center">
                       {products.filter(product => product.category.toLowerCase() === "earphones").slice(0, 3).map((product) => (
-                        <div
-                          onClick={() => navigate(`/productdetails/${product._id}`)}
+                        <div onClick={() => navigate(`/productdetails/${product._id}`)}
                           key={product._id}
-                          className="product-card w-full sm:w-1/3 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                        >
+                          className="product-card w-full sm:w-1/3 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
                           <div className="h-36 overflow-hidden flex items-center justify-center bg-gray-50">
-                            <img
-                              src={product.productimages[0]}
-                              alt={product.productname}
-                              className="h-full object-contain"
-                            />
+                            <img src={product.productimages[0]} alt={product.productname} className="h-full object-contain"/>
                           </div>
                           <div className="p-3">
                             <div className="flex justify-between items-start mb-1">
@@ -545,8 +501,6 @@ function Home() {
             </div>
           </div>
           
-
-
 
           {/* Footer */}
           <footer className="footer mt-16 pt-10 pb-6 text-white">

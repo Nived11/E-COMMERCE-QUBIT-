@@ -90,9 +90,8 @@ function Profile() {
       <Nav />
       
       <div className="flex-1 flex flex-col md:flex-row mt-30 md:mt-20 overflow-hidden">
-        {/* Updated class name for the sidebar */}
         <div className="w-full md:w-64 profile-sidebar p-6 mt-1 flex flex-col items-center overflow-y-auto md:h-[calc(99vh-80px)]">
-          {/* Add pattern div with the new class */}
+         
           <div className="profile-sidebar-pattern"></div>
           
           <img src={profile} alt="Profile" className="w-24 h-24 rounded-full border-2 border-indigo-500 mb-4" />
@@ -106,7 +105,7 @@ function Profile() {
               <HiHome className="mr-2 nav-menu-icon text-white text-xl" /> 
               <span className="nav-menu-text text-white">Home</span>
             </li>
-            {/* Other menu items */}
+    
             <li className={`nav-menu-item flex items-center p-3 cursor-pointer rounded transition-colors duration-200 ${section === 'orders' ? 'bg-gray-800 text-indigo-300' : 'hover:bg-gray-800'}`}
               onClick={() => setSection('orders')} >
               <HiShoppingBag className="mr-2 nav-menu-icon text-white text-xl" /> 

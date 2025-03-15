@@ -24,6 +24,7 @@ function ProfileSection() {
         const token = localStorage.getItem("token");
         if (!token) {
           toast.error("Please login again");
+          navigate("/login")
           return;
         }
         setIsLoading(true);
@@ -45,10 +46,7 @@ function ProfileSection() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUserData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setUserData((prev) => ({...prev,[name]: value,}));
   };
 
   const updateUser = async (e) => {

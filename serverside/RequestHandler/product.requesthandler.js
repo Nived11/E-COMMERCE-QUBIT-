@@ -1,5 +1,5 @@
 import productSchema from "../Models/product.model.js";
-
+import userSchema from "../Models/user.model.js";  
 
 export async function addProduct(req, res) {
     try {
@@ -22,12 +22,24 @@ export async function allProducts(req, res) {
       if(!userId){
         return res.status(404).send({ msg: "userId not found" });
       }
+      
+      // First, get a list of blocked user IDs
+      const blockedUsers = await userSchema.find({ block: true }).select('_id');
+      const blockedUserIds = blockedUsers.map(user => user._id);
+      
+      // Find products excluding both the current user's products and any products from blocked users
       const products = await productSchema.find({
-        userId:{$ne:userId}
+        $and: [
+          { userId: { $ne: userId } },
+          { userId: { $nin: blockedUserIds } },
+          { block: false }  // Only include non-blocked products
+        ]
       });
+      
       if (!products || products.length === 0) {
         return res.status(404).send({ msg: "No products found" });
       }
+      
       return res.status(200).send(products);
     } catch (error) {
       console.error(error);
@@ -58,6 +70,18 @@ export async function getSellerProducts (req, res) {
       if (!product) {
         return res.status(404).send({ msg: "Product not found" });
       }
+      
+      // Check if the product's seller is blocked
+      const seller = await userSchema.findById(product.userId);
+      if (seller && seller.block) {
+        return res.status(403).send({ msg: "This product is unavailable as the seller has been blocked" });
+      }
+      
+      // Check if the product itself is blocked
+      if (product.block) {
+        return res.status(403).send({ msg: "This product is currently unavailable" });
+      }
+      
       return res.status(200).send(product);
     } catch (error) {
       console.error(error);
@@ -99,14 +123,20 @@ export async function getSellerProducts (req, res) {
 
     export async function searchData(req, res) {
       try {
-        const { search ,userId} = req.body;
-        // console.log(search);
-        // console.log(userId);
+        const { search, userId } = req.body;
+        
+        // Get a list of blocked user IDs
+        const blockedUsers = await userSchema.find({ block: true }).select('_id');
+        const blockedUserIds = blockedUsers.map(user => user._id);
         
         console.log("Search Query:", search);
         const products = await productSchema.find({
           productname: { $regex: search, $options: "i" },
-          userId: { $ne: userId }
+          $and: [
+            { userId: { $ne: userId } },
+            { userId: { $nin: blockedUserIds } },
+            { block: false }  // Only include non-blocked products
+          ]
         });
     
         res.status(200).json({ msg: "Search results", products });
@@ -115,4 +145,3 @@ export async function getSellerProducts (req, res) {
         res.status(500).json({ msg: "Internal Server Error" }); 
       }
     }
-  
