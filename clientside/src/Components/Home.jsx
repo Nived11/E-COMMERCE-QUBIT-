@@ -402,7 +402,7 @@ function Home() {
                         <div onClick={() => navigate(`/productdetails/${product._id}`)}
                           key={product._id}
                           className="product-card w-full sm:w-64 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                          <div className="h-40 overflow-hidden flex items-center justify-center bg-gray-50">
+                          <div className="h-40 overflow-hidden flex items-center justify-center ">
                             <img src={product.productimages[0]} alt={product.productname} className="w-full h-full object-contain"/>
                           </div>
                           <div className="p-4">
@@ -437,7 +437,7 @@ function Home() {
                         <div onClick={() => navigate(`/productdetails/${product._id}`)}
                           key={product._id}
                           className="product-card w-full lg:w-1/3 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                          <div className="h-36 overflow-hidden flex items-center justify-center bg-gray-50">
+                          <div className="h-36 overflow-hidden flex items-center justify-center ">
                             <img src={product.productimages[0]} alt={product.productname} className="h-full object-contain"/>
                           </div>
                           <div className="p-3">
@@ -472,7 +472,7 @@ function Home() {
                         <div onClick={() => navigate(`/productdetails/${product._id}`)}
                           key={product._id}
                           className="product-card w-full sm:w-1/3 bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                          <div className="h-36 overflow-hidden flex items-center justify-center bg-gray-50">
+                          <div className="h-36 overflow-hidden flex items-center justify-center">
                             <img src={product.productimages[0]} alt={product.productname} className="h-full object-contain"/>
                           </div>
                           <div className="p-3">

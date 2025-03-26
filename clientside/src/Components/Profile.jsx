@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import profile from "../assets/profile.jpg";
-import { HiUser, HiHeart, HiShoppingBag, HiLocationMarker, HiHome, HiCollection } from "react-icons/hi";
+import { HiUser, HiHeart, HiShoppingBag, HiLocationMarker, HiHome, HiCollection  } from "react-icons/hi";
 import { HiArrowRightOnRectangle } from "react-icons/hi2";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +30,7 @@ function Profile() {
   }, [location.state]);
   const logOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     toast.error("logout successfully", {
         position: "top-right",
         autoClose: 3000,
@@ -40,6 +41,9 @@ function Profile() {
         progress: undefined,
         theme: "dark",
     });
+    setTimeout(() => {
+        navigate("/");
+    }, 3000);
     setCount(count + 1);
   }
 

@@ -11,6 +11,8 @@ function AddressSection() {
   const [count, setCount] = useState(0);
   const [cardsVisible, setCardsVisible] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [addressToDelete, setAddressToDelete] = useState(null);
   const modalRef = useRef(null);
   const {id} = useParams();
   
@@ -104,9 +106,14 @@ function AddressSection() {
     }, 300);
   };
 
-  const handleDelete = async (_id) => {
+  const handleDeleteConfirmation = (_id) => {
+    setAddressToDelete(_id);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDelete = async () => {
     try {
-      const res = await axios.delete(`${ApiPath()}/deleteAddress/${_id}`);
+      const res = await axios.delete(`${ApiPath()}/deleteAddress/${addressToDelete}`);
       if (res.status === 200) {
         toast.success(res.data.msg, {
           position: "top-right",
@@ -119,9 +126,16 @@ function AddressSection() {
           theme: "dark",
         });        
         setCount(count + 1);
+        setDeleteModalOpen(false);
+        setAddressToDelete(null);
       }
     } catch (error) {
       console.error(error);
+      toast.error("Failed to delete address", {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "dark",
+      });
     }
   };
 
@@ -159,7 +173,7 @@ function AddressSection() {
                 <div className="flex space-x-2">
                   <button 
                     className="text-xl text-red-500 hover:text-red-800 cursor-pointer delete-btn"
-                    onClick={() => handleDelete(address._id)}>
+                    onClick={() => handleDeleteConfirmation(address._id)}>
                     <FiTrash2 />
                   </button>
                 </div>
@@ -168,11 +182,52 @@ function AddressSection() {
           ))
         )}
       </div>
+      {deleteModalOpen && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50 delete-modal">
+          <div 
+            className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md delete-confirmation-container"
+            style={{
+              transform: deleteModalOpen ? 'scale(1)' : 'scale(0.9)',
+              opacity: deleteModalOpen ? 1 : 0,
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                <FiTrash2 className="h-6 w-6 text-red-600" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Delete Address</h3>
+              <p className="text-sm text-gray-500">
+                Are you sure you want to delete this address?
+              </p>
+            </div>
+            <div className="mt-6 flex justify-center space-x-4">
+              <button
+                type="button"
+                onClick={() => setDeleteModalOpen(false)}
+                className="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base cursor-pointer 
+                font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base cursor-pointer
+                font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showForm && (
-        <div className={`fixed inset-0 mt-20 backdrop-blur-sm bg-white/0 flex items-center justify-center z-50 address-form-modal ${formVisible ? 'show' : ''}`}>
+        <div className={`addr
+         fixed inset-0 mt-20  backdrop-filter ml-0 md:ml-20 backdrop-blur-sm bg-white/0 flex items-center justify-center z-50 address-form-modal ${formVisible ? 'show' : ''}`}>
           <div  ref={modalRef}
-            className={`bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl h-screen md:h-auto md:max-h-[90vh] overflow-y-auto address-form-container ${formVisible ? 'show' : ''}`}>
+            className={`bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl h-screen md:h-auto md:max-h-[90vh] mobile-full-height overflow-y-auto address-form-container ${formVisible ? 'show' : ''}`}>
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-medium text-blue-700">Add New Address</h3>
               <button 
@@ -182,7 +237,7 @@ function AddressSection() {
               </button>
             </div>
             
-            <form onSubmit={addAddress} className="mt-4">
+            <form onSubmit={addAddress} className="mt-4 address-form">
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="form-group">

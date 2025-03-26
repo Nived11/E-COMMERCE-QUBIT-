@@ -260,9 +260,9 @@ const Cart = () => {
       <div className="container mx-auto py-4 px-4">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-35 md:mt-20">
 
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 md:col-span-2 ">
             {cartItems.length === 0 ? (
-              <div className="ml-80 bg-white rounded shadow p-10 text-center">
+              <div className="lg:w-[134%] bg-white rounded shadow p-10 text-center ">
                 <h2 className="text-xl font-medium mb-4">Your cart is empty</h2>
                 <p className="mb-4">Looks like you haven't added any products to your cart yet.</p>
                 <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded cursor-pointer"

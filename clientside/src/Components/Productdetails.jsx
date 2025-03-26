@@ -402,7 +402,7 @@ const ProductDetails = () => {
            ${  product.quantity <= 0 ? 'bg-gray-500 cursor-not-allowed' : '' }`}>
           <span>🛒</span> {isInCart ? 'GO TO CART' : 'ADD TO CART'}
         </button>
-        <button  className={`cursor-pointer flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-blue-800 text-white text-xs  
+        <button  onClick={handleBuyNow} className={`cursor-pointer flex-1 font-bold py-3 px-3 flex items-center justify-center gap-1 bg-blue-800 text-white text-xs  
          ${ product.quantity <= 0 ? 'bg-gray-500 cursor-not-allowed' : ''}`}>
           <span>⚡</span> BUY NOW
         </button>
