@@ -1,3 +1,3 @@
 export default function ApiPath(){
-    return "http://localhost:4000/api";
+    return "http://13.48.42.156/api";
 }
