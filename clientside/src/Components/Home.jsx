@@ -6,6 +6,7 @@ import ApiPath from "../ApiPath";
 import { useNavigate } from "react-router-dom";
 import { FiFilter, FiDollarSign, FiTag, FiX } from "react-icons/fi";
 import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin, FaArrowAltCircleDown, FaArrowAltCircleRight } from "react-icons/fa";
+import QubitSplash from "./QubitSplash";
 
 function Home() {
   const [showFilter, setShowFilter] = useState(false);
@@ -17,9 +18,23 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const token = localStorage.getItem("token");
+ const [showSplash, setShowSplash] = useState(false);
+
+  useEffect(() => {
+  window.scrollTo(0, 0);
+
+  const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
+
+  if (!hasSeenSplash) {
+    setShowSplash(true);
+    setTimeout(() => {
+      setShowSplash(false);
+      sessionStorage.setItem("hasSeenSplash", "true");
+    }, 2100); 
+  }
+}, []);
 
   const carouselSlides = [
     { 
@@ -149,6 +164,7 @@ function Home() {
   const handleCategoryClick = (category) => {
     navigate(`/allproducts?category=${category}`);
   };
+  if (showSplash) return <QubitSplash />;
 
   return (
     <div className="min-h-screen bg-gray-100">

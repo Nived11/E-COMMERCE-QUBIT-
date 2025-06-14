@@ -1,0 +1,33 @@
+.splash-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+.wavy-text {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #2563eb;
+  display: flex;
+  gap: 0.1em;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.wavy-text span {
+  display: inline-block;
+  animation: letterWave 1.5s ease-in-out infinite;
+  transform-origin: center bottom;
+  text-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+}
+
+@keyframes letterWave {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.15) translateY(-8px);
+  }
+}

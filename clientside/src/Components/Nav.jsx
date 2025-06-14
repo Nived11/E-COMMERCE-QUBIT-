@@ -150,12 +150,17 @@ function Nav() {
       setSearch("");
     }, 50);
   };
+  const gotoHome =()=>{
+    // sessionStorage.removeItem("hasSeenSplash");
+    navigate("/")
+
+  }
 
   return (
     <div>
       <nav className="nav fixed top-0 w-full shadow-md z-100">
         <div className="mx-auto flex items-center justify-between px-4 py-4">
-          <div className="text-4xl ml-5 font-bold logo-text cursor-pointer" onClick={() => navigate("/")}>
+          <div className="text-4xl ml-5 font-bold logo-text cursor-pointer" onClick={() => gotoHome()}>
             Qubit
           </div>
           <div className={`relative search-container flex-grow max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg hidden md:flex 

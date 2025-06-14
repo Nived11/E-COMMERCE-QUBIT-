@@ -256,11 +256,14 @@ const ProductDetails = () => {
       toast.error('Failed to place order');
     }
   };
+  useEffect(() => {
+  window.scrollTo(0, 0);
+  }, []);
   
   return (
     <>
       <Nav />
-
+   
       <div className="flex flex-col md:flex-row max-w-full mx-auto bg-white min-h-screen mt-35 md:mt-20 pb-16 md:pb-0">
         
         <div className="w-full md:w-1/2 bg-gray-100 md:sticky md:top-16 h-auto md:overflow-y-auto "> 
@@ -287,7 +290,7 @@ const ProductDetails = () => {
           <div className="flex justify-center gap-1 mb-3 md:mb-4 ">
             {productImages.map((_, index) => (
               <div   key={`indicator-${index}`}
-                className={`h-1 rounded-full cursor-pointer ${ index === mainImage ? 'bg-blue-500 w-4 md:w-6' : 'bg-gray-300 w-2 md:w-3'}`}
+                className={`h-1.5 rounded-full cursor-pointer ${ index === mainImage ? 'bg-blue-500 w-4 md:w-6' : 'bg-gray-300 w-2 md:w-3'}`}
                 onClick={() => setMainImage(index)} />
             ))}
           </div>
