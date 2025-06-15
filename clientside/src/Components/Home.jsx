@@ -124,7 +124,6 @@ function Home() {
       toast.error('No Products ');
     } 
   }
-
   const getProducts = async() => {
     try {
       const userId = localStorage.getItem("userId");
