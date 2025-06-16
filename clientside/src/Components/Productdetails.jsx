@@ -428,7 +428,7 @@ const ProductDetails = () => {
                     <button 
                       onClick={() => {
                         handleCloseAddressModal();
-                        navigate(`/profile`, { state: { section: 'address' } });
+                        navigate(`/profile/${userId}`, { state: { section: 'address' } });
                       }}
                       className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                     >
