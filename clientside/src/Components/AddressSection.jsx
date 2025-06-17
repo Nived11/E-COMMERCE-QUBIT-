@@ -5,7 +5,7 @@ import ApiPath from '../ApiPath';
 import { ToastContainer, toast } from 'react-toastify';
 import { FiPlus, FiX, FiTrash2 } from 'react-icons/fi';
 
-function AddressSection() {
+function AddressSection({ onMobileFormToggle }) {
   const [showForm, setShowForm] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [count, setCount] = useState(0);
@@ -46,6 +46,10 @@ function AddressSection() {
         setTimeout(() => {
             setShowForm(false);
             setFormVisible(false);
+            // Show sidebar again on mobile after form submission
+            if (onMobileFormToggle) {
+              onMobileFormToggle(false);
+            }
         }, 3000);
         setFormData({ userId:id,  name: '', phone: '', housename: '', area: '', landmark: '', city: '', state: '', pincode: ''});
         setCount(count + 1);
@@ -97,25 +101,48 @@ function AddressSection() {
 
   const handleShowForm = () => {
     setShowForm(true);
+    // Hide sidebar on mobile when form opens
+    if (onMobileFormToggle) {
+      onMobileFormToggle(true);
+    }
   };
 
   const handleCloseForm = () => {
     setFormVisible(false);
     setTimeout(() => {
       setShowForm(false);
+      // Show sidebar again on mobile when form closes
+      if (onMobileFormToggle) {
+        onMobileFormToggle(false);
+      }
     }, 300);
   };
 
   const handleDeleteConfirmation = (_id) => {
     setAddressToDelete(_id);
     setDeleteModalOpen(true);
+    // Hide sidebar on mobile when delete modal opens
+    if (onMobileFormToggle) {
+      onMobileFormToggle(true);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteModalOpen(false);
+    setAddressToDelete(null);
+    // Show sidebar again on mobile when modal closes
+    if (onMobileFormToggle) {
+      onMobileFormToggle(false);
+    }
   };
 
   const handleDelete = async () => {
+    if (!addressToDelete) return;
+    
     try {
       const res = await axios.delete(`${ApiPath()}/deleteAddress/${addressToDelete}`);
       if (res.status === 200) {
-        toast.success(res.data.msg, {
+          toast.success(res.data.msg, {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -125,12 +152,26 @@ function AddressSection() {
           progress: undefined,
           theme: "dark",
         });        
-        setCount(count + 1);
+        // First close the modal immediately
         setDeleteModalOpen(false);
         setAddressToDelete(null);
+        // Show sidebar again on mobile after successful delete
+        if (onMobileFormToggle) {
+          onMobileFormToggle(false);
+        }
+
+       window.location.reload();
       }
     } catch (error) {
       console.error(error);
+      // Close modal even on error
+      setDeleteModalOpen(false);
+      setAddressToDelete(null);
+      // Show sidebar again on mobile even on error
+      if (onMobileFormToggle) {
+        onMobileFormToggle(false);
+      }
+      
       toast.error("Failed to delete address", {
         position: "top-right",
         autoClose: 3000,
@@ -182,6 +223,8 @@ function AddressSection() {
           ))
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
       {deleteModalOpen && (
         <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50 delete-modal">
           <div 
@@ -204,7 +247,7 @@ function AddressSection() {
             <div className="mt-6 flex justify-center space-x-4">
               <button
                 type="button"
-                onClick={() => setDeleteModalOpen(false)}
+                onClick={handleCancelDelete}
                 className="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base cursor-pointer 
                 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
               >

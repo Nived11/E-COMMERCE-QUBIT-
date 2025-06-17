@@ -21,6 +21,7 @@ function Profile() {
   const [section, setSection] = useState(location.state?.section || 'profile');
   const [count, setCount] = useState(0);
   const [user, setUser] = useState({});
+  const [hideSidebarOnMobile, setHideSidebarOnMobile] = useState(false);
   
   
   useEffect(() => {
@@ -28,6 +29,11 @@ function Profile() {
       setSection(location.state.section);
     }
   }, [location.state]);
+
+  const handleMobileFormToggle = (isFormOpen) => {
+    setHideSidebarOnMobile(isFormOpen);
+  };
+
   const logOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
@@ -94,7 +100,7 @@ function Profile() {
       <Nav />
       
       <div className="flex-1 flex flex-col md:flex-row mt-30 md:mt-20 overflow-hidden">
-        <div className="w-full md:w-64 profile-sidebar p-6 mt-1 flex flex-col items-center overflow-y-auto md:h-[calc(99vh-80px)]">
+        <div className={`w-full md:w-64 profile-sidebar p-6 mt-1 flex flex-col items-center overflow-y-auto md:h-[calc(99vh-80px)] ${hideSidebarOnMobile ? 'hidden md:flex' : ''}`}>
          
           <div className="profile-sidebar-pattern"></div>
           
@@ -142,9 +148,9 @@ function Profile() {
           </ul>
         </div>
 
-        <div className="flex-1 p-6 profile-content-area overflow-y-auto md:h-[calc(96vh-80px)]">
+        <div className={`flex-1 p-6 profile-content-area overflow-y-auto md:h-[calc(96vh-80px)] ${hideSidebarOnMobile ? 'w-full' : ''}`}>
           {section === 'profile' && <ProfileSection />}
-          {section === 'address' && <AddressSection />}
+          {section === 'address' && <AddressSection onMobileFormToggle={handleMobileFormToggle} />}
           {section === 'products' && <ProductSection />}
           {section === 'orders' && <OrderSection/>}
         </div>
