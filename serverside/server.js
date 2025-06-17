@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
 app.use("/api", router); 
 
-Serve React frontend (Vite `dist` folder)
+// Serve React frontend (Vite `dist` folder)
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "../clientside", "dist")));
 
