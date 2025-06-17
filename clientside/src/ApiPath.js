@@ -1,5 +1,5 @@
 export default function ApiPath(){
    return(
-        "http://localhost:4000/api"
+        "https://e-commerce-qubit-serverside.onrender.com"
     )
 }
