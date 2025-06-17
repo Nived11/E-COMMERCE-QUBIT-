@@ -1,5 +1,5 @@
 import userSchema from "../Models/user.model.js"
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import pkg from "jsonwebtoken";
 const {sign}=pkg
 import nodemailer from "nodemailer";

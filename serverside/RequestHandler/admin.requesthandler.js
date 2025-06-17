@@ -1,5 +1,5 @@
 import adminSchema from "../Models/admin.model.js"
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import productSchema from "../Models/product.model.js";
