@@ -50,7 +50,7 @@ function Home() {
       name:"smartTv",
     },
     {
-      image: "https://admin.oxygendigitalshop.com/pub/media//banner/Main%20Banner/Prince/GALAXY%20S25%208000X2292%20Web%20BUY%20NOW.jpg", 
+      image: "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1749715315/Croma%20Assets/CMS/LP%20Page%20Banners/2025/Our%20New%20Favourites/June/OnePlus/HP_SingleSplit_OnePlus13s_12June2025_fte5py.jpg?tr=w-1024", 
       name:"smartWatch",
     }
   ];

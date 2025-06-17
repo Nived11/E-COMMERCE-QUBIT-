@@ -102,7 +102,7 @@ export async function updatePassword(req, res) {
 
 export async function allProducts(req, res) {
     try {
-        const product = await productSchema.find();
+        const product = await productSchema.find().lean();
         if (!product || product.length === 0) {
             return res.status(404).send({ msg: "No products found" });
         }
